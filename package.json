@@ -1,0 +1,22 @@
+{
+  "name": "@vrew/root",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "yarn@3.2.4",
+  "workspaces": [
+    "apps/*",
+    "configs/*",
+    "example/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "test": "turbo run test",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^1.6.1"
+  }
+}
