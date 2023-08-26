@@ -2225,12 +2225,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.7":
-  version: 18.0.11
-  resolution: "@types/react-dom@npm:18.0.11"
+"@types/react-dom@npm:18.2.0":
+  version: 18.2.0
+  resolution: "@types/react-dom@npm:18.2.0"
   dependencies:
     "@types/react": "*"
-  checksum: 579691e4d5ec09688087568037c35edf8cfb1ab3e07f6c60029280733ee7b5c06d66df6fcc90786702c93ac8cb13bc7ff16c79ddfc75d082938fbaa36e1cdbf4
+  checksum: 9212b3793707a763f10e2c608f6ccb5f729029da6cb84204f333634d3d7baafbc1b20b7faf7cf788a8fd385050a1fb579902031f9462473ef10607116f33f33c
   languageName: node
   linkType: hard
 
@@ -2261,7 +2261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.21, @types/react@npm:^18.0.23":
+"@types/react@npm:*, @types/react@npm:^18.0.21":
   version: 18.0.28
   resolution: "@types/react@npm:18.0.28"
   dependencies:
@@ -2269,6 +2269,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: e752df961105e5127652460504785897ca6e77259e0da8f233f694f9e8f451cde7fa0709d4456ade0ff600c8ce909cfe29f9b08b9c247fa9b734e126ec53edd7
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:18.2.0":
+  version: 18.2.0
+  resolution: "@types/react@npm:18.2.0"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: db3d92b423150222a666329f7aa3023e3e942044700557b8a7d161530847e621aec9f56c9e7f71761b06dd164c8a7b17ad52355863efe80963dffa5537e8e5fd
   languageName: node
   linkType: hard
 
@@ -2688,15 +2699,15 @@ __metadata:
   resolution: "@vrew/enpfy-web@workspace:apps/enpfy-web"
   dependencies:
     "@types/node": ^18.11.5
-    "@types/react": ^18.0.23
-    "@types/react-dom": ^18.0.7
+    "@types/react": 18.2.0
+    "@types/react-dom": 18.2.0
     "@vrew/ui": "*"
     "@vrew/utils": "workspace:*"
     eslint: ^8.26.0
     next: 13.4.19
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    typescript: ^4.8.4
+    react: 18.2.0
+    react-dom: 18.2.0
+    typescript: 4.8.4
   languageName: unknown
   linkType: soft
 
@@ -9974,7 +9985,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.2.0":
+"react-dom@npm:18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
   dependencies:
@@ -10102,7 +10113,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.1.0, react@npm:^18.2.0":
+"react@npm:18.2.0, react@npm:^18.1.0, react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
