@@ -1,1 +1,1 @@
-export { default as enpfyApis } from "./enpfy";
+export { default as enfpyApis } from "./enpfy";

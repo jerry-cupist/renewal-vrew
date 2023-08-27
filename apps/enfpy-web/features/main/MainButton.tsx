@@ -1,12 +1,12 @@
 "use client";
 
-import { enpfyApis } from "@vrew/apis";
+import { enfpyApis } from "@vrew/apis";
 import { useEffect } from "react";
 
 export default function MainButton(): JSX.Element {
-  enpfyApis.apiClient.defaults.baseURL = "https://enfpy.cupist.dev/api/enfpy";
+  enfpyApis.apiClient.defaults.baseURL = "https://enfpy.cupist.dev/api/enfpy";
   useEffect(() => {
-    enpfyApis.authAPis
+    enfpyApis.authAPis
       .postPhoneVerification({
         countryCode: "+82",
         nationalNumber: "1022224444",
