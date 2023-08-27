@@ -2682,14 +2682,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@vrew/example@workspace:packages/example":
-  version: 0.0.0-use.local
-  resolution: "@vrew/example@workspace:packages/example"
-  dependencies:
-    typescript: 4.8.4
-  languageName: unknown
-  linkType: soft
-
 "@vrew/root@workspace:.":
   version: 0.0.0-use.local
   resolution: "@vrew/root@workspace:."
