@@ -1,28 +1,43 @@
 /**
  * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
+ * @see https://github.com/facebook/react-native
+ * @see https://github.com/vercel/turbo/blob/main/examples/with-react-native-web/apps/native/metro.config.js
  */
 
-const {resolve} = require('path');
+const path = require('path');
+// Find the workspace root, this can be replaced with `find-yarn-workspace-root`
+const workspaceRoot = path.resolve(__dirname, '../..');
+const projectRoot = __dirname;
 
-const rootPaths = [resolve(__dirname), resolve(__dirname, '../..')];
-const nodeModulesPaths = rootPaths.map(rootPath =>
-  resolve(rootPath, 'node_modules'),
-);
+/**
+ * Metro configuration
+ * @see https://facebook.github.io/metro/docs/configuration
+ * @type {import('metro-config').MetroConfig}
+ */
+// const config = getDefaultConfig(projectRoot);
+const config = {};
 
-module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: true,
-      },
-    }),
-  },
-  watchFolders: rootPaths,
-  resolver: {
-    nodeModulesPaths: nodeModulesPaths,
-  },
+// 1. Watch all files within the monorepo
+config.watchFolders = [workspaceRoot];
+
+config.resolver = {};
+
+// 2. Let Metro know where to resolve packages, and in what order
+config.resolver.nodeModulesPaths = [
+  path.resolve(projectRoot, 'node_modules'),
+  path.resolve(workspaceRoot, 'node_modules'),
+];
+
+// 3. Force Metro to resolve (sub)dependencies only from the `nodeModulesPaths`
+// config.resolver.disableHierarchicalLookup = true;
+
+config.transformer = {
+  getTransformOptions: async () => ({
+    transform: {
+      experimentalImportSupport: false,
+      inlineRequires: true,
+    },
+  }),
 };
+
+module.exports = config;
