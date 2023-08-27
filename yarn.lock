@@ -2636,9 +2636,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@vrew/enpfy-native@workspace:apps/enpfy-native":
+"@vrew/enfpy-native@workspace:apps/enpfy-native":
   version: 0.0.0-use.local
-  resolution: "@vrew/enpfy-native@workspace:apps/enpfy-native"
+  resolution: "@vrew/enfpy-native@workspace:apps/enpfy-native"
   dependencies:
     "@babel/core": ^7.12.9
     "@babel/runtime": ^7.12.5
@@ -2663,9 +2663,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@vrew/enpfy-web@workspace:apps/enpfy-web":
+"@vrew/enfpy-web@workspace:apps/enpfy-web":
   version: 0.0.0-use.local
-  resolution: "@vrew/enpfy-web@workspace:apps/enpfy-web"
+  resolution: "@vrew/enfpy-web@workspace:apps/enpfy-web"
   dependencies:
     "@types/node": ^18.11.5
     "@types/react": 18.2.0
