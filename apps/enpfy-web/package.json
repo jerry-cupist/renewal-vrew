@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vrew/apis": "workspace:*",
     "@vrew/ui": "*",
     "@vrew/utils": "workspace:*",
     "next": "13.4.19",
