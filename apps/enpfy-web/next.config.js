@@ -2,17 +2,17 @@
 
 const { dependencies } = require("./package.json");
 
-// init
+/**
+ * @vrew 네임스페이스의 디팬던시를 필터링 합니다.
+ */
 const transpilePackages = Object.keys(dependencies).filter((dependency) =>
   dependency.includes("@vrew/")
 );
 
-// main
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages,
 };
 
-// export
 module.exports = nextConfig;
