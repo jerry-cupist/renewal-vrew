@@ -10,7 +10,7 @@ const App = () => {
         translucent
         barStyle="light-content"
       />
-      <CommonWebView />
+      <CommonWebView source={{uri: 'http://localhost:3000/'}} />
     </>
   );
 };
