@@ -1,4 +1,5 @@
 import apiClient from "../apiClient";
+import { BaseResponse } from "../types";
 
 export interface PostSignInRequest {
   phoneVerificationId: number;
@@ -38,12 +39,40 @@ const postPhoneVerification = (data: PostPhoneVerificationRequest) =>
     data
   );
 
+export interface UserTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+  userState:
+    | "sign_up_progressing"
+    | "review"
+    | "active"
+    | "dormant"
+    | "suspended"
+    | "delete_pending"
+    | "deleted";
+  userStateMeta: string | null;
+}
+
+/**
+ * refreshToken으로 accessToken갱신
+ */
+const silentRefresh = (refreshToken: string) =>
+  apiClient.post<BaseResponse<UserTokenResponse>>(
+    "/api/enfpy/auth/v1/token",
+    undefined,
+    {
+      headers: {
+        Authorization: `bearer ${refreshToken}`,
+      },
+    }
+  );
+
 /**
  * 로그인 요청
  */
 const postSignIn = (data: PostSignInRequest) =>
   apiClient.post<PostSignInResponse>("/auth/v1/sign-in", data);
 
-const authApis = { postSignIn, postPhoneVerification };
+const authApis = { postSignIn, postPhoneVerification, silentRefresh };
 
 export default authApis;

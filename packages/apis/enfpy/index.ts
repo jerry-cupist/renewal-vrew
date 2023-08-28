@@ -1,9 +1,9 @@
 import apiClient from "./apiClient";
-import authAPis from "./auth";
+import auth from "./auth";
 
-const enfpyApis = {
+const enfpyApi = {
   apiClient,
-  authAPis,
+  auth,
 };
 
-export default enfpyApis;
+export default enfpyApi;
