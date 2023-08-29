@@ -8,7 +8,7 @@ import { WebBridgeActions } from "../types/action";
 
 export const createRequestMessage = <D>(
   action: WebBridgeActions,
-  data?: D
+  data: D
 ): RequestMessage => ({
   type: "request",
   action,

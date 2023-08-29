@@ -5,31 +5,14 @@ import {
 } from '@react-navigation/native';
 import {useCallback, useRef} from 'react';
 
-import {WebBridgeActions} from '@vrew/modules/web-bridge/types/action';
+import {
+  WebBridgeActions,
+  WebBridgeActionDatas,
+} from '@vrew/modules/web-bridge/types/action';
 import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
-import {ValueOfScreenName} from '@vrew/modules/web-bridge/constants/screen-enfpy';
 import WebView from 'react-native-webview';
 
 interface Navigation extends NavigationProp<any> {}
-
-export interface NavigateArg<P = object> {
-  screenName: ValueOfScreenName;
-  params?: P;
-}
-
-export interface PushArgs<P = object> extends NavigateArg<P> {}
-
-export type PopArgs = number | undefined;
-
-export interface ReplaceArgs<P = object> extends NavigateArg<P> {}
-
-export interface ResetState {
-  index: number;
-  routes: NavigateArg[];
-}
-export interface ResetArgs extends ResetState {}
-
-export interface OptionArgs {}
 
 export interface NavigationHandlerArgs {
   navigation: Navigation;
@@ -43,7 +26,7 @@ export const useNavigationHandler = () => {
 
   const navigate = useCallback(
     (
-      {data}: RequestMessage<NavigateArg>,
+      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_NAVIGATE>,
       {navigation}: NavigationHandlerArgs,
     ) => {
       const {screenName, params} = data;
@@ -54,20 +37,28 @@ export const useNavigationHandler = () => {
   );
 
   const goBack = useCallback(
-    (_: RequestMessage, {navigation}: NavigationHandlerArgs) => {
+    (
+      _: RequestMessage<WebBridgeActionDatas.NAVIGATION_GO_BACK>,
+      {navigation}: NavigationHandlerArgs,
+    ) => {
       navigation.dispatch(CommonActions.goBack());
     },
     [],
   );
 
   const canGoBack = useCallback(
-    (_: RequestMessage, {navigation}: NavigationHandlerArgs) =>
-      navigation.canGoBack(),
+    (
+      _: RequestMessage<WebBridgeActionDatas.NAVIGATION_CAN_GO_BACK>,
+      {navigation}: NavigationHandlerArgs,
+    ) => navigation.canGoBack(),
     [],
   );
 
   const push = useCallback(
-    ({data}: RequestMessage<PushArgs>, {navigation}: NavigationHandlerArgs) => {
+    (
+      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_PUSH>,
+      {navigation}: NavigationHandlerArgs,
+    ) => {
       const now = new Date().valueOf();
       if (now - pushTimeStampRef.current >= PUSH_INTERVAL) {
         const {screenName, params} = data;
@@ -81,14 +72,20 @@ export const useNavigationHandler = () => {
   );
 
   const popToTop = useCallback(
-    (_: RequestMessage, {navigation}: NavigationHandlerArgs) => {
+    (
+      _: RequestMessage<WebBridgeActionDatas.NAVIGATION_POP_TO_TOP>,
+      {navigation}: NavigationHandlerArgs,
+    ) => {
       navigation.dispatch(StackActions.popToTop());
     },
     [],
   );
 
   const pop = useCallback(
-    ({data}: RequestMessage<PopArgs>, {navigation}: NavigationHandlerArgs) => {
+    (
+      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_POP>,
+      {navigation}: NavigationHandlerArgs,
+    ) => {
       navigation.dispatch(StackActions.pop(data));
     },
     [],
@@ -96,7 +93,7 @@ export const useNavigationHandler = () => {
 
   const replace = useCallback(
     (
-      {data}: RequestMessage<ReplaceArgs>,
+      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_REPLACE>,
       {navigation}: NavigationHandlerArgs,
     ) => {
       const {screenName, params} = data;
@@ -108,7 +105,7 @@ export const useNavigationHandler = () => {
 
   const reset = useCallback(
     (
-      {data}: RequestMessage<ResetArgs>,
+      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_RESET>,
       {navigation}: NavigationHandlerArgs,
     ) => {
       const {index, routes} = data;
@@ -127,7 +124,10 @@ export const useNavigationHandler = () => {
   );
 
   const reload = useCallback(
-    (_: RequestMessage, {webView}: NavigationHandlerArgs) => {
+    (
+      _: RequestMessage<WebBridgeActionDatas.NAVIGATION_RELOAD>,
+      {webView}: NavigationHandlerArgs,
+    ) => {
       webView.reload();
     },
     [],
@@ -135,7 +135,7 @@ export const useNavigationHandler = () => {
 
   const setOptions = useCallback(
     (
-      {data}: RequestMessage<OptionArgs>,
+      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_SET_OPTIONS>,
       {navigation}: NavigationHandlerArgs,
     ) => {
       navigation.setOptions(data);
