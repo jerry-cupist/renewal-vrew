@@ -3,19 +3,31 @@
 import { Header } from "@vrew/ui";
 import { calculateDDay } from "../../utils/dayUtil";
 import { BridgeActions } from "@vrew/modules/web-bridge/types";
+import {
+  createRequestMessage,
+  postRequestMessage,
+} from "@vrew/modules/web-bridge/utils/webToApp";
+import {
+  ScreenName,
+  ValueOfScreenName,
+} from "@vrew/modules/web-bridge/constants/screen-enfpy";
+
+export interface NavigateArg<P = object> {
+  screenName: ValueOfScreenName;
+  params?: P;
+}
 
 export default function Page(): JSX.Element {
   const dDay = calculateDDay("2023-09-01T00:00:00", "2023-09-15T00:00:00");
 
   const handleClickButton: () => void = () => {
-    const tempData = {
-      type: "request",
-      action: BridgeActions.NAVIGATION_NAVIGATE,
-      request_id: 1,
-      data: "encounter",
-    };
-
-    (window as any).ReactNativeWebView?.postMessage(JSON.stringify(tempData));
+    const requestMessage = createRequestMessage<NavigateArg>(
+      BridgeActions.NAVIGATION_NAVIGATE,
+      {
+        screenName: ScreenName.Sub,
+      }
+    );
+    postRequestMessage(requestMessage);
   };
 
   return (
@@ -27,7 +39,7 @@ export default function Page(): JSX.Element {
       <br />
       <br />
       <button type="button" onClick={handleClickButton}>
-        postMessage 테스트
+        navigate to sub
       </button>
       <br />
     </>

@@ -1,46 +1,63 @@
-import React, {forwardRef, useRef, useImperativeHandle} from 'react';
+import React, {
+  forwardRef,
+  useRef,
+  useImperativeHandle,
+  useCallback,
+  useId,
+  useEffect,
+} from 'react';
 import WebView, {WebViewMessageEvent, WebViewProps} from 'react-native-webview';
-import {RequestMessage, BridgeActions} from '@vrew/modules/web-bridge/types';
+import {RequestMessage} from '@vrew/modules/web-bridge/types';
 import {StyleSheet} from 'react-native';
 import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
+import {MessageHandler, useBridge} from '../../contexts/bridge/BridgeContext';
+import {useNavigation} from '@react-navigation/native';
 
 export interface CommonWebViewProps extends WebViewProps {
-  source: WebViewSourceUri; // WebViewSourceHtml 경우를 의도적으로 배제함
+  source: WebViewSourceUri;
 }
 
 export const CommonWebView = forwardRef<any, CommonWebViewProps>(
   (props, ref) => {
+    const id = useId();
+    const navigation = useNavigation();
+
     const webViewRef = useRef<WebView>(null);
+    const messageHandlerRef = useRef<MessageHandler | null>(null);
+    const {createMessageHandler} = useBridge();
 
     useImperativeHandle(ref, () => webViewRef.current);
 
-    const handleMessage = ({
-      nativeEvent: {data: messageData},
-    }: WebViewMessageEvent) => {
-      console.log(JSON.parse(messageData));
-      const {type, action}: RequestMessage<any> = JSON.parse(messageData);
-
-      // run by type
-      switch (type) {
-        default:
-          () => {};
+    const initReactNativeBridge = useCallback(() => {
+      if (webViewRef.current && createMessageHandler) {
+        messageHandlerRef.current = createMessageHandler({
+          id,
+          webView: webViewRef.current,
+          navigation,
+        });
       }
+    }, [createMessageHandler, id, navigation]);
 
-      // run by action
-      switch (action) {
-        case BridgeActions.NAVIGATION_NAVIGATE:
-          () => {
-            console.log('NAVIGATION_NAVIGATE');
-          };
-      }
+    const handleMessage = (e: WebViewMessageEvent) => {
+      const {
+        nativeEvent: {data: messageData},
+      } = e;
+      const message: RequestMessage = JSON.parse(messageData);
+      console.log('message received', message);
+
+      messageHandlerRef.current?.(e);
     };
+
+    useEffect(() => {
+      initReactNativeBridge();
+    }, [initReactNativeBridge]);
 
     return (
       <WebView
         ref={webViewRef}
         source={props.source}
-        style={styles.container}
         onMessage={handleMessage}
+        style={styles.container}
       />
     );
   },

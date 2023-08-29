@@ -1,10 +1,14 @@
-import React from 'react';
-import {Text, View} from 'react-native';
+import React, {useRef} from 'react';
+import {CommonWebView} from '../../components/web-view/CommonWebView';
+import WebView from 'react-native-webview';
 
 export default function Sub() {
+  const webviewRef = useRef<WebView>(null);
+
   return (
-    <View>
-      <Text>🥵This is sub screen.</Text>
-    </View>
+    <CommonWebView
+      ref={webviewRef}
+      source={{uri: 'http://localhost:3001/sub'}}
+    />
   );
 }
