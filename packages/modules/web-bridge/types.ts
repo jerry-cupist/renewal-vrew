@@ -9,6 +9,8 @@ export enum BridgeActions {
   NAVIGATION_RESET = "navigation-reset",
   NAVIGATION_RELOAD = "navigation-reload",
   NAVIGATION_SET_OPTIONS = "navigation-set-options",
+
+  CONSOLE_LOG = "console-log",
 }
 
 export enum MessageError {

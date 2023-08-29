@@ -8,7 +8,7 @@ export default function Main() {
   return (
     <CommonWebView
       ref={webviewRef}
-      source={{uri: 'http://localhost:3001/main'}}
+      source={{uri: 'http://localhost:3000/main'}}
     />
   );
 }

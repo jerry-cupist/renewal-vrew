@@ -15,6 +15,7 @@ import {
 } from '@vrew/modules/web-bridge/utils/message';
 import {MessageError} from '@vrew/modules/web-bridge/types';
 import {NavigationProp} from '@react-navigation/native';
+import {useDebugToolsHandler} from './hooks/useDebugToolsHandler';
 
 export type MessageHandler = (event: WebViewMessageEvent) => Promise<boolean>;
 export interface BridgeContextValue {
@@ -34,13 +35,15 @@ export const BridgeProvider = (props: BridgeProviderProps) => {
 
   // 사용 가능한 bridge actions 정의
   const navigationHandler = useNavigationHandler();
+  const debugToolsHandler = useDebugToolsHandler();
 
   // bridge actions 병합
   const messageHandler = useMemo<Record<BridgeActions, Function>>(
     () => ({
       ...navigationHandler,
+      ...debugToolsHandler,
     }),
-    [navigationHandler],
+    [navigationHandler, debugToolsHandler],
   );
 
   const createMessageHandler = useCallback(
