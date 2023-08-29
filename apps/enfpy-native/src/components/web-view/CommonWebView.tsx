@@ -7,7 +7,6 @@ import React, {
   useEffect,
 } from 'react';
 import WebView, {WebViewMessageEvent, WebViewProps} from 'react-native-webview';
-import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
 import {StyleSheet} from 'react-native';
 import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
 import {
@@ -43,10 +42,9 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
 
     const handleMessage = (e: WebViewMessageEvent) => {
       const {
-        nativeEvent: {data: messageData},
+        nativeEvent: {data},
       } = e;
-      const message: RequestMessage = JSON.parse(messageData);
-      console.log('message received', message);
+      console.log('message received', JSON.parse(data));
 
       messageHandlerRef.current?.(e);
     };
