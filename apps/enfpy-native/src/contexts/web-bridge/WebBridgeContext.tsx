@@ -31,9 +31,9 @@ export interface CreateMessageHandlerArgs {
   navigation: NavigationProp<any>;
 }
 
-export const BridgeContext = createContext<BridgeContextValue>({});
+export const WebBridgeContext = createContext<BridgeContextValue>({});
 
-export const BridgeProvider = (props: BridgeProviderProps) => {
+export const WebBridgeProvider = (props: BridgeProviderProps) => {
   const webViewRef = useRef<Record<string, WebView>>({});
 
   // 사용 가능한 bridge actions 정의
@@ -92,7 +92,9 @@ export const BridgeProvider = (props: BridgeProviderProps) => {
     [messageHandler, webViewRef],
   );
 
-  return <BridgeContext.Provider {...props} value={{createMessageHandler}} />;
+  return (
+    <WebBridgeContext.Provider {...props} value={{createMessageHandler}} />
+  );
 };
 
-export const useBridge = () => useContext(BridgeContext);
+export const useWebBridge = () => useContext(WebBridgeContext);

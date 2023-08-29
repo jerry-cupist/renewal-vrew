@@ -1,6 +1,6 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
-import {BridgeProvider} from './src/contexts/bridge/BridgeContext';
+import {WebBridgeProvider} from './src/contexts/web-bridge/WebBridgeContext';
 import {MainStackNavigation} from './src/navigation/main-stack/MainStackNavigation';
 
 const App = () => {
@@ -11,9 +11,9 @@ const App = () => {
         translucent
         barStyle="light-content"
       />
-      <BridgeProvider>
+      <WebBridgeProvider>
         <MainStackNavigation />
-      </BridgeProvider>
+      </WebBridgeProvider>
     </>
   );
 };

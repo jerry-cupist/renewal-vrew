@@ -10,7 +10,10 @@ import WebView, {WebViewMessageEvent, WebViewProps} from 'react-native-webview';
 import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
 import {StyleSheet} from 'react-native';
 import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
-import {MessageHandler, useBridge} from '../../contexts/bridge/BridgeContext';
+import {
+  MessageHandler,
+  useWebBridge,
+} from '../../contexts/web-bridge/WebBridgeContext';
 import {useNavigation} from '@react-navigation/native';
 
 export interface CommonWebViewProps extends WebViewProps {
@@ -24,7 +27,7 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
 
     const webViewRef = useRef<WebView>(null);
     const messageHandlerRef = useRef<MessageHandler | null>(null);
-    const {createMessageHandler} = useBridge();
+    const {createMessageHandler} = useWebBridge();
 
     useImperativeHandle(ref, () => webViewRef.current);
 
