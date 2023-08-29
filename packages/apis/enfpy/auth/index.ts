@@ -7,12 +7,7 @@ export interface PostSignInRequest {
   loginAccountIdentification: string;
 }
 export interface PostSignInResponse {
-  data: {
-    accessToken: string;
-    refreshToken: string;
-    userState: string;
-    userStateMeta: string;
-  };
+  data: UserTokenResponse;
 }
 
 export interface PostPhoneVerificationRequest {
@@ -39,18 +34,23 @@ const postPhoneVerification = (data: PostPhoneVerificationRequest) =>
     data
   );
 
-export interface UserTokenResponse {
+export type UserState =
+  | "sign_up_progressing"
+  | "review"
+  | "active"
+  | "dormant"
+  | "suspended"
+  | "delete_pending"
+  | "deleted";
+
+export interface UserToken {
   accessToken: string;
   refreshToken: string;
-  userState:
-    | "sign_up_progressing"
-    | "review"
-    | "active"
-    | "dormant"
-    | "suspended"
-    | "delete_pending"
-    | "deleted";
-  userStateMeta: string | null;
+}
+
+export interface UserTokenResponse extends UserToken {
+  userState: UserState;
+  userStateMeta: string;
 }
 
 /**
@@ -71,7 +71,12 @@ const silentRefresh = (refreshToken: string) =>
  * 로그인 요청
  */
 const postSignIn = (data: PostSignInRequest) =>
-  apiClient.post<PostSignInResponse>("/auth/v1/sign-in", data);
+  apiClient.post<PostSignInResponse>("/auth/v1/sign-in", data, {
+    headers: {
+      // Authorization: `bearer ${token.refreshToken}`,
+      Authorization: "",
+    },
+  });
 
 const authApis = { postSignIn, postPhoneVerification, silentRefresh };
 

@@ -1,4 +1,5 @@
-import SessionProvider from "../context/SessionProvider";
+import AuthProvider from "../context/AuthProvider";
+import SessionLoader from "../context/SessionLoader";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SessionProvider>{children}</SessionProvider>
+        <AuthProvider>
+          <SessionLoader>{children}</SessionLoader>
+        </AuthProvider>
       </body>
     </html>
   );

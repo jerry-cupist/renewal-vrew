@@ -4,11 +4,16 @@ import { PostPhoneVerificationResponse } from "@vrew/apis/enfpy/auth";
 import { getPhoneNumber } from "@vrew/utils";
 import { FormEventHandler, useState } from "react";
 import enfpyApiUtil from "../../apis";
+import useAuth from "../../hooks/useAuth";
+import { useSession } from "next-auth/react";
 
 export default function LoginForm(): JSX.Element {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("01089265827");
   const [phoneVerification, setPhoneVerification] =
     useState<PostPhoneVerificationResponse>();
+
+  const session = useSession();
+  const auth = useAuth();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -23,20 +28,20 @@ export default function LoginForm(): JSX.Element {
       formElement["phoneVerificationCode"] as HTMLInputElement
     ).value;
 
-    const response = await enfpyApiUtil.auth.postSignIn({
+    await auth.signIn({
       phoneVerificationCode,
       phoneVerificationId: phoneVerification.data.phoneVerificationId,
       loginAccountIdentification: phoneVerification.data.phoneNumber,
     });
 
     // 1. storage 저장
-    localStorage.setItem(
-      "token",
-      JSON.stringify({
-        accessToken: response.data.data.accessToken,
-        refreshToken: response.data.data.refreshToken,
-      })
-    );
+    // localStorage.setItem(
+    //   "token",
+    //   JSON.stringify({
+    //     accessToken: response.data.data.accessToken,
+    //     refreshToken: response.data.data.refreshToken,
+    //   })
+    // );
 
     // TODO 2. RN에 토큰 정보 갱신 요청
   };
@@ -47,7 +52,6 @@ export default function LoginForm(): JSX.Element {
   const handleClickPhoneVerificationButton = async () => {
     const phoneNumberInfo = getPhoneNumber(phoneNumber);
 
-    console.log({ phoneNumberInfo });
     const { data: phoneVerification } =
       await enfpyApiUtil.auth.postPhoneVerification(phoneNumberInfo);
 
