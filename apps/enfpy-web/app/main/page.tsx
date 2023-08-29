@@ -5,8 +5,8 @@ import { calculateDDay } from "../../utils/dayUtil";
 import { BridgeActions } from "@vrew/modules/web-bridge/types";
 import {
   createRequestMessage,
-  postRequestMessage,
-} from "@vrew/modules/web-bridge/utils/webToApp";
+  postRequestMessageToApp,
+} from "@vrew/modules/web-bridge/utils/message";
 import {
   ScreenName,
   ValueOfScreenName,
@@ -27,7 +27,7 @@ export default function Page(): JSX.Element {
         screenName: ScreenName.Sub,
       }
     );
-    postRequestMessage(requestMessage);
+    postRequestMessageToApp(requestMessage);
   };
 
   return (

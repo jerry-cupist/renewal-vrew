@@ -1,9 +1,20 @@
 import {
-  BridgeError,
-  ErrorMessage,
+  RequestMessage,
   ResponseMessage,
+  ErrorMessage,
+  BridgeError,
   BridgeActions,
 } from "../types";
+
+export const createRequestMessage = <D>(
+  action: BridgeActions,
+  data?: D
+): RequestMessage => ({
+  type: "request",
+  action,
+  request_id: 1,
+  data,
+});
 
 export const createResponseMessage = <D>(
   action: BridgeActions,
@@ -26,3 +37,7 @@ export const createErrorMessage = (
   request_id,
   error,
 });
+
+export const postRequestMessageToApp = (message: RequestMessage) => {
+  (window as any).ReactNativeWebView?.postMessage(JSON.stringify(message));
+};

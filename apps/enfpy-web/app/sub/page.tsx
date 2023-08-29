@@ -4,15 +4,15 @@ import { Header } from "@vrew/ui";
 import { BridgeActions } from "@vrew/modules/web-bridge/types";
 import {
   createRequestMessage,
-  postRequestMessage,
-} from "@vrew/modules/web-bridge/utils/webToApp";
+  postRequestMessageToApp,
+} from "@vrew/modules/web-bridge/utils/message";
 
 export default function Page(): JSX.Element {
   const handleGoBack = () => {
     const requestMessage = createRequestMessage(
       BridgeActions.NAVIGATION_GO_BACK
     );
-    postRequestMessage(requestMessage);
+    postRequestMessageToApp(requestMessage);
   };
 
   return (
