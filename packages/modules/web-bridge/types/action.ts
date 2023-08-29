@@ -1,4 +1,4 @@
-import { ConsoleLogArgs } from "./data/debug-tools";
+import { ConsoleLogArgs } from "./data/dev";
 import {
   NavigateArg,
   PushArgs,
