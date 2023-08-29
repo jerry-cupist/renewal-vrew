@@ -1,42 +1,51 @@
-import React, {forwardRef} from 'react';
+import React, {forwardRef, useRef, useImperativeHandle} from 'react';
 import WebView, {WebViewMessageEvent, WebViewProps} from 'react-native-webview';
-import {
-  WebViewMessage,
-  WebViewSourceUri,
-} from 'react-native-webview/lib/WebViewTypes';
+import {RequestMessage, BridgeActions} from '@vrew/modules/web-bridge/types';
+import {StyleSheet} from 'react-native';
+import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
 
-export enum WebBridgeActions {
-  NAVIGATION_NAVIGATE = 'navigation-navigate',
-}
-
-export interface WebViewMessageData<D = any> {
-  type: 'request' | 'response' | 'event' | 'error';
-  action: WebBridgeActions;
-  request_id: number;
-  data: D;
-}
-
-interface CommonWebViewProps extends WebViewProps {
-  source: WebViewSourceUri;
+export interface CommonWebViewProps extends WebViewProps {
+  source: WebViewSourceUri; // WebViewSourceHtml 경우를 의도적으로 배제함
 }
 
 export const CommonWebView = forwardRef<any, CommonWebViewProps>(
   (props, ref) => {
-    const handleMessage = (nativeEvent: WebViewMessage) => {
-      const {data} = nativeEvent;
-      const messageData: WebViewMessageData<string> = JSON.parse(data);
+    const webViewRef = useRef<WebView>(null);
 
-      console.log(messageData.action, messageData.data);
+    useImperativeHandle(ref, () => webViewRef.current);
+
+    const handleMessage = ({
+      nativeEvent: {data: messageData},
+    }: WebViewMessageEvent) => {
+      console.log(JSON.parse(messageData));
+      const {type, action}: RequestMessage<any> = JSON.parse(messageData);
+
+      // run by type
+      switch (type) {
+        default:
+          () => {};
+      }
+
+      // run by action
+      switch (action) {
+        case BridgeActions.NAVIGATION_NAVIGATE:
+          () => {
+            console.log('NAVIGATION_NAVIGATE');
+          };
+      }
     };
 
     return (
-      <>
-        <WebView
-          source={props.source}
-          style={{flex: 1}}
-          onMessage={(e: WebViewMessageEvent) => handleMessage(e.nativeEvent)}
-        />
-      </>
+      <WebView
+        ref={webViewRef}
+        source={props.source}
+        style={styles.container}
+        onMessage={handleMessage}
+      />
     );
   },
 );
+
+const styles = StyleSheet.create({
+  container: {flex: 1},
+});

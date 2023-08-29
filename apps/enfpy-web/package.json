@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@vrew/apis": "workspace:*",
+    "@vrew/modules": "workspace:*",
     "@vrew/ui": "*",
     "@vrew/utils": "workspace:*",
     "next": "13.4.19",
