@@ -3,11 +3,11 @@ import {
   ResponseMessage,
   ErrorMessage,
   BridgeError,
-  BridgeActions,
-} from "../types";
+} from "../types/message";
+import { WebBridgeActions } from "../types/action";
 
 export const createRequestMessage = <D>(
-  action: BridgeActions,
+  action: WebBridgeActions,
   data?: D
 ): RequestMessage => ({
   type: "request",
@@ -17,7 +17,7 @@ export const createRequestMessage = <D>(
 });
 
 export const createResponseMessage = <D>(
-  action: BridgeActions,
+  action: WebBridgeActions,
   request_id: number,
   data: D
 ): ResponseMessage<D> => ({
@@ -28,7 +28,7 @@ export const createResponseMessage = <D>(
 });
 
 export const createErrorMessage = (
-  action: BridgeActions,
+  action: WebBridgeActions,
   request_id: number,
   error: BridgeError
 ): ErrorMessage => ({

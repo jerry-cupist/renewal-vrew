@@ -1,4 +1,4 @@
-import { BridgeActions } from "./action";
+import { WebBridgeActions } from "./action";
 
 export enum MessageError {
   NOT_REGISTERED_ACTION = 4004,
@@ -7,14 +7,14 @@ export enum MessageError {
 
 export interface RequestMessage<D = any> {
   type: "request";
-  action: BridgeActions;
+  action: WebBridgeActions;
   request_id: number;
   data: D;
 }
 
 export interface ResponseMessage<D = any> {
   type: "response";
-  action: BridgeActions;
+  action: WebBridgeActions;
   request_id: number;
   data: D;
 }
@@ -26,7 +26,7 @@ export interface BridgeError {
 
 export interface ErrorMessage {
   type: "error";
-  action: BridgeActions;
+  action: WebBridgeActions;
   request_id: number;
   error: BridgeError;
 }

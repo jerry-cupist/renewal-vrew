@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/native';
 import {useCallback, useRef} from 'react';
 
-import {BridgeActions} from '@vrew/modules/web-bridge/types/action';
+import {WebBridgeActions} from '@vrew/modules/web-bridge/types/action';
 import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
 import {ValueOfScreenName} from '@vrew/modules/web-bridge/constants/screen-enfpy';
 import WebView from 'react-native-webview';
@@ -144,15 +144,15 @@ export const useNavigationHandler = () => {
   );
 
   return {
-    [BridgeActions.NAVIGATION_NAVIGATE]: navigate,
-    [BridgeActions.NAVIGATION_GO_BACK]: goBack,
-    [BridgeActions.NAVIGATION_CAN_GO_BACK]: canGoBack,
-    [BridgeActions.NAVIGATION_PUSH]: push,
-    [BridgeActions.NAVIGATION_POP_TO_TOP]: popToTop,
-    [BridgeActions.NAVIGATION_POP]: pop,
-    [BridgeActions.NAVIGATION_REPLACE]: replace,
-    [BridgeActions.NAVIGATION_RESET]: reset,
-    [BridgeActions.NAVIGATION_RELOAD]: reload,
-    [BridgeActions.NAVIGATION_SET_OPTIONS]: setOptions,
+    [WebBridgeActions.NAVIGATION_NAVIGATE]: navigate,
+    [WebBridgeActions.NAVIGATION_GO_BACK]: goBack,
+    [WebBridgeActions.NAVIGATION_CAN_GO_BACK]: canGoBack,
+    [WebBridgeActions.NAVIGATION_PUSH]: push,
+    [WebBridgeActions.NAVIGATION_POP_TO_TOP]: popToTop,
+    [WebBridgeActions.NAVIGATION_POP]: pop,
+    [WebBridgeActions.NAVIGATION_REPLACE]: replace,
+    [WebBridgeActions.NAVIGATION_RESET]: reset,
+    [WebBridgeActions.NAVIGATION_RELOAD]: reload,
+    [WebBridgeActions.NAVIGATION_SET_OPTIONS]: setOptions,
   };
 };

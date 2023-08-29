@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 
-import {BridgeActions} from '@vrew/modules/web-bridge/types/action';
+import {WebBridgeActions} from '@vrew/modules/web-bridge/types/action';
 import {
   RequestMessage,
   MessageError,
@@ -41,7 +41,7 @@ export const WebBridgeProvider = (props: BridgeProviderProps) => {
   const debugToolsHandler = useDebugToolsHandler();
 
   // bridge actions 병합
-  const messageHandler = useMemo<Record<BridgeActions, Function>>(
+  const messageHandler = useMemo<Record<WebBridgeActions, Function>>(
     () => ({
       ...navigationHandler,
       ...debugToolsHandler,

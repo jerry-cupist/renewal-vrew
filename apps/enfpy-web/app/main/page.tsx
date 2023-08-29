@@ -2,7 +2,7 @@
 
 import { Header } from "@vrew/ui";
 import { calculateDDay } from "../../utils/dayUtil";
-import { BridgeActions } from "@vrew/modules/web-bridge/types/action";
+import { WebBridgeActions } from "@vrew/modules/web-bridge/types/action";
 import {
   createRequestMessage,
   postRequestMessageToApp,
@@ -22,7 +22,7 @@ export default function Page(): JSX.Element {
 
   const handleClickButton: () => void = () => {
     const requestMessage = createRequestMessage<NavigateArg>(
-      BridgeActions.NAVIGATION_NAVIGATE,
+      WebBridgeActions.NAVIGATION_NAVIGATE,
       {
         screenName: ScreenName.Sub,
       }

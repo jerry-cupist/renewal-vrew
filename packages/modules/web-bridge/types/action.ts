@@ -1,4 +1,4 @@
-export enum BridgeActions {
+export enum WebBridgeActions {
   NAVIGATION_NAVIGATE = "navigation-navigate",
   NAVIGATION_GO_BACK = "navigation-go-back",
   NAVIGATION_CAN_GO_BACK = "navigation-can-go-back",
