@@ -5,8 +5,8 @@ import {
 } from '@react-navigation/native';
 import {useCallback, useRef} from 'react';
 
-import {BridgeActions} from '@vrew/modules/web-bridge/types';
-import {RequestMessage} from '@vrew/modules/web-bridge/types';
+import {BridgeActions} from '@vrew/modules/web-bridge/types/action';
+import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
 import {ValueOfScreenName} from '@vrew/modules/web-bridge/constants/screen-enfpy';
 import WebView from 'react-native-webview';
 

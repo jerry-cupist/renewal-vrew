@@ -8,12 +8,15 @@ import React, {
 } from 'react';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 
-import {BridgeActions, RequestMessage} from '@vrew/modules/web-bridge/types';
+import {BridgeActions} from '@vrew/modules/web-bridge/types/action';
+import {
+  RequestMessage,
+  MessageError,
+} from '@vrew/modules/web-bridge/types/message';
 import {
   createErrorMessage,
   createResponseMessage,
 } from '@vrew/modules/web-bridge/utils/message';
-import {MessageError} from '@vrew/modules/web-bridge/types';
 import {NavigationProp} from '@react-navigation/native';
 import {useDebugToolsHandler} from './hooks/useDebugToolsHandler';
 

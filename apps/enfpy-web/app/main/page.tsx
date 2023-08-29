@@ -2,7 +2,7 @@
 
 import { Header } from "@vrew/ui";
 import { calculateDDay } from "../../utils/dayUtil";
-import { BridgeActions } from "@vrew/modules/web-bridge/types";
+import { BridgeActions } from "@vrew/modules/web-bridge/types/action";
 import {
   createRequestMessage,
   postRequestMessageToApp,

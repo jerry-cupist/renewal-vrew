@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from 'react';
 import WebView, {WebViewMessageEvent, WebViewProps} from 'react-native-webview';
-import {RequestMessage} from '@vrew/modules/web-bridge/types';
+import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
 import {StyleSheet} from 'react-native';
 import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
 import {MessageHandler, useBridge} from '../../contexts/bridge/BridgeContext';

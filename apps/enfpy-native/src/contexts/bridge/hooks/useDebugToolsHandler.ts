@@ -1,4 +1,5 @@
-import {BridgeActions, RequestMessage} from '@vrew/modules/web-bridge/types';
+import {BridgeActions} from '@vrew/modules/web-bridge/types/action';
+import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
 
 export const useDebugToolsHandler = () => {
   const consoleLog = ({data}: RequestMessage<{message: string}>) => {

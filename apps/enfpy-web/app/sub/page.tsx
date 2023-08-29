@@ -1,7 +1,7 @@
 "use client";
 
 import { Header } from "@vrew/ui";
-import { BridgeActions } from "@vrew/modules/web-bridge/types";
+import { BridgeActions } from "@vrew/modules/web-bridge/types/action";
 import {
   createRequestMessage,
   postRequestMessageToApp,
