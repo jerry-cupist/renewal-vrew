@@ -4,7 +4,7 @@ import {
   ErrorMessage,
   BridgeError,
 } from "../types/message";
-import { WebBridgeActions } from "../types/action";
+import { WebBridgeActionDatas, WebBridgeActions } from "../types/action";
 
 export const createRequestMessage = <D>(
   action: WebBridgeActions,
@@ -37,3 +37,11 @@ export const createErrorMessage = (
   request_id,
   error,
 });
+
+export const postMessage = <T extends keyof WebBridgeActionDatas>(
+  action: T,
+  data?: WebBridgeActionDatas[T]
+) => {
+  const message = createRequestMessage(action, data);
+  (window as any).ReactNativeWebView?.postMessage(JSON.stringify(message));
+};

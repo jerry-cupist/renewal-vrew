@@ -3,14 +3,14 @@
 import { Header } from "@vrew/ui";
 import { calculateDDay } from "../../utils/dayUtil";
 import { ScreenName } from "@vrew/modules/web-bridge/constants/screen-enfpy";
-import { useNavigation } from "../../hooks/navigation/useNavigation";
+import { useBridgeMessageCreator } from "@vrew/modules/web-bridge/hooks/useBridgeMessageCreator";
 
 export default function Page(): JSX.Element {
-  const navigation = useNavigation();
+  const bridge = useBridgeMessageCreator();
   const dDay = calculateDDay("2023-09-01T00:00:00", "2023-09-15T00:00:00");
 
   const handleClickButton: () => void = () => {
-    navigation.navigate({ screenName: ScreenName.Sub });
+    bridge.navigation.navigate({ screenName: ScreenName.Sub });
   };
 
   return (

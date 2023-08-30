@@ -1,13 +1,11 @@
 import { WebBridgeActionDatas, WebBridgeActions } from "../types/action";
-import { useBridge } from "./useBridge";
+import { postMessage } from "../utils/message";
 
 export const useDev = () => {
-  const bridge = useBridge();
-
   const consoleLog = (
     args: WebBridgeActionDatas[WebBridgeActions.DEV_CONSOLE_LOG]
   ) => {
-    bridge.postMessage(WebBridgeActions.DEV_CONSOLE_LOG, args);
+    postMessage(WebBridgeActions.DEV_CONSOLE_LOG, args);
   };
 
   return { consoleLog };
