@@ -26,7 +26,11 @@ export const useNavigationHandler = () => {
 
   const navigate = useCallback(
     (
-      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_NAVIGATE>,
+      {
+        data,
+      }: RequestMessage<
+        WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
+      >,
       {navigation}: NavigationHandlerArgs,
     ) => {
       const {screenName, params} = data;
@@ -38,7 +42,9 @@ export const useNavigationHandler = () => {
 
   const goBack = useCallback(
     (
-      _: RequestMessage<WebBridgeActionDatas.NAVIGATION_GO_BACK>,
+      _: RequestMessage<
+        WebBridgeActionDatas[WebBridgeActions.NAVIGATION_GO_BACK]
+      >,
       {navigation}: NavigationHandlerArgs,
     ) => {
       navigation.dispatch(CommonActions.goBack());
@@ -48,7 +54,9 @@ export const useNavigationHandler = () => {
 
   const canGoBack = useCallback(
     (
-      _: RequestMessage<WebBridgeActionDatas.NAVIGATION_CAN_GO_BACK>,
+      _: RequestMessage<
+        WebBridgeActionDatas[WebBridgeActions.NAVIGATION_CAN_GO_BACK]
+      >,
       {navigation}: NavigationHandlerArgs,
     ) => navigation.canGoBack(),
     [],
@@ -56,7 +64,9 @@ export const useNavigationHandler = () => {
 
   const push = useCallback(
     (
-      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_PUSH>,
+      {
+        data,
+      }: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_PUSH]>,
       {navigation}: NavigationHandlerArgs,
     ) => {
       const now = new Date().valueOf();
@@ -73,7 +83,9 @@ export const useNavigationHandler = () => {
 
   const popToTop = useCallback(
     (
-      _: RequestMessage<WebBridgeActionDatas.NAVIGATION_POP_TO_TOP>,
+      _: RequestMessage<
+        WebBridgeActionDatas[WebBridgeActions.NAVIGATION_POP_TO_TOP]
+      >,
       {navigation}: NavigationHandlerArgs,
     ) => {
       navigation.dispatch(StackActions.popToTop());
@@ -83,7 +95,9 @@ export const useNavigationHandler = () => {
 
   const pop = useCallback(
     (
-      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_POP>,
+      {
+        data,
+      }: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_POP]>,
       {navigation}: NavigationHandlerArgs,
     ) => {
       navigation.dispatch(StackActions.pop(data));
@@ -93,7 +107,11 @@ export const useNavigationHandler = () => {
 
   const replace = useCallback(
     (
-      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_REPLACE>,
+      {
+        data,
+      }: RequestMessage<
+        WebBridgeActionDatas[WebBridgeActions.NAVIGATION_REPLACE]
+      >,
       {navigation}: NavigationHandlerArgs,
     ) => {
       const {screenName, params} = data;
@@ -105,7 +123,11 @@ export const useNavigationHandler = () => {
 
   const reset = useCallback(
     (
-      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_RESET>,
+      {
+        data,
+      }: RequestMessage<
+        WebBridgeActionDatas[WebBridgeActions.NAVIGATION_RESET]
+      >,
       {navigation}: NavigationHandlerArgs,
     ) => {
       const {index, routes} = data;
@@ -125,7 +147,9 @@ export const useNavigationHandler = () => {
 
   const reload = useCallback(
     (
-      _: RequestMessage<WebBridgeActionDatas.NAVIGATION_RELOAD>,
+      _: RequestMessage<
+        WebBridgeActionDatas[WebBridgeActions.NAVIGATION_RELOAD]
+      >,
       {webView}: NavigationHandlerArgs,
     ) => {
       webView.reload();
@@ -135,7 +159,11 @@ export const useNavigationHandler = () => {
 
   const setOptions = useCallback(
     (
-      {data}: RequestMessage<WebBridgeActionDatas.NAVIGATION_SET_OPTIONS>,
+      {
+        data,
+      }: RequestMessage<
+        WebBridgeActionDatas[WebBridgeActions.NAVIGATION_SET_OPTIONS]
+      >,
       {navigation}: NavigationHandlerArgs,
     ) => {
       navigation.setOptions(data);

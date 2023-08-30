@@ -1,10 +1,15 @@
 import { useNavigation as useBridgeNavigation } from "@vrew/modules/web-bridge/hooks/useNavigation";
-import { WebBridgeActionDatas } from "@vrew/modules/web-bridge/types/action";
+import {
+  WebBridgeActionDatas,
+  WebBridgeActions,
+} from "@vrew/modules/web-bridge/types/action";
 
 export const useNavigation = () => {
   const bridgeNavigation = useBridgeNavigation();
 
-  const navigate = (args: WebBridgeActionDatas.NAVIGATION_NAVIGATE) => {
+  const navigate = (
+    args: WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
+  ) => {
     bridgeNavigation.navigate(args);
   };
 

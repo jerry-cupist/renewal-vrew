@@ -23,17 +23,16 @@ export enum WebBridgeActions {
   DEV_CONSOLE_LOG = "dev-console-log",
 }
 
-export namespace WebBridgeActionDatas {
-  export type NAVIGATION_NAVIGATE = NavigateArg;
-  export type NAVIGATION_GO_BACK = undefined;
-  export type NAVIGATION_CAN_GO_BACK = undefined;
-  export type NAVIGATION_PUSH = PushArgs;
-  export type NAVIGATION_POP_TO_TOP = undefined;
-  export type NAVIGATION_POP = PopArgs;
-  export type NAVIGATION_REPLACE = ReplaceArgs;
-  export type NAVIGATION_RESET = ResetArgs;
-  export type NAVIGATION_RELOAD = undefined;
-  export type NAVIGATION_SET_OPTIONS = OptionArgs;
-
-  export type DEV_CONSOLE_LOG = ConsoleLogArgs;
-}
+export type WebBridgeActionDatas = {
+  [WebBridgeActions.NAVIGATION_NAVIGATE]: NavigateArg;
+  [WebBridgeActions.NAVIGATION_GO_BACK]: undefined;
+  [WebBridgeActions.NAVIGATION_CAN_GO_BACK]: undefined;
+  [WebBridgeActions.NAVIGATION_PUSH]: PushArgs;
+  [WebBridgeActions.NAVIGATION_POP_TO_TOP]: undefined;
+  [WebBridgeActions.NAVIGATION_POP]: PopArgs;
+  [WebBridgeActions.NAVIGATION_REPLACE]: ReplaceArgs;
+  [WebBridgeActions.NAVIGATION_RESET]: ResetArgs;
+  [WebBridgeActions.NAVIGATION_RELOAD]: undefined;
+  [WebBridgeActions.NAVIGATION_SET_OPTIONS]: OptionArgs;
+  [WebBridgeActions.DEV_CONSOLE_LOG]: ConsoleLogArgs;
+};

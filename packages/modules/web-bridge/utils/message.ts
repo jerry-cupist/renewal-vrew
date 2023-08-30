@@ -37,7 +37,3 @@ export const createErrorMessage = (
   request_id,
   error,
 });
-
-export const postRequestMessageToApp = (message: RequestMessage) => {
-  (window as any).ReactNativeWebView?.postMessage(JSON.stringify(message));
-};

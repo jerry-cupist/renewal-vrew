@@ -1,22 +1,17 @@
 import { WebBridgeActionDatas, WebBridgeActions } from "../types/action";
-import { useMessage } from "./useMessage";
+import { useBridge } from "./useBridge";
 
 export const useNavigation = () => {
-  const message = useMessage();
+  const bridge = useBridge();
 
-  const navigate = (args: WebBridgeActionDatas.NAVIGATION_NAVIGATE) => {
-    const requestMessage = message.createRequestMessage(
-      WebBridgeActions.NAVIGATION_NAVIGATE,
-      args
-    );
-    message.post(requestMessage);
+  const navigate = (
+    args: WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
+  ) => {
+    bridge.postMessage(WebBridgeActions.NAVIGATION_NAVIGATE, args);
   };
 
   const goBack = () => {
-    const requestMessage = message.createRequestMessage(
-      WebBridgeActions.NAVIGATION_GO_BACK
-    );
-    message.post(requestMessage);
+    bridge.postMessage(WebBridgeActions.NAVIGATION_GO_BACK);
   };
   return { navigate, goBack };
 };

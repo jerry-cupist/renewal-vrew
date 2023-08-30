@@ -7,7 +7,9 @@ import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
 export const useDevHandler = () => {
   const consoleLog = ({
     data,
-  }: RequestMessage<WebBridgeActionDatas.DEV_CONSOLE_LOG>) => {
+  }: RequestMessage<
+    WebBridgeActionDatas[WebBridgeActions.DEV_CONSOLE_LOG]
+  >) => {
     console.log(data.message);
   };
 
