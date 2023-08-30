@@ -1,35 +1,22 @@
 "use client";
 
 import { Header } from "@vrew/ui";
-import {
-  WebBridgeActions,
-  WebBridgeActionDatas,
-} from "@vrew/modules/web-bridge/types/action";
-import {
-  createRequestMessage,
-  postRequestMessageToApp,
-} from "@vrew/modules/web-bridge/utils/message";
 import { ChangeEvent, useState } from "react";
+import { useNavigation } from "../../hooks/navigation/useNavigation";
+import { useDev } from "@vrew/modules/web-bridge/hooks/useDev";
 
 export default function Page(): JSX.Element {
+  const navigation = useNavigation();
+  const dev = useDev();
+
   const [logMessage, setLogMessage] = useState("log message");
 
   const handleGoBack = () => {
-    const requestMessage =
-      createRequestMessage<WebBridgeActionDatas.NAVIGATION_GO_BACK>(
-        WebBridgeActions.NAVIGATION_GO_BACK,
-        undefined
-      );
-    postRequestMessageToApp(requestMessage);
+    navigation.goBack();
   };
 
   const handlePressLogButton = () => {
-    const requestMessage =
-      createRequestMessage<WebBridgeActionDatas.DEV_CONSOLE_LOG>(
-        WebBridgeActions.DEV_CONSOLE_LOG,
-        { message: logMessage }
-      );
-    postRequestMessageToApp(requestMessage);
+    dev.consoleLog({ message: logMessage });
   };
 
   const handleChangeMessage = (e: ChangeEvent<HTMLInputElement>) => {
