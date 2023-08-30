@@ -1,6 +1,7 @@
 import enfpyApiClient from "@vrew/apis/enfpy";
-import storeUtil from "../utils/storeUtil";
 import tokenUtil from "../utils/tokenUtil";
+import { signIn } from "next-auth/react";
+import { CREDENTIALS_TYPE } from "../app/api/auth/[...nextauth]/route";
 
 /**
  * apiClient에 대한 환경 설정
@@ -13,15 +14,16 @@ enfpyApiClient.setConfig({
 /**
  * 만료시 갱신요청
  */
-enfpyApiClient.addEventListener("onUnauthorizedRequest", async () => {
-  const token = storeUtil.get("token", {});
+enfpyApiClient.addEventListener("onUnauthorizedRequest", () => {
+  const token = tokenUtil.get();
   tokenUtil.delete();
   if (!token.refreshToken) {
     return;
   }
 
-  const { data } = await enfpyApiClient.auth.silentRefresh(token.refreshToken);
-  tokenUtil.update(data.data.accessToken);
+  signIn(CREDENTIALS_TYPE.TOKEN, {
+    refreshToken: token.refreshToken,
+  });
 });
 
 export default enfpyApiClient;

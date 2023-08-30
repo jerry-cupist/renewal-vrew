@@ -16,6 +16,10 @@ const tokenUtil = {
     storeUtil.remove("token");
     enfpyApiClient.deleteToken();
   },
+
+  get() {
+    return storeUtil.get("token", {});
+  },
 };
 
 export default tokenUtil;
