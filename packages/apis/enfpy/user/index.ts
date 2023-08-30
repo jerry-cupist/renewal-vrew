@@ -1,5 +1,4 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
-import apiClient from "../apiClient";
 import { PersonalityTest, PersonalityTestDetail } from "../personality";
 import {
   MbtiChemi,
@@ -76,23 +75,17 @@ export interface GetProfileResponse {
   meta: { resource: ResourceMetaResponse };
 }
 
-class UserApi {
-  private instance: AxiosInstance;
-  constructor(client: AxiosInstance) {
-    this.instance = client;
-  }
-
+const createUserApi = (instance: AxiosInstance) => ({
   /**
    * me의 경우 내 정보 조회
    */
-  getProfile = (
+  getProfile: (
     profileId: number | string | "me" = "me",
     config?: AxiosRequestConfig<any>
   ) =>
-    this.instance.get<GetProfileResponse>(
-      `/user/v1/profile/${profileId}`,
-      config
-    );
-}
+    instance.get<GetProfileResponse>(`/user/v1/profile/${profileId}`, config),
+});
 
-export default UserApi;
+export type UserApi = ReturnType<typeof createUserApi>;
+
+export default createUserApi;

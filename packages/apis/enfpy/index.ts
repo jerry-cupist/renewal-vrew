@@ -7,8 +7,8 @@ import {
 } from "axios";
 import apiClient, { EnfpyAxiosHeaders } from "./apiClient";
 import { createEventEmitter } from "./event";
-import AuthApi from "./auth";
-import UserApi from "./user";
+import createAuthApi, { AuthApi } from "./auth";
+import createUserApi, { UserApi } from "./user";
 
 export type Event = {
   name: string;
@@ -59,6 +59,8 @@ const ERROR_TYPE_REQUIRING_UPDATE = new Set([
   "token_expired_error",
   // RTR 적용된 이후 Access Token 만료할 경우
   "access_token_expired_error",
+  // refresh_token이 사용된 케이스
+  "refresh_token_reuse_error",
 ]);
 
 const shouldUpdateToken = (response: AxiosResponse) => {
@@ -105,18 +107,18 @@ export class EnfpyApiClient {
   ) => {
     const { config, response } = error;
 
-    if (!response) {
-      return;
+    if (response) {
+      const shouldUpdateAuth =
+        shouldUpdateToken(response) &&
+        response.status === NETWORK_STATE.UNAUTHORIZED;
+
+      if (shouldUpdateAuth) {
+        // 토큰 갱신 요청 발행.
+        this.emit("onUnauthorizedRequest", config);
+      }
     }
 
-    const shouldUpdateAuth =
-      shouldUpdateToken(response) &&
-      response.status === NETWORK_STATE.UNAUTHORIZED;
-
-    if (shouldUpdateAuth) {
-      // 토큰 갱신 요청 발행.
-      this.emit("onUnauthorizedRequest", config);
-    }
+    throw error;
   };
 
   setConfig({ baseUrl, headers }: EnfpyApiClientConfig) {
@@ -165,7 +167,7 @@ export class EnfpyApiClient {
 export default new EnfpyApiClient({
   client: apiClient,
   apis: {
-    auth: new AuthApi(apiClient),
-    user: new UserApi(apiClient),
+    auth: createAuthApi(apiClient),
+    user: createUserApi(apiClient),
   },
 });

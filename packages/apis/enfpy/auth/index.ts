@@ -1,5 +1,4 @@
 import { AxiosInstance } from "axios";
-import apiClient from "../apiClient";
 import { BaseResponse } from "../types";
 
 export interface PostSignInRequest {
@@ -42,47 +41,41 @@ export interface UserTokenResponse extends UserToken {
   userStateMeta: string;
 }
 
-class AuthApi {
-  private instance: AxiosInstance;
-  constructor(client: AxiosInstance) {
-    this.instance = client;
-  }
-
+const createAuthApi = (axiosInstance: AxiosInstance) => ({
   /**
    * 로그인 요청
    */
-  postSignIn = (data: PostSignInRequest) =>
-    this.instance.post<PostSignInResponse>("/auth/v1/sign-in", data, {
+  postSignIn: (data: PostSignInRequest) =>
+    axiosInstance.post<PostSignInResponse>("/auth/v1/sign-in", data, {
       headers: {
         Authorization: "",
       },
-    });
+    }),
 
   /**
    * refreshToken으로 accessToken갱신
    */
-  silentRefresh = (refreshToken: string) =>
-    this.instance.post<BaseResponse<UserTokenResponse>>(
-      "/api/enfpy/auth/v1/token",
-      undefined,
-      {
-        headers: {
-          Authorization: `bearer ${refreshToken}`,
-        },
-      }
-    );
-
+  silentRefresh: (refreshToken: string) =>
+    axiosInstance<BaseResponse<UserTokenResponse>>({
+      method: "post",
+      url: "/auth/v1/token",
+      headers: {
+        Authorization: `bearer ${refreshToken}`,
+      },
+    }),
   /**
    * 핸드폰 번호 확인
    * @param data.countryCode "+82"
    * @param data.nationalNumber "1022224444"
    * @param data.phoneNumber "+821089265827"
    */
-  postPhoneVerification = (data: PostPhoneVerificationRequest) =>
-    this.instance.post<PostPhoneVerificationResponse>(
+  postPhoneVerification: (data: PostPhoneVerificationRequest) =>
+    axiosInstance.post<PostPhoneVerificationResponse>(
       "/auth/v1/phone-verification",
       data
-    );
-}
+    ),
+});
 
-export default AuthApi;
+export type AuthApi = ReturnType<typeof createAuthApi>;
+
+export default createAuthApi;

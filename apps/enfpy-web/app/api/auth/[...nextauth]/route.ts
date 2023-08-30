@@ -16,6 +16,9 @@ const MINUTE = SECOND * 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
 
+/**
+ * refreshToken-due: 약 4개월
+ */
 const SESSION_MAX_AGE = 30 * DAY;
 
 /**
@@ -109,10 +112,8 @@ export const authOptions: AuthOptions = {
           throw new Error("refreshToken이 존재하지 않습니다.");
         }
 
-        const { data: res } = await enfpyApiClient.auth.silentRefresh(
-          refreshToken
-        );
-        const token = res.data;
+        const response = await enfpyApiClient.auth.silentRefresh(refreshToken);
+        const token = response.data.data;
 
         const { data: profileResponse } = await enfpyApiClient.user.getProfile(
           "me",
@@ -169,6 +170,7 @@ export const authOptions: AuthOptions = {
     },
 
     /**
+     * jwt에서 반환된 token은 session콜백에 전달됩니다.
      * @see https://next-auth.js.org/getting-started/example#extensibility
      */
     async jwt({ token, user, account, profile }) {
@@ -179,6 +181,9 @@ export const authOptions: AuthOptions = {
       }
       return token;
     },
+    /**
+     * Send properties to the client, like an access_token and user id from a provider.
+     */
     async session({ session, user, token }) {
       if (token.accessToken) {
         session.accessToken = token.accessToken;
@@ -201,6 +206,10 @@ export const authOptions: AuthOptions = {
     },
   },
 
+  /**
+   * @note The execution of your authentication API will be blocked by an await on your event handler.
+   * If your event handler starts any burdensome work it should not block its own promise on that work.
+   */
   events: {
     async signIn({ user }) {
       const token = user.token;
