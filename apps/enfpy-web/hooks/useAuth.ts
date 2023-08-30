@@ -10,12 +10,10 @@ import {
 import { useEffect } from "react";
 import { CREDENTIALS_TYPE } from "../app/api/auth/[...nextauth]/route";
 import ENPFY_URL from "../constant/url";
-import enfpyApiClient from "../apis";
-import storeUtil from "../utils/storeUtil";
+import tokenUtil from "../utils/tokenUtil";
 
 const handleSignInFailure = (data: SignInResponse) => {
-  storeUtil.remove("token");
-  enfpyApiClient.deleteToken();
+  tokenUtil.delete();
 };
 
 const signInWithPhone = (
@@ -76,16 +74,6 @@ const useAuth = () => {
   };
 };
 
-const updateToken = (refreshToken: string) => {
-  const token = {
-    refreshToken,
-  };
-
-  storeUtil.set("token", token);
-  // TODO RN에 토큰 동기화
-  // return postMessage('token',token)
-};
-
 /**
  * 자동 로그인
  */
@@ -95,7 +83,7 @@ export const useAutoLogin = () => {
 
   useEffect(() => {
     if (session.data && auth.isSignIn) {
-      updateToken(session.data.refreshToken);
+      tokenUtil.update(session.data.refreshToken);
     }
   }, [session.data, auth.isSignIn]);
 };

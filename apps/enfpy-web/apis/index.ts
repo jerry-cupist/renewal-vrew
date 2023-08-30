@@ -1,5 +1,6 @@
 import enfpyApiClient from "@vrew/apis/enfpy";
 import storeUtil from "../utils/storeUtil";
+import tokenUtil from "../utils/tokenUtil";
 
 /**
  * apiClient에 대한 환경 설정
@@ -14,17 +15,13 @@ enfpyApiClient.setConfig({
  */
 enfpyApiClient.addEventListener("onUnauthorizedRequest", async () => {
   const token = storeUtil.get("token", {});
-  storeUtil.remove("token");
+  tokenUtil.delete();
   if (!token.refreshToken) {
     return;
   }
 
   const { data } = await enfpyApiClient.auth.silentRefresh(token.refreshToken);
-  enfpyApiClient.updateToken(data.data.accessToken);
-
-  storeUtil.set("token", {
-    refreshToken: data.data.refreshToken,
-  });
+  tokenUtil.update(data.data.accessToken);
 });
 
 export default enfpyApiClient;
