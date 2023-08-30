@@ -11,6 +11,13 @@ import enfpyApiClient from "../../../../apis";
  * will automatically be handled by NextAuth.js.
  */
 
+const SECOND = 1;
+const MINUTE = SECOND * 60;
+const HOUR = MINUTE * 60;
+const DAY = HOUR * 24;
+
+const SESSION_MAX_AGE = 30 * DAY;
+
 /**
  * next-auth 로그인 반환 사용자 정보
  */
@@ -133,9 +140,21 @@ export const authOptions: AuthOptions = {
     error: ENPFY_URL.LOGIN,
   },
   session: {
+    // Choose how you want to save the user session.
+    // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
+    // If you use an `adapter` however, we default it to `"database"` instead.
+    // You can still force a JWT session by explicitly defining `"jwt"`.
+    // When using `"database"`, the session cookie will only contain a `sessionToken` value,
+    // which is used to look up the session in the database.
     strategy: "jwt",
-    maxAge: 24 * 60 * 60,
-    updateAge: 2 * 24 * 60 * 60,
+    // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: SESSION_MAX_AGE,
+  },
+  // @see https://next-auth.js.org/configuration/options#jwt
+  jwt: {
+    // The maximum age of the NextAuth.js issued JWT in seconds.
+    // Defaults to `session.maxAge`.
+    maxAge: SESSION_MAX_AGE,
   },
   callbacks: {
     /**
