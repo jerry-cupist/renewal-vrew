@@ -3,14 +3,16 @@
 import { Header } from "@vrew/ui";
 import { ChangeEvent, useState } from "react";
 import { useBridgeMessageCreator } from "@vrew/modules/web-bridge/hooks/useBridgeMessageCreator";
+import { useNavigation } from "../../hooks/navigation/useNavigation";
 
 export default function Page(): JSX.Element {
   const bridge = useBridgeMessageCreator();
+  const navigation = useNavigation();
 
   const [logMessage, setLogMessage] = useState("log message");
 
   const handleGoBack = () => {
-    bridge.navigation.goBack();
+    navigation.goBack();
   };
 
   const handlePressLogButton = () => {
