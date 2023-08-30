@@ -1,10 +1,22 @@
 "use client";
 import { PostSignInRequest, UserToken } from "@vrew/apis/enfpy/auth";
-import { SignInOptions, signIn, signOut, useSession } from "next-auth/react";
+import {
+  SignInOptions,
+  SignInResponse,
+  signIn,
+  signOut,
+  useSession,
+} from "next-auth/react";
 import { useEffect } from "react";
 import { CREDENTIALS_TYPE } from "../app/api/auth/[...nextauth]/route";
-import enfpyApiUtil from "../apis";
 import ENPFY_URL from "../constant/url";
+import enfpyApiClient from "../apis";
+import storeUtil from "../utils/storeUtil";
+
+const handleSignInFailure = (data: SignInResponse) => {
+  storeUtil.remove("token");
+  enfpyApiClient.deleteToken();
+};
 
 const signInWithPhone = (
   params: PostSignInRequest,
@@ -22,12 +34,8 @@ const signInWithPhone = (
       loginAccountIdentification: params.loginAccountIdentification,
     }
   ).then((data) => {
-    console.log("signInWithPhone", { data });
     if (data?.error) {
-      localStorage.removeItem("token");
-      console.log("signInWithPhone에 실패했습니다.");
-
-      delete enfpyApiUtil.apiClient.defaults.headers["Authorization"];
+      handleSignInFailure(data);
     }
 
     return data;
@@ -35,9 +43,9 @@ const signInWithPhone = (
 
 /**
  * 토큰으로 로그인 처리
- * @param refreshToken
+ * @param silentRefresh
  */
-const signInWithToken = (refreshToken: string, options: SignInOptions = {}) =>
+const silentRefresh = (refreshToken: string, options: SignInOptions = {}) =>
   signIn(
     CREDENTIALS_TYPE.TOKEN,
     {
@@ -46,11 +54,8 @@ const signInWithToken = (refreshToken: string, options: SignInOptions = {}) =>
     },
     { refreshToken }
   ).then((data) => {
-    console.log("signInWithToken", { data });
     if (data?.error) {
-      localStorage.removeItem("token");
-      console.log("auto-login에 실패했습니다.");
-      delete enfpyApiUtil.apiClient.defaults.headers["Authorization"];
+      handleSignInFailure(data);
     }
 
     return data;
@@ -65,26 +70,20 @@ const useAuth = () => {
   return {
     isSignIn,
     signIn: signInWithPhone,
-    signInWithToken,
+    silentRefresh,
     signOut,
     isLoading,
   };
 };
 
-const requestAutoLogin = () => {
-  const jsonString = localStorage.getItem("token") || "{}";
-  const token: UserToken = JSON.parse(jsonString) || {};
+const updateToken = (refreshToken: string) => {
+  const token = {
+    refreshToken,
+  };
 
-  if (!token.refreshToken) {
-    return;
-  }
-
-  return (
-    token.refreshToken,
-    {
-      redirect: false,
-    }
-  );
+  storeUtil.set("token", token);
+  // TODO RN에 토큰 동기화
+  // return postMessage('token',token)
 };
 
 /**
@@ -95,21 +94,8 @@ export const useAutoLogin = () => {
   const auth = useAuth();
 
   useEffect(() => {
-    requestAutoLogin();
-  }, []);
-
-  useEffect(() => {
     if (session.data && auth.isSignIn) {
-      const token = {
-        accessToken: session.data.accessToken,
-        refreshToken: session.data.refreshToken,
-      };
-
-      // localStorage에 토큰 저장
-      localStorage.setItem("token", JSON.stringify(token));
-
-      // TODO 3. RN에 토큰 동기화
-      // postMessage('token',token)
+      updateToken(session.data.refreshToken);
     }
   }, [session.data, auth.isSignIn]);
 };

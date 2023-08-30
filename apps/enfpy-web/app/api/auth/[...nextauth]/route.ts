@@ -4,7 +4,7 @@ import NextAuth, { AuthOptions, User } from "next-auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 import ENPFY_URL from "../../../../constant/url";
-import enfpyApiUtil from "../../../../apis";
+import enfpyApiClient from "../../../../apis";
 
 /**
  * All requests to /api/auth/*(signIn, callback, signOut, etc.)
@@ -30,6 +30,7 @@ export enum CREDENTIALS_TYPE {
  */
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+
   providers: [
     /**
      * [CASE] 휴대폰 로그인
@@ -57,7 +58,7 @@ export const authOptions: AuthOptions = {
           phoneVerificationId,
         } = req.query;
 
-        const { data: signInResponse } = await enfpyApiUtil.auth.postSignIn({
+        const { data: signInResponse } = await enfpyApiClient.auth.postSignIn({
           loginAccountIdentification,
           phoneVerificationCode,
           phoneVerificationId: parseInt(phoneVerificationId),
@@ -65,7 +66,7 @@ export const authOptions: AuthOptions = {
 
         const token = signInResponse.data;
 
-        const { data: profileResponse } = await enfpyApiUtil.user.getProfile(
+        const { data: profileResponse } = await enfpyApiClient.user.getProfile(
           "me",
           {
             headers: {
@@ -101,12 +102,12 @@ export const authOptions: AuthOptions = {
           throw new Error("refreshToken이 존재하지 않습니다.");
         }
 
-        const { data: res } = await enfpyApiUtil.auth.silentRefresh(
+        const { data: res } = await enfpyApiClient.auth.silentRefresh(
           refreshToken
         );
         const token = res.data;
 
-        const { data: profileResponse } = await enfpyApiUtil.user.getProfile(
+        const { data: profileResponse } = await enfpyApiClient.user.getProfile(
           "me",
           {
             headers: {
@@ -178,6 +179,26 @@ export const authOptions: AuthOptions = {
       // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
+    },
+  },
+
+  events: {
+    async signIn({ user }) {
+      const token = user.token;
+      enfpyApiClient.updateToken(token.accessToken);
+    },
+    /* on signout */
+    async signOut(message) {
+      enfpyApiClient.deleteToken();
+    },
+    async createUser(message) {
+      /* user created */
+    },
+    async updateUser(message) {
+      /* user updated - e.g. their email was verified */
+    },
+    async session(message) {
+      /* session is active */
     },
   },
 };

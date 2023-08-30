@@ -33,17 +33,6 @@ export default function LoginForm(): JSX.Element {
       phoneVerificationId: phoneVerification.data.phoneVerificationId,
       loginAccountIdentification: phoneVerification.data.phoneNumber,
     });
-
-    // 1. storage 저장
-    // localStorage.setItem(
-    //   "token",
-    //   JSON.stringify({
-    //     accessToken: response.data.data.accessToken,
-    //     refreshToken: response.data.data.refreshToken,
-    //   })
-    // );
-
-    // TODO 2. RN에 토큰 정보 갱신 요청
   };
 
   /**

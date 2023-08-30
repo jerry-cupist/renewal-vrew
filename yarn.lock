@@ -2686,6 +2686,7 @@ __metadata:
     next-auth: ^4.23.1
     react: 18.2.0
     react-dom: 18.2.0
+    store2: ^2.14.2
     typescript: 4.8.4
   languageName: unknown
   linkType: soft
@@ -11281,6 +11282,13 @@ __metadata:
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: c469b9519de16a4bb19600205cffb39ee471a5f17b82589757ca7bd40a8d92ebb6ed9f98b5a540c5d302ccbc78f15dc03cc0280dd6e00df1335568a5d5758a5c
+  languageName: node
+  linkType: hard
+
+"store2@npm:^2.14.2":
+  version: 2.14.2
+  resolution: "store2@npm:2.14.2"
+  checksum: 6f270fc5bab99b63f45fcc7bd8b99c2714b4adf880f557ed7ffb5ed3987131251165bccde425a00928aaf044870aee79ddeef548576d093c68703ed2edec45d7
   languageName: node
   linkType: hard
 

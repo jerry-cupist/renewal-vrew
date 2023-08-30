@@ -1,3 +1,4 @@
+import { AxiosInstance } from "axios";
 import apiClient from "../apiClient";
 import { BaseResponse } from "../types";
 
@@ -22,18 +23,6 @@ export interface PostPhoneVerificationResponse {
   };
 }
 
-/**
- * 핸드폰 번호 확인
- * @param data.countryCode "+82"
- * @param data.nationalNumber "1022224444"
- * @param data.phoneNumber "+821089265827"
- */
-const postPhoneVerification = (data: PostPhoneVerificationRequest) =>
-  apiClient.post<PostPhoneVerificationResponse>(
-    "/auth/v1/phone-verification",
-    data
-  );
-
 export type UserState =
   | "sign_up_progressing"
   | "review"
@@ -53,31 +42,47 @@ export interface UserTokenResponse extends UserToken {
   userStateMeta: string;
 }
 
-/**
- * refreshToken으로 accessToken갱신
- */
-const silentRefresh = (refreshToken: string) =>
-  apiClient.post<BaseResponse<UserTokenResponse>>(
-    "/api/enfpy/auth/v1/token",
-    undefined,
-    {
+class AuthApi {
+  private instance: AxiosInstance;
+  constructor(client: AxiosInstance) {
+    this.instance = client;
+  }
+
+  /**
+   * 로그인 요청
+   */
+  postSignIn = (data: PostSignInRequest) =>
+    this.instance.post<PostSignInResponse>("/auth/v1/sign-in", data, {
       headers: {
-        Authorization: `bearer ${refreshToken}`,
+        Authorization: "",
       },
-    }
-  );
+    });
 
-/**
- * 로그인 요청
- */
-const postSignIn = (data: PostSignInRequest) =>
-  apiClient.post<PostSignInResponse>("/auth/v1/sign-in", data, {
-    headers: {
-      // Authorization: `bearer ${token.refreshToken}`,
-      Authorization: "",
-    },
-  });
+  /**
+   * refreshToken으로 accessToken갱신
+   */
+  silentRefresh = (refreshToken: string) =>
+    this.instance.post<BaseResponse<UserTokenResponse>>(
+      "/api/enfpy/auth/v1/token",
+      undefined,
+      {
+        headers: {
+          Authorization: `bearer ${refreshToken}`,
+        },
+      }
+    );
 
-const authApis = { postSignIn, postPhoneVerification, silentRefresh };
+  /**
+   * 핸드폰 번호 확인
+   * @param data.countryCode "+82"
+   * @param data.nationalNumber "1022224444"
+   * @param data.phoneNumber "+821089265827"
+   */
+  postPhoneVerification = (data: PostPhoneVerificationRequest) =>
+    this.instance.post<PostPhoneVerificationResponse>(
+      "/auth/v1/phone-verification",
+      data
+    );
+}
 
-export default authApis;
+export default AuthApi;
