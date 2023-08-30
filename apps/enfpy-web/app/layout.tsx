@@ -1,4 +1,5 @@
 import AuthProvider from "../context/AuthProvider";
+import TokenUpdate from "../context/TokenUpdate";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <TokenUpdate>{children}</TokenUpdate>
+        </AuthProvider>
       </body>
     </html>
   );

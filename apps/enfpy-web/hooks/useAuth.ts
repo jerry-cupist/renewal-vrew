@@ -74,18 +74,4 @@ const useAuth = () => {
   };
 };
 
-/**
- * 자동 로그인
- */
-export const useAutoLogin = () => {
-  const session = useSession();
-  const auth = useAuth();
-
-  useEffect(() => {
-    if (session.data && auth.isSignIn) {
-      tokenUtil.update(session.data.refreshToken);
-    }
-  }, [session.data, auth.isSignIn]);
-};
-
 export default useAuth;
