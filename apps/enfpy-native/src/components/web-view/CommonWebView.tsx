@@ -31,7 +31,6 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
     useImperativeHandle(ref, () => webViewRef.current);
 
     const initMessageHandler = useCallback(() => {
-      console.log('??', createMessageHandler);
       if (webViewRef.current && createMessageHandler) {
         messageHandlerRef.current = createMessageHandler({
           id,
@@ -43,7 +42,6 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
 
     const handleMessage = (e: WebViewMessageEvent) => {
       console.log('message received', JSON.parse(e.nativeEvent.data));
-      console.log(messageHandlerRef.current);
       messageHandlerRef.current?.(e);
     };
 
