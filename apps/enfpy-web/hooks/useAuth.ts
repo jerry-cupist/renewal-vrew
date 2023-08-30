@@ -12,6 +12,7 @@ import ENPFY_URL from "../constant/url";
 import tokenUtil from "../utils/tokenUtil";
 
 const handleSignInFailure = (data: SignInResponse) => {
+  console.error(data.error);
   tokenUtil.delete();
 };
 
@@ -23,6 +24,7 @@ const signInWithPhone = (
     CREDENTIALS_TYPE.TELEPHONE,
     {
       callbackUrl: ENPFY_URL.ROOT,
+      redirect: false,
       ...options,
     },
     {
@@ -47,6 +49,7 @@ const silentRefresh = (refreshToken: string, options: SignInOptions = {}) =>
     CREDENTIALS_TYPE.TOKEN,
     {
       callbackUrl: ENPFY_URL.ROOT,
+      redirect: false,
       ...options,
     },
     { refreshToken }
