@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 export default function Page(): JSX.Element {
   const auth = useAuth();
   const session = useSession();
-  console.log(session.data);
 
   return (
     <>

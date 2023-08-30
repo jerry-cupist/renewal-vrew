@@ -13,6 +13,7 @@ enfpyApiClient.setConfig({
 
 /**
  * 만료시 갱신요청
+ * @note axios와 localStorage에 토큰 갱신은 next-auth events.signIn에서 처리됩니다.
  */
 enfpyApiClient.addEventListener("onUnauthorizedRequest", () => {
   const token = tokenUtil.get();

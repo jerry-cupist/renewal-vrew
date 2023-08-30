@@ -5,14 +5,12 @@ import { getPhoneNumber } from "@vrew/utils";
 import { FormEventHandler, useState } from "react";
 import enfpyApiUtil from "../../apis";
 import useAuth from "../../hooks/useAuth";
-import { useSession } from "next-auth/react";
 
 export default function LoginForm(): JSX.Element {
   const [phoneNumber, setPhoneNumber] = useState("01089265827");
   const [phoneVerification, setPhoneVerification] =
     useState<PostPhoneVerificationResponse>();
 
-  const session = useSession();
   const auth = useAuth();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {

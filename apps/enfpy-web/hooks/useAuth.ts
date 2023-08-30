@@ -7,7 +7,6 @@ import {
   signOut,
   useSession,
 } from "next-auth/react";
-import { useEffect } from "react";
 import { CREDENTIALS_TYPE } from "../app/api/auth/[...nextauth]/route";
 import ENPFY_URL from "../constant/url";
 import tokenUtil from "../utils/tokenUtil";
