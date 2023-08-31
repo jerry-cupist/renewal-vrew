@@ -14,6 +14,7 @@ import tokenUtil from "../utils/tokenUtil";
 const handleSignInFailure = (data: SignInResponse) => {
   console.error(data.error);
   tokenUtil.delete();
+  throw new Error(data?.error || "로그인 요청중 에러가 발생했습니다");
 };
 
 const signInWithPhone = (
