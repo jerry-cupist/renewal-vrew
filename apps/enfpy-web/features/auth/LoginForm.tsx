@@ -5,6 +5,8 @@ import { getPhoneNumber } from "@vrew/utils";
 import { FormEventHandler, useState } from "react";
 import enfpyApiUtil from "../../apis";
 import useAuth from "../../hooks/useAuth";
+import { useRouter } from "next/navigation";
+import ENPFY_URL from "../../constant/url";
 
 export default function LoginForm(): JSX.Element {
   const [phoneNumber, setPhoneNumber] = useState("01089265827");
@@ -12,6 +14,7 @@ export default function LoginForm(): JSX.Element {
     useState<PostPhoneVerificationResponse>();
 
   const auth = useAuth();
+  const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -31,6 +34,8 @@ export default function LoginForm(): JSX.Element {
       phoneVerificationId: phoneVerification.data.phoneVerificationId,
       loginAccountIdentification: phoneVerification.data.phoneNumber,
     });
+
+    router.push(ENPFY_URL.ROOT);
   };
 
   /**
