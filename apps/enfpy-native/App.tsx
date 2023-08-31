@@ -1,18 +1,18 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {MainStackNavigation} from './src/navigation/main-stack/MainStackNavigation';
-import {BridgeProvider} from './src/contexts/web-bridge/BridgeContext';
+import {WebViewContainer} from './src/contexts/web-bridge/WebViewContext';
 
 const App = () => {
   return (
-    <BridgeProvider>
+    <WebViewContainer>
       <StatusBar
         backgroundColor="transparent"
         translucent
         barStyle="light-content"
       />
       <MainStackNavigation />
-    </BridgeProvider>
+    </WebViewContainer>
   );
 };
 
