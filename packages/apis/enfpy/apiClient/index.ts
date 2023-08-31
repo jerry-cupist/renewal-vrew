@@ -1,45 +1,27 @@
-import axios, {
-  AxiosInterceptorOptions,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from "axios";
+import axios, { AxiosInstance } from "axios";
+
+export interface CustomHeader {
+  "device-type": "ios" | "android" | "web";
+  "device-name": string;
+  "device-app-version": string;
+  "device-os-version": string;
+  "device-identification": string;
+}
+
+type DefaultAxiosHeaders = AxiosInstance["defaults"]["headers"];
+export type EnfpyAxiosHeaders = DefaultAxiosHeaders & CustomHeader;
+
+/**
+ * 헤더 속성을 확장했습니다.
+ */
+export interface EnfpyAxiosInstance extends AxiosInstance {
+  defaults: Omit<AxiosInstance["defaults"], "headers"> & {
+    headers: EnfpyAxiosHeaders;
+  };
+}
 
 const apiClient = axios.create({
   timeout: 3000,
-});
-
-const handleRequestFulfilled = async (config: InternalAxiosRequestConfig) => {
-  console.log("[AXIOS_INTERCEPTOR] REQ fulfilled");
-
-  return config;
-};
-const handleRequestRejected = (
-  error: any,
-  options?: AxiosInterceptorOptions
-) => {
-  console.log("[AXIOS_INTERCEPTOR]  REQ rejected", { error });
-};
-
-apiClient.interceptors.request.use(
-  handleRequestFulfilled,
-  handleRequestRejected
-);
-
-const handleResponseFulfilled = async (response: AxiosResponse) => {
-  console.log("[AXIOS_INTERCEPTOR]  RES fulfilled");
-  return response;
-};
-
-const handleResponseRejected = async (
-  error: any,
-  options?: AxiosInterceptorOptions
-) => {
-  console.log("[AXIOS_INTERCEPTOR]  RES rejected", { error });
-};
-
-apiClient.interceptors.response.use(
-  handleResponseFulfilled,
-  handleResponseRejected
-);
+}) as EnfpyAxiosInstance;
 
 export default apiClient;
