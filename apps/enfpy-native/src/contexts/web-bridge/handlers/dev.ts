@@ -2,13 +2,13 @@ import {
   WebBridgeActions,
   WebBridgeActionDatas,
 } from '@vrew/modules/web-bridge/types/action';
-import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
+import {createMessageHandler} from '@vrew/modules/web-bridge/utils';
 
-const consoleLog = ({
-  data,
-}: RequestMessage<WebBridgeActionDatas[WebBridgeActions.DEV_CONSOLE_LOG]>) => {
+const consoleLog = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.DEV_CONSOLE_LOG]
+>(({data}) => {
   console.log(data.message);
-};
+});
 
 export const devHandlers = {
   [WebBridgeActions.DEV_CONSOLE_LOG]: consoleLog,

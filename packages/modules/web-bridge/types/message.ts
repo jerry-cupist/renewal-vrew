@@ -1,4 +1,6 @@
 import { WebBridgeActions } from "./action";
+import WebView from "react-native-webview";
+import { NavigationProp } from "@react-navigation/native";
 
 export enum MessageError {
   NOT_REGISTERED_ACTION = 4004,
@@ -30,3 +32,14 @@ export interface ErrorMessage {
   request_id: number;
   error: BridgeError;
 }
+
+export interface CreateMessageHandlerArgs {
+  navigation: NavigationProp<any>;
+  webView: WebView;
+  id: string;
+}
+
+export type WebBridgeMessageHandler<TPayload = any, TResult = void> = (
+  payload: RequestMessage<TPayload>,
+  messageHandlerArgs: CreateMessageHandlerArgs
+) => TResult | Promise<TResult>;

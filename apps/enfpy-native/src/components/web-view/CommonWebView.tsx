@@ -2,7 +2,6 @@ import React, {
   forwardRef,
   useRef,
   useImperativeHandle,
-  useCallback,
   useId,
   useEffect,
 } from 'react';
@@ -12,8 +11,9 @@ import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
 import {useNavigation} from '@react-navigation/native';
 import {
   MessageHandler,
-  useBridge,
-} from '../../contexts/web-bridge/BridgeContext';
+  useWebViewHandler,
+} from '../../contexts/web-bridge/WebViewContext';
+import {createMessageHandler} from '../../contexts/web-bridge/handlers';
 
 export interface CommonWebViewProps extends WebViewProps {
   source: WebViewSourceUri;
@@ -23,35 +23,36 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
   (props, ref) => {
     const id = useId();
     const navigation = useNavigation();
-    const {createMessageHandler} = useBridge();
-
-    const webViewRef = useRef<WebView>(null);
-    const messageHandlerRef = useRef<MessageHandler | null>(null);
-
+    const webViewRef = useRef<WebView | null>(null);
+    const messageHandler = useRef<MessageHandler>();
     useImperativeHandle(ref, () => webViewRef.current);
+    const {registerWebView} = useWebViewHandler();
 
-    const initMessageHandler = useCallback(() => {
-      if (webViewRef.current && createMessageHandler) {
-        messageHandlerRef.current = createMessageHandler({
-          id,
-          webView: webViewRef.current,
-          navigation,
-        });
+    useEffect(() => {
+      if (webViewRef.current) {
+        registerWebView({id, webView: webViewRef.current});
       }
-    }, [createMessageHandler, id, navigation]);
+    }, [registerWebView, id]);
 
     const handleMessage = (e: WebViewMessageEvent) => {
       console.log('message received', JSON.parse(e.nativeEvent.data));
-      messageHandlerRef.current?.(e);
+      messageHandler.current?.(e);
     };
 
-    useEffect(() => {
-      initMessageHandler();
-    }, [initMessageHandler]);
+    const initWebView = (webView: WebView) => {
+      if (webView) {
+        messageHandler.current = createMessageHandler({
+          id,
+          webView: webView,
+          navigation,
+        });
+        webViewRef.current = webView;
+      }
+    };
 
     return (
       <WebView
-        ref={webViewRef}
+        ref={initWebView}
         source={props.source}
         onMessage={handleMessage}
         style={styles.container}
