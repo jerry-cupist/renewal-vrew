@@ -14,6 +14,7 @@ import {
   MessageHandler,
   useBridge,
 } from '../../contexts/web-bridge/BridgeContext';
+import {WEB_URL} from '@env';
 
 export interface CommonWebViewProps extends WebViewProps {
   source: WebViewSourceUri;
@@ -50,12 +51,14 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
     }, [initMessageHandler]);
 
     return (
-      <WebView
-        ref={webViewRef}
-        source={props.source}
-        onMessage={handleMessage}
-        style={styles.container}
-      />
+      <>
+        <WebView
+          ref={webViewRef}
+          source={{uri: WEB_URL + props.source.uri}}
+          onMessage={handleMessage}
+          style={styles.container}
+        />
+      </>
     );
   },
 );
