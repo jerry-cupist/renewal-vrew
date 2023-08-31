@@ -1,3 +1,6 @@
+import AuthProvider from "../context/AuthProvider";
+import TokenUpdate from "../context/TokenUpdate";
+
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +8,11 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          <TokenUpdate>{children}</TokenUpdate>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
