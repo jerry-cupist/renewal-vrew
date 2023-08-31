@@ -17,5 +17,5 @@ const syncToken = createMessageHandler<
 });
 
 export const authHandlers = createMessageHandlers({
-  [WebBridgeActions.DEV_CONSOLE_LOG]: syncToken,
+  [WebBridgeActions.AUTH_TOKEN_SYNC]: syncToken,
 });

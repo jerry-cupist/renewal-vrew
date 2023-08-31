@@ -3,7 +3,10 @@ import {
   WebBridgeActions,
   WebBridgeActionDatas,
 } from '@vrew/modules/web-bridge/types/action';
-import {createMessageHandler} from '@vrew/modules/web-bridge/utils';
+import {
+  createMessageHandler,
+  createMessageHandlers,
+} from '@vrew/modules/web-bridge/utils';
 
 const navigate = createMessageHandler<
   WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
@@ -79,7 +82,7 @@ const setOptions = createMessageHandler<
   navigation.setOptions(data);
 });
 
-export const navigationHandlers = {
+export const navigationHandlers = createMessageHandlers({
   [WebBridgeActions.NAVIGATION_NAVIGATE]: navigate,
   [WebBridgeActions.NAVIGATION_GO_BACK]: goBack,
   [WebBridgeActions.NAVIGATION_CAN_GO_BACK]: canGoBack,
@@ -90,4 +93,4 @@ export const navigationHandlers = {
   [WebBridgeActions.NAVIGATION_RESET]: reset,
   [WebBridgeActions.NAVIGATION_RELOAD]: reload,
   [WebBridgeActions.NAVIGATION_SET_OPTIONS]: setOptions,
-};
+});

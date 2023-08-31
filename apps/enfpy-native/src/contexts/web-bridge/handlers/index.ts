@@ -11,11 +11,13 @@ import {
   createErrorMessage,
   createResponseMessage,
 } from '@vrew/modules/web-bridge/utils';
+import {authHandlers} from './auth';
 
 // TODO: createHandler 등을 통해 각 핸들러의 매개변수와 반환값이 추론되도록 변경
 const webBridgeMessageHandler = {
   ...navigationHandlers,
   ...devHandlers,
+  ...authHandlers,
 };
 
 export const createMessageHandler =
