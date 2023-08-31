@@ -54,6 +54,10 @@ const createAuthApi = (axiosInstance: AxiosInstance) => ({
 
   /**
    * refreshToken으로 accessToken갱신
+   *
+   * @note refresh_token_reuse_error
+   * @note invalid_request_error
+   * @note both country from CF and ip no exist
    */
   silentRefresh: (refreshToken: string) =>
     axiosInstance<BaseResponse<UserTokenResponse>>({
