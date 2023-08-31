@@ -5,6 +5,7 @@ import NextAuth, { AuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import ENPFY_URL from "../../../../constant/url";
 import enfpyApiClient from "../../../../apis";
+import { AxiosError } from "axios";
 
 /**
  * All requests to /api/auth/*(signIn, callback, signOut, etc.)
@@ -112,7 +113,17 @@ export const authOptions: AuthOptions = {
           throw new Error("refreshToken이 존재하지 않습니다.");
         }
 
-        const response = await enfpyApiClient.auth.silentRefresh(refreshToken);
+        const response = await enfpyApiClient.auth
+          .silentRefresh(refreshToken)
+          .catch((error: AxiosError) => {
+            const response = error?.response;
+            const errorMessage =
+              (error?.response?.data as any)?.content?.type ||
+              "네트워크 에러 발생";
+            const status = response?.status;
+
+            throw new Error(`[${status}] ${errorMessage}`);
+          });
         const token = response.data.data;
 
         const { data: profileResponse } = await enfpyApiClient.user.getProfile(
