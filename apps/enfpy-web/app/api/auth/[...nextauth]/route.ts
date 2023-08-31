@@ -162,7 +162,7 @@ export const authOptions: AuthOptions = {
     // Seconds - How long until an idle session expires and is no longer valid.
     maxAge: SESSION_MAX_AGE,
   },
-  // @see https://next-auth.js.org/configuration/options#jwt
+  /** @see https://next-auth.js.org/configuration/options#jwt */
   jwt: {
     // The maximum age of the NextAuth.js issued JWT in seconds.
     // Defaults to `session.maxAge`.

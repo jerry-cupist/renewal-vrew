@@ -17,6 +17,7 @@ enfpyApiClient.setConfig({
  */
 enfpyApiClient.addEventListener("onUnauthorizedRequest", () => {
   const token = tokenUtil.get();
+  console.log("[onUnauthorizedRequest]", { token });
   tokenUtil.delete();
   if (!token.refreshToken) {
     return;
