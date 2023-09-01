@@ -9,4 +9,4 @@ import { authKeys } from "./auth";
  */
 export const queries = mergeQueryKeys(authKeys);
 
-export type QueryKes = inferQueryKeyStore<typeof queries>;
+export type QueryKeys = inferQueryKeyStore<typeof queries>;
