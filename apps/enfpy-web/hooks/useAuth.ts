@@ -49,7 +49,7 @@ const signInWithPhone = (
  */
 const silentRefresh = (refreshToken: string, options: SignInOptions = {}) =>
   signIn(
-    CREDENTIALS_TYPE.REFRESH_TOKEN,
+    CREDENTIALS_TYPE.TOKEN,
     {
       callbackUrl: ENPFY_URL.ROOT,
       redirect: false,
