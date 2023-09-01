@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  focusManager,
   QueryClient,
   QueryClientProvider as _QueryClientProvider,
 } from "@tanstack/react-query";
@@ -23,27 +22,28 @@ const queryClient = new QueryClient({});
  * RN에서 App 포커스 시점을 구독후 메세지로 전달하는 방법도 있다.
  * @see https://tanstack.com/query/v4/docs/react/guides/window-focus-refetching#custom-window-focus-event
  * @see https://tanstack.com/query/v4/docs/react/guides/window-focus-refetching#managing-focus-in-react-native
+ * @note 이 코드로 인해 RN에서 스크린 이동간 리패칭이 동작하지 않음
  */
-focusManager.setEventListener((handleFocus) => {
-  // Listen to visibilitychange and focus
-  if (typeof window !== "undefined" && window.addEventListener) {
-    // @ts-ignore
-    window.addEventListener("visibilitychange", handleFocus, false);
-    // @ts-ignore
-    window.addEventListener("focus", handleFocus, false);
-  }
 
-  return () => {
-    // Be sure to unsubscribe if a new handler is set
-    // @ts-ignore
-    window.removeEventListener("visibilitychange", handleFocus);
-    // @ts-ignore
-    window.removeEventListener("focus", handleFocus);
-  };
-});
+// focusManager.setEventListener((handleFocus) => {
+//   // Listen to visibilitychange and focus
+//   if (typeof window !== "undefined" && window.addEventListener) {
+//     // @ts-ignore
+//     window.addEventListener("visibilitychange", handleFocus, false);
+//     // @ts-ignore
+//     window.addEventListener("focus", handleFocus, false);
+//   }
+
+//   return () => {
+//     // Be sure to unsubscribe if a new handler is set
+//     // @ts-ignore
+//     window.removeEventListener("visibilitychange", handleFocus);
+//     // @ts-ignore
+//     window.removeEventListener("focus", handleFocus);
+//   };
+// });
 
 export default function QueryClientProvider({ children }: PropsWithChildren) {
-  console.log(CONFIG);
   return (
     <_QueryClientProvider client={queryClient}>
       {CONFIG.NEXT_PUBLIC_REACT_QUERY_DEV_TOOLS && (
