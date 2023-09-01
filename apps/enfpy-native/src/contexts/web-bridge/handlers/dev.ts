@@ -10,7 +10,7 @@ import {
 const consoleLog = createMessageHandler<
   WebBridgeActionDatas[WebBridgeActions.DEV_CONSOLE_LOG]
 >(({data}) => {
-  console.log(data.message);
+  console.log('✉️   [LOG]', data.message);
 });
 
 export const devHandlers = createMessageHandlers({

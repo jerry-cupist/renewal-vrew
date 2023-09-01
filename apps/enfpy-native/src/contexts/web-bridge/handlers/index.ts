@@ -39,8 +39,6 @@ export const createMessageHandler =
       return false;
     }
 
-    console.log({action, requestMessage});
-
     // 에러 전송(정의되지 않은 action)
     if (typeof handler !== 'function') {
       const errorMessage = createErrorMessage(action, requestId, {
