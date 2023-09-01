@@ -21,6 +21,7 @@ import {
   createQueryKeys,
   inferQueryKeys,
 } from "@lukemorales/query-key-factory";
+import { TIME } from "../../constant/time";
 
 /**
  * @see https://www.npmjs.com/package/@lukemorales/query-key-factory
@@ -52,7 +53,13 @@ export const useSession = <T = Session | null>(
     T,
     AuthQueryKeys["session"]["queryKey"]
   >
-) => useQuery({ ...authKeys.session(), ...options });
+) =>
+  useQuery({
+    ...authKeys.session(),
+    staleTime: TIME.MINUTE * 30,
+    cacheTime: TIME.DAY,
+    ...options,
+  });
 
 /**
  * 토큰 조회
