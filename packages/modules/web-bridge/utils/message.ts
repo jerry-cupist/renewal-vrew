@@ -6,13 +6,20 @@ import {
 } from "../types/message";
 import { WebBridgeActionDatas, WebBridgeActions } from "../types/action";
 
+const createRequestIdUtil = () => {
+  let requestId = 0;
+  return { get: () => requestId, increase: () => ++requestId };
+};
+
+const requestIdUtil = createRequestIdUtil();
+
 export const createRequestMessage = <D>(
   action: WebBridgeActions,
   data: D
 ): RequestMessage => ({
   type: "request",
   action,
-  request_id: 1,
+  request_id: requestIdUtil.increase(),
   data,
 });
 
