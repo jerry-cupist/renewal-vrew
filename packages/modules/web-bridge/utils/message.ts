@@ -13,9 +13,12 @@ const createRequestIdUtil = () => {
 
 const requestIdUtil = createRequestIdUtil();
 
-export const createRequestMessage = <D>(
+export const createRequestMessage = <
+  ActionType extends WebBridgeActions,
+  DataType extends WebBridgeActionDatas[ActionType]
+>(
   action: WebBridgeActions,
-  data: D
+  data: DataType
 ): RequestMessage => ({
   type: "request",
   action,
@@ -45,10 +48,53 @@ export const createErrorMessage = (
   error,
 });
 
-export const postMessage = <T extends keyof WebBridgeActionDatas>(
-  action: T,
-  data?: WebBridgeActionDatas[T]
-) => {
-  const message = createRequestMessage(action, data);
-  (window as any).ReactNativeWebView?.postMessage(JSON.stringify(message));
-};
+export const postMessage = <
+  ActionType extends WebBridgeActions,
+  DataType extends WebBridgeActionDatas[ActionType]
+>(
+  action: ActionType,
+  data?: DataType
+) =>
+  new Promise<ResponseMessage>((resolve, reject) => {
+    let timeId: null | number = null;
+    let handleMessage = (event: MessageEvent<string>) => {};
+
+    try {
+      const webView =
+        typeof window !== "undefined"
+          ? (window as any).ReactNativeWebView
+          : null;
+
+      if (!webView) {
+        throw new Error("[POST_MESSAGE] 웹뷰를 찾을 수 없습니다");
+      }
+
+      timeId = setTimeout(() => {
+        reject(new Error(`[POST_MESSAGE]_[TIMEOUT] ${action}`));
+      }, 3000);
+
+      const message = createRequestMessage(action, data);
+      webView.postMessage(JSON.stringify(message));
+
+      handleMessage = (event: MessageEvent<string>) => {
+        window.removeEventListener("message", handleMessage);
+        try {
+          const { data } = event;
+
+          if (typeof timeId === "number") {
+            clearTimeout(timeId);
+          }
+
+          const receivedMessage = JSON.parse(data) as ResponseMessage;
+          resolve(receivedMessage);
+        } catch (error: unknown) {
+          reject(error);
+        }
+      };
+
+      window.addEventListener("message", handleMessage);
+    } catch (error: unknown) {
+      window.removeEventListener("message", handleMessage);
+      reject(error);
+    }
+  });
