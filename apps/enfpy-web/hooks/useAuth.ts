@@ -1,15 +1,17 @@
 "use client";
-import { PostSignInRequest, UserToken } from "@vrew/apis/enfpy/auth";
+import { PostSignInRequest } from "@vrew/apis/enfpy/auth";
 import {
   SignInOptions,
   SignInResponse,
   signIn,
   signOut,
-  useSession,
 } from "next-auth/react";
 import { CREDENTIALS_TYPE } from "../app/api/auth/[...nextauth]/route";
 import ENPFY_URL from "../constant/url";
 import tokenUtil from "../utils/tokenUtil";
+import { useNavigation } from "./navigation/useNavigation";
+import { useCallback } from "react";
+import { useSession } from "./server/auth";
 
 const handleSignInFailure = (data: SignInResponse) => {
   console.error(data.error);
@@ -47,7 +49,7 @@ const signInWithPhone = (
  */
 const silentRefresh = (refreshToken: string, options: SignInOptions = {}) =>
   signIn(
-    CREDENTIALS_TYPE.TOKEN,
+    CREDENTIALS_TYPE.REFRESH_TOKEN,
     {
       callbackUrl: ENPFY_URL.ROOT,
       redirect: false,
@@ -63,17 +65,29 @@ const silentRefresh = (refreshToken: string, options: SignInOptions = {}) =>
   });
 
 const useAuth = () => {
+  const navigation = useNavigation();
   const session = useSession();
-  const isSignIn =
-    Boolean(session.data?.accessToken) && session.status === "authenticated";
-  const isLoading = session.status === "loading";
+  const isSignIn = Boolean(session.data?.expires);
+  const refetchSession = session.refetch;
+
+  const _signOut = useCallback(
+    (callbackUrl: string = ENPFY_URL.ROOT) =>
+      signOut({
+        redirect: false,
+      }).then(() => {
+        refetchSession();
+        navigation.navigate(callbackUrl);
+      }),
+    [refetchSession]
+  );
 
   return {
     isSignIn,
     signIn: signInWithPhone,
     silentRefresh,
-    signOut,
-    isLoading,
+    signOut: _signOut,
+    isLoading: session.isLoading,
+    isRefetching: session.isRefetching,
   };
 };
 
