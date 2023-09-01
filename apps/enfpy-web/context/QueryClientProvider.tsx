@@ -14,7 +14,7 @@ import CONFIG from "../constant/config";
  * @note By default, React Query Devtools are only included in bundles when process.env.NODE_ENV === 'development', so you don't need to worry about excluding them during a production build.
  * @see https://tanstack.com/query/v4/docs/react/devtools
  */
-const queryClient = new QueryClient({});
+export const queryClient = new QueryClient({});
 
 /**
  * 윈도우 포커스 시점을 커스텀한다.
