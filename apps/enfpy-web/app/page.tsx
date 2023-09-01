@@ -23,7 +23,7 @@ export default function Page(): JSX.Element {
 
           <div>
             {auth.isSignIn && (
-              <button onClick={() => auth.signOut()}>로그아웃</button>
+              <button onClick={() => auth.signOut({})}>로그아웃</button>
             )}
           </div>
 

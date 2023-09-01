@@ -1,8 +1,7 @@
 import enfpyApiClient from "@vrew/apis/enfpy";
 import tokenUtil from "../utils/tokenUtil";
-import { silentRefresh } from "../hooks/useAuth";
 import { queryClient } from "../context/QueryClientProvider";
-import { authKeys, getSession } from "../hooks/server/auth";
+import { authKeys, getSession, silentRefresh } from "../hooks/server/auth";
 
 /**
  * apiClient에 대한 환경 설정
@@ -23,7 +22,7 @@ enfpyApiClient.addEventListener("onUnauthorizedRequest", async () => {
     await silentRefresh(token.refreshToken);
 
     // 세션 업데이트
-    queryClient.fetchQuery(authKeys.getSession(), getSession);
+    queryClient.fetchQuery({ ...authKeys.session() });
   }
 });
 
