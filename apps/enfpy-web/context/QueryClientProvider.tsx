@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import React, { PropsWithChildren } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import CONFIG from "../constant/config";
 
 /**
  * TODO: 디폴트 설정
@@ -42,9 +43,12 @@ focusManager.setEventListener((handleFocus) => {
 });
 
 export default function QueryClientProvider({ children }: PropsWithChildren) {
+  console.log(CONFIG);
   return (
     <_QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {CONFIG.NEXT_PUBLIC_REACT_QUERY_DEV_TOOLS && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
       {children}
     </_QueryClientProvider>
   );

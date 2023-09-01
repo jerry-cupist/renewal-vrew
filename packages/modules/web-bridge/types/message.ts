@@ -39,11 +39,7 @@ export interface CreateMessageHandlerArgs {
   id: string;
 }
 
-<<<<<<< HEAD
 export type WebBridgeMessageHandler<TPayload = any, TResult = any> = (
-=======
-export type WebBridgeMessageHandler<TPayload = any, TResult = void> = (
->>>>>>> d70c0acd15d57a388898c7531e99829fa5906a0a
   payload: RequestMessage<TPayload>,
   messageHandlerArgs: CreateMessageHandlerArgs
 ) => TResult | Promise<TResult>;
