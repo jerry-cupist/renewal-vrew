@@ -9,11 +9,12 @@ import WebView from 'react-native-webview';
 export const HomeScreen = () => {
   const webviewRef = useRef<WebView>(null);
   return (
-    <>
-      <CommonWebView
-        ref={webviewRef}
-        source={{uri: ScreenPaths[Screens.HOME]}}
-      />
-    </>
+    <CommonWebView
+      ref={webviewRef}
+      source={{uri: ScreenPaths[Screens.HOME]}}
+      scrollEnabled={false}
+      nestedScrollEnabled={false}
+      bounces={false}
+    />
   );
 };

@@ -1,10 +1,17 @@
 "use client";
 
-export function Button(): JSX.Element {
+interface ButtonProps {
+  label: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  radius?: "middle" | "full";
+}
+
+export function Button(props: ButtonProps): JSX.Element {
+  const { label, leftIcon, rightIcon, radius } = props;
   return (
-    // eslint-disable-next-line no-alert
     <button onClick={(): void => alert("booped")} type="button">
-      공통 버튼
+      {label}
     </button>
   );
 }
