@@ -1,17 +1,14 @@
-import {
-  WebBridgeActionDatas,
-  WebBridgeActions,
-} from "@vrew/modules/web-bridge/types/action";
 import { useBridgeMessageCreator } from "@vrew/modules/web-bridge/hooks/useBridgeMessageCreator";
 import { useRouter } from "next/navigation";
 import { NavigateOptions as _NavigateOptions } from "next/dist/shared/lib/app-router-context";
 import CONFIG from "../../constant/config";
-import {
-  ScreenName,
-  ValueOfScreenName,
-} from "@vrew/modules/web-bridge/constants/screen-enfpy";
 import { NavigateArg } from "@vrew/modules/web-bridge/types/data/navigation";
 import { useCallback } from "react";
+import {
+  PathName,
+  WebPathnameType,
+  convertToScreenNameFromWebUrl,
+} from "@vrew/modules/web-bridge/constants/screen-enfpy";
 
 interface NavigateOptions extends _NavigateOptions {
   /** RN에서만 전달된다. */
@@ -20,23 +17,7 @@ interface NavigateOptions extends _NavigateOptions {
 
 /**
  *
- * @example convertScreenName("/profile/mbti") // "profile/mbti"
- * TODO: ScreenName이 컨벤션으로 생성되는 것이 아쉽다. 좀 더 강하게 묶는 방법 고민
- */
-const convertScreenName = (pathName: string) => {
-  if (pathName === "/") {
-    return ScreenName.Root;
-  }
-
-  return pathName
-    .split("/")
-    .filter((item) => item !== "")
-    .join("/") as ValueOfScreenName;
-};
-
-/**
- *
- * TODO: next/navigation useRouter 와 함께 사용하는 것을 고려해야 한다.
+ * TODO: goBack에 분기처리
  */
 export const useNavigation = () => {
   const bridge = useBridgeMessageCreator();
@@ -52,7 +33,9 @@ export const useNavigation = () => {
         router.push(href, options);
       } else {
         const { params } = options || {};
-        const screenName = convertScreenName(href);
+        const screenName = convertToScreenNameFromWebUrl(
+          href as WebPathnameType
+        );
 
         bridge.navigation.navigate({
           screenName,
