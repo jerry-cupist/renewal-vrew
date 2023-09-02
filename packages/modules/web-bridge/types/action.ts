@@ -1,4 +1,3 @@
-import { UserToken } from "./data/auth";
 import { ConsoleLogArgs } from "./data/dev";
 import {
   NavigateArg,
@@ -27,10 +26,6 @@ export enum WebBridgeActions {
 
   /** dev */
   DEV_CONSOLE_LOG = "dev-console-log",
-
-  /** auth */
-  /** 토큰 동기화 */
-  AUTH_TOKEN_SYNC = "auth-token-sync",
 }
 
 /**
@@ -50,5 +45,4 @@ export type WebBridgeActionDatas = {
   [WebBridgeActions.NAVIGATION_RELOAD]: undefined;
   [WebBridgeActions.NAVIGATION_SET_OPTIONS]: OptionArgs;
   [WebBridgeActions.DEV_CONSOLE_LOG]: ConsoleLogArgs;
-  [WebBridgeActions.AUTH_TOKEN_SYNC]: UserToken;
 };
