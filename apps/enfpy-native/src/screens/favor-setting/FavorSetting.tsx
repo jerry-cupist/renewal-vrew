@@ -12,7 +12,7 @@ export const FavorSettingScreen = () => {
     <>
       <CommonWebView
         ref={webviewRef}
-        source={{uri: ScreenPaths[Screens.HOME_FAVOR_SETTING]}}
+        source={{uri: ScreenPaths[Screens.FAVOR_SETTING]}}
       />
     </>
   );

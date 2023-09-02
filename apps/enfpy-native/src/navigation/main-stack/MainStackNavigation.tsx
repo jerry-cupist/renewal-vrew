@@ -20,7 +20,7 @@ export const MainStackNavigation = () => {
         <Stack.Screen name={Screens.ROOT} component={RootScreen} />
         <Stack.Screen name={Screens.MAIN} component={MainBottomTabNavigation} />
         <Stack.Screen
-          name={Screens.HOME_FAVOR_SETTING}
+          name={Screens.FAVOR_SETTING}
           component={FavorSettingScreen}
         />
         <Stack.Screen name={Screens.LOGIN} component={LoginScreen} />

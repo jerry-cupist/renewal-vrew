@@ -1,19 +1,20 @@
 "use client";
 
-import { Header } from "@vrew/ui";
-import { useNavigation } from "@hooks/navigation/useNavigation";
-import Anchor from "@components/Anchor";
 import { Screens } from "@vrew/modules/web-bridge/constants/screen-enfpy";
+import { useNavigation } from "@hooks/navigation/useNavigation";
 
 export default function Page(): JSX.Element {
   const navigation = useNavigation();
 
-  const onPressFavorSetting = () => {};
+  const handlePressFavorSetting = () => {
+    navigation.navigate(Screens.FAVOR_SETTING);
+  };
   return (
     <>
-      <Header text="HOME" />
-      <h2>home</h2>
-      <Anchor screen={Screens.HOME_FAVOR_SETTING}>선호설정</Anchor>
+      <div>
+        <p>ENFPY</p>
+        <button onClick={handlePressFavorSetting}>선호설정</button>
+      </div>
     </>
   );
 }

@@ -8,8 +8,7 @@ export enum Screens {
   MAIN = "Main",
 
   HOME = "Home",
-  HOME_FAVOR_SETTING = "FavorSetting",
-
+  FAVOR_SETTING = "FavorSetting",
   PROFILE = "Profile",
   LOGIN = "Login",
 }
@@ -20,7 +19,7 @@ export const ScreenPaths = {
 
   [Screens.HOME]: "/home",
 
-  [Screens.HOME_FAVOR_SETTING]: "/favor-setting",
+  [Screens.FAVOR_SETTING]: "/favor-setting",
   [Screens.PROFILE]: "/profile",
   [Screens.LOGIN]: "/login",
 };
