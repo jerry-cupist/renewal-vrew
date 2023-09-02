@@ -16,7 +16,7 @@ interface AnchorProps extends LinkProps {
 const Anchor = ({
   children,
   onClick,
-  /** WEB_VIEW에서는 클릭을 동작하지 않는다. */
+  /** WEBVIEW에서는 클릭을 동작하지 않는다. */
   enableLink = CONFIG.IS_WEB,
   ...props
 }: PropsWithChildren<AnchorProps>) => {
