@@ -1,8 +1,8 @@
 "use client";
 
 import { MouseEventHandler, PropsWithChildren } from "react";
-import CONFIG from "../constant/config";
-import { useNavigation } from "../hooks/navigation/useNavigation";
+import CONFIG from "@constant/config";
+import { useNavigation } from "@hooks/navigation/useNavigation";
 import { Screens } from "@vrew/modules/web-bridge/constants/screen-enfpy";
 
 interface AnchorProps {

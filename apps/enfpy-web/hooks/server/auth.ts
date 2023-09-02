@@ -13,14 +13,14 @@ import {
   signOut,
   SignOutResponse,
 } from "next-auth/react";
-import tokenUtil from "../../utils/tokenUtil";
+import tokenUtil from "@utils/tokenUtil";
 import { PostSignInRequest } from "@vrew/apis/enfpy/auth";
-import { CREDENTIALS_TYPE } from "../../app/api/auth/[...nextauth]/route";
+import { CREDENTIALS_TYPE } from "@app/api/auth/[...nextauth]/route";
 import {
   createQueryKeys,
   inferQueryKeys,
 } from "@lukemorales/query-key-factory";
-import { TIME } from "../../constant/time";
+import { TIME } from "@constant/time";
 import {
   ScreenPaths,
   Screens,

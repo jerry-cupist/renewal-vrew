@@ -1,8 +1,8 @@
 "use client";
 
 import { Header } from "@vrew/ui";
-import { useNavigation } from "../../hooks/navigation/useNavigation";
-import Anchor from "../../components/Anchor";
+import { useNavigation } from "@hooks/navigation/useNavigation";
+import Anchor from "@components/Anchor";
 import { Screens } from "@vrew/modules/web-bridge/constants/screen-enfpy";
 
 export default function Page(): JSX.Element {

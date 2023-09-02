@@ -1,11 +1,11 @@
 "use client";
 
 import { Header } from "@vrew/ui";
-import useAuth from "../hooks/useAuth";
-import Anchor from "../components/Anchor";
-import { useSession } from "../hooks/server/auth";
+import useAuth from "@hooks/useAuth";
+import Anchor from "@components/Anchor";
+import { useSession } from "@hooks/server/auth";
 import { useEffect } from "react";
-import { useNavigation } from "../hooks/navigation/useNavigation";
+import { useNavigation } from "@hooks/navigation/useNavigation";
 import { Screens } from "@vrew/modules/web-bridge/constants/screen-enfpy";
 
 export default function Page(): JSX.Element {

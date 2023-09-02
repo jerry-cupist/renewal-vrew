@@ -3,7 +3,7 @@ import { GetProfileResponse } from "@vrew/apis/enfpy/user";
 import NextAuth, { AuthOptions, User } from "next-auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
-import enfpyApiClient from "../../../../apis";
+import enfpyApiClient from "apis";
 import { AxiosError } from "axios";
 import {
   ScreenPaths,

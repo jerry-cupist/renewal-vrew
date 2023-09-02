@@ -1,7 +1,7 @@
 import { useBridgeMessageCreator } from "@vrew/modules/web-bridge/hooks/useBridgeMessageCreator";
 import { useRouter } from "next/navigation";
 import { NavigateOptions as _NavigateOptions } from "next/dist/shared/lib/app-router-context";
-import CONFIG from "../../constant/config";
+import CONFIG from "@constant/config";
 import {
   ScreenPaths,
   Screens,

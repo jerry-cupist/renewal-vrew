@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
-import AuthProvider from "../context/AuthProvider";
-import QueryClientProvider from "../context/QueryClientProvider";
+import AuthProvider from "@context/AuthProvider";
+import QueryClientProvider from "@context/QueryClientProvider";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
