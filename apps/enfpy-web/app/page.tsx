@@ -49,7 +49,7 @@ export default function Page(): JSX.Element {
             <h4>withOutAuth</h4>
             <ul>
               <li>
-                <Anchor screen={Screens.LOGIN}>프로필 페이지</Anchor>
+                <Anchor screen={Screens.LOGIN}>로그인</Anchor>
               </li>
             </ul>
           </div>

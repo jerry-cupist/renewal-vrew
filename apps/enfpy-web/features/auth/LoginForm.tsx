@@ -35,7 +35,7 @@ export default function LoginForm(): JSX.Element {
       loginAccountIdentification: phoneVerification.data.phoneNumber,
     });
 
-    navigation.navigate(Screens.HOME);
+    navigation.navigate(Screens.MAIN);
   };
 
   /**

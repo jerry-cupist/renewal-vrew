@@ -13,7 +13,7 @@ export default function Page(): JSX.Element {
     <>
       <Header text="HOME" />
       <h2>home</h2>
-      <Anchor screen={Screens.FAVOR_SETTING}>선호설정</Anchor>
+      <Anchor screen={Screens.HOME_FAVOR_SETTING}>선호설정</Anchor>
     </>
   );
 }

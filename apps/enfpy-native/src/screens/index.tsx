@@ -6,6 +6,9 @@ import {
   Screens,
 } from '@vrew/modules/web-bridge/constants/screen-enfpy';
 
+/*
+TODO: 로그인 상태에 따른 스크린 분기
+*/
 export default function RootScreen() {
   const webviewRef = useRef<WebView>(null);
 
