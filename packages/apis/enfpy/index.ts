@@ -9,6 +9,7 @@ import apiClient, { EnfpyAxiosHeaders } from "./apiClient";
 import { createEventEmitter } from "./event";
 import createAuthApi, { AuthApi } from "./auth";
 import createUserApi, { UserApi } from "./user";
+import createRecommendationApi, { RecommendationApi } from "./recommendation";
 
 export type Event = {
   name: string;
@@ -76,12 +77,14 @@ export class EnfpyApiClient {
   private instance: AxiosInstance;
   auth: AuthApi;
   user: UserApi;
+  recommendation: RecommendationApi;
 
   constructor(params: {
     client: AxiosInstance;
     apis: {
       auth: AuthApi;
       user: UserApi;
+      recommendation: RecommendationApi;
     };
   }) {
     const { client, apis } = params;
@@ -96,6 +99,7 @@ export class EnfpyApiClient {
 
     this.auth = apis.auth;
     this.user = apis.user;
+    this.recommendation = apis.recommendation;
   }
 
   private handleResponseFulfilled = async (response: AxiosResponse) => {
@@ -169,5 +173,6 @@ export default new EnfpyApiClient({
   apis: {
     auth: createAuthApi(apiClient),
     user: createUserApi(apiClient),
+    recommendation: createRecommendationApi(apiClient),
   },
 });
