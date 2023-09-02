@@ -9,6 +9,9 @@ import {
   OptionArgs,
 } from "./data/navigation";
 
+/**
+ * WEB => RN 수신 액션
+ */
 export enum WebBridgeActions {
   /** 네비게이션 */
   NAVIGATION_NAVIGATE = "navigation-navigate",
@@ -26,9 +29,14 @@ export enum WebBridgeActions {
   DEV_CONSOLE_LOG = "dev-console-log",
 
   /** auth */
-  // 토큰 동기화
+  /** 토큰 동기화 */
   AUTH_TOKEN_SYNC = "auth-token-sync",
 }
+
+/**
+ * RN => Web 요청 액션
+ */
+export enum WebBridgeRequestActions {}
 
 export type WebBridgeActionDatas = {
   [WebBridgeActions.NAVIGATION_NAVIGATE]: NavigateArg;
