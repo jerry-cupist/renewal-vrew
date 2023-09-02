@@ -12,7 +12,6 @@ import {
 } from '../../contexts/web-bridge/WebViewContext';
 import {createMessageHandler} from '../../contexts/web-bridge/handlers';
 import useConfig from '../../hooks/useConfig';
-import {WEB_URL} from '@env';
 
 export interface CommonWebViewProps extends WebViewProps {
   source: WebViewSourceUri;
@@ -68,8 +67,8 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
 
     return (
       <WebView
-        ref={webViewRef}
-        source={props.source}
+        ref={onMounted}
+        source={{...source, uri}}
         onMessage={handleMessage}
         style={styles.container}
       />

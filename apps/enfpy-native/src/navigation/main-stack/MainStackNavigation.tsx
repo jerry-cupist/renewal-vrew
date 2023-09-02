@@ -2,12 +2,10 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {MainBottomTabNavigation} from '../main-bottom-tab/MainBottomTabNavigation';
-import Main from '../../screens/main/Main';
-import Sub from '../../screens/sub/Sub';
 import RootScreen from '../../screens';
 import LoginScreen from '../../screens/login';
 import ProfileScreen from '../../screens/profile';
-import {ScreenName} from '@vrew/modules/web-bridge/constants/screen-enfpy';
+import {Screens} from '@vrew/modules/web-bridge/constants/screen-enfpy';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,15 +16,10 @@ export const MainStackNavigation = () => {
         screenOptions={{
           headerShown: true,
         }}>
-        <Stack.Screen
-          name={ScreenName.Main}
-          component={MainBottomTabNavigation}
-        />
-        <Stack.Screen name={ScreenName.Root} component={RootScreen} />
-        <Stack.Screen name={ScreenName.Login} component={LoginScreen} />
-        <Stack.Screen name={ScreenName.Profile} component={ProfileScreen} />
-        <Stack.Screen name={ScreenName.Main} component={Main} />
-        <Stack.Screen name={ScreenName.Sub} component={Sub} />
+        <Stack.Screen name={Screens.ROOT} component={RootScreen} />
+        <Stack.Screen name={Screens.MAIN} component={MainBottomTabNavigation} />
+        <Stack.Screen name={Screens.LOGIN} component={LoginScreen} />
+        <Stack.Screen name={Screens.PROFILE} component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,7 +1,9 @@
 import React, {useRef} from 'react';
 import {CommonWebView} from '../../components/web-view/CommonWebView';
-import {ScreenName} from '@vrew/modules/web-bridge/constants/screen-enfpy';
-
+import {
+  ScreenPaths,
+  Screens,
+} from '@vrew/modules/web-bridge/constants/screen-enfpy';
 import WebView from 'react-native-webview';
 
 export const HomeScreen = () => {
@@ -10,7 +12,7 @@ export const HomeScreen = () => {
     <>
       <CommonWebView
         ref={webviewRef}
-        source={{uri: ScreenName.HomeTabScreen}}
+        source={{uri: ScreenPaths[Screens.HOME]}}
       />
     </>
   );

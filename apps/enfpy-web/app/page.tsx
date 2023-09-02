@@ -4,10 +4,20 @@ import { Header } from "@vrew/ui";
 import useAuth from "../hooks/useAuth";
 import Anchor from "../components/Anchor";
 import { useSession } from "../hooks/server/auth";
+import { useEffect } from "react";
+import { useNavigation } from "../hooks/navigation/useNavigation";
+import { Screens } from "@vrew/modules/web-bridge/constants/screen-enfpy";
 
 export default function Page(): JSX.Element {
   const auth = useAuth();
   const session = useSession();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (auth.isSignIn) {
+      navigation.navigate(Screens.MAIN);
+    }
+  }, []);
 
   return (
     <>
@@ -31,7 +41,7 @@ export default function Page(): JSX.Element {
             <h4>withAuth</h4>
             <ul>
               <li>
-                <Anchor href="/profile">프로필 페이지</Anchor>
+                <Anchor screen={Screens.PROFILE}>프로필 페이지</Anchor>
               </li>
             </ul>
           </div>
@@ -39,7 +49,7 @@ export default function Page(): JSX.Element {
             <h4>withOutAuth</h4>
             <ul>
               <li>
-                <Anchor href="/login">로그인 페이지</Anchor>
+                <Anchor screen={Screens.LOGIN}>프로필 페이지</Anchor>
               </li>
             </ul>
           </div>

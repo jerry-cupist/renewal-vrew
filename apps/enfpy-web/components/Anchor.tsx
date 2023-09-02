@@ -1,12 +1,13 @@
 "use client";
 
-import Link, { LinkProps } from "next/link";
 import { MouseEventHandler, PropsWithChildren } from "react";
 import CONFIG from "../constant/config";
 import { useNavigation } from "../hooks/navigation/useNavigation";
+import { Screens } from "@vrew/modules/web-bridge/constants/screen-enfpy";
 
-interface AnchorProps extends LinkProps {
+interface AnchorProps {
   enableLink?: boolean;
+  screen: Screens;
 }
 
 /**
@@ -15,31 +16,20 @@ interface AnchorProps extends LinkProps {
  */
 const Anchor = ({
   children,
-  onClick,
-  /** WEB_VIVEW에서는 클릭을 동작하지 않는다. */
   enableLink = CONFIG.IS_WEB,
   ...props
 }: PropsWithChildren<AnchorProps>) => {
   const navigation = useNavigation();
-  const handleClick: MouseEventHandler<HTMLAnchorElement> = (event) => {
+
+  const handleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
     console.log({ enableLink }, CONFIG.IS_WEBVIEW);
-    if (!enableLink && CONFIG.IS_WEBVIEW) {
-      event.preventDefault();
-
-      const pathname =
-        typeof props.href === "string"
-          ? props.href
-          : props.href.pathname || "/";
-
-      navigation.navigate(pathname);
-    }
-    onClick?.(event);
+    navigation.navigate(props.screen);
   };
 
   return (
-    <Link {...props} onClick={enableLink ? undefined : handleClick}>
+    <button {...props} onClick={handleClick}>
       {children}
-    </Link>
+    </button>
   );
 };
 

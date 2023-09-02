@@ -3,9 +3,12 @@ import { GetProfileResponse } from "@vrew/apis/enfpy/user";
 import NextAuth, { AuthOptions, User } from "next-auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
-import ENPFY_URL from "../../../../constant/url";
 import enfpyApiClient from "../../../../apis";
 import { AxiosError } from "axios";
+import {
+  ScreenPaths,
+  Screens,
+} from "@vrew/modules/web-bridge/constants/screen-enfpy";
 
 /**
  * All requests to /api/auth/*(signIn, callback, signOut, etc.)
@@ -147,9 +150,9 @@ export const authOptions: AuthOptions = {
     }),
   ],
   pages: {
-    signIn: ENPFY_URL.ROOT,
-    signOut: ENPFY_URL.ROOT,
-    error: ENPFY_URL.LOGIN,
+    signIn: ScreenPaths[Screens.ROOT],
+    signOut: ScreenPaths[Screens.ROOT],
+    error: ScreenPaths[Screens.LOGIN],
   },
   session: {
     // Choose how you want to save the user session.

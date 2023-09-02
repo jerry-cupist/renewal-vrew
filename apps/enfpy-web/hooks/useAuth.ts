@@ -1,4 +1,5 @@
 "use client";
+import { Screens } from "@vrew/modules/web-bridge/constants/screen-enfpy";
 import { useNavigation } from "./navigation/useNavigation";
 import {
   useSession,
@@ -14,9 +15,7 @@ const useAuth = () => {
   const refetchSession = session.refetch;
   const signOut = useSignOut({
     onSuccess: (data, variable) => {
-      if (variable.callbackUrl) {
-        navigation.navigate(variable.callbackUrl);
-      }
+      navigation.navigate(Screens.ROOT);
       refetchSession();
     },
   });

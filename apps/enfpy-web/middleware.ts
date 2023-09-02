@@ -1,7 +1,10 @@
 import { withAuth } from "next-auth/middleware";
-import ENPFY_URL from "./constant/url";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  ScreenPaths,
+  Screens,
+} from "@vrew/modules/web-bridge/constants/screen-enfpy";
 
 /**
  * 페이지 접근 권한을 확인하고 리다이랙션한다.
@@ -27,7 +30,7 @@ const withAuthRequest = (params: WithAuthRequestParams) => {
   const isSignIn = Boolean(accessToken);
 
   if (!isSignIn) {
-    url.pathname = ENPFY_URL.LOGIN;
+    url.pathname = ScreenPaths[Screens.LOGIN];
     url.search = `callbackUrl=${pathname}`;
 
     return NextResponse.redirect(url);
@@ -47,7 +50,7 @@ interface WithOutAuthRequestParams {
  * e.g 마이페이지 (로그인 해야만 접근 가능함)
  */
 const withOutAuthRequest = (params: WithOutAuthRequestParams) => {
-  const { req, accessToken, redirectUrl = ENPFY_URL.ROOT } = params;
+  const { req, accessToken, redirectUrl = ScreenPaths[Screens.ROOT] } = params;
   const url = req.nextUrl.clone();
   const isSignIn = Boolean(accessToken);
 
@@ -64,12 +67,12 @@ const withOutAuthRequest = (params: WithOutAuthRequestParams) => {
 /**
  * 인증이 필요한 경로
  */
-const withAuthList: string[] = [ENPFY_URL.PROFILE];
+const withAuthList: string[] = [ScreenPaths[Screens.PROFILE]];
 /**
  * 인증한 사용자가 접근할 수 없는 경로
  * e.g. 회원가입, 로그인
  */
-const withOutAuthList: string[] = [ENPFY_URL.LOGIN];
+const withOutAuthList: string[] = [ScreenPaths[Screens.LOGIN]];
 
 const isWithAuth = (pathname: string) => withAuthList.includes(pathname);
 const isWithOutAuth = (pathname: string) => withOutAuthList.includes(pathname);

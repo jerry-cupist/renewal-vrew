@@ -2,28 +2,24 @@
  * 스크린 이름을 location.pathName으로 정한다.
  * WEB URL과 통합관리
  */
-export const ScreenName = {
-  Root: "root",
-  Main: "main",
-  Sub: "sub",
 
-  HomeTabScreen: "home",
-  Login: "login",
-  Profile: "profile",
-  ProfileMbti: "profile/mbti",
+export enum Screens {
+  ROOT = "Root",
+  MAIN = "Main",
+  HOME = "Home",
+  FAVOR_SETTING = "FavorSetting",
+  PROFILE = "Profile",
+  LOGIN = "Login",
+}
 
-  /**
-   * Profile
-   */
-  // ReactProfileEditScreen: 'profile/edit',
-  // EditProfileImageScreen: 'profile/profileImage/edit',
-  // RequireProfileImageScreen: 'profile/profileImage/require',
-  // UploadProfileImageScreen: 'profile/profileImage/upload',
-  // IntroductionEditScreen: 'profile/edit/introduction',
-  // TagEditScreen: 'profile/edit/tag',
-  // MyPageProfilePropertyWebViewScreen: 'profile/edit/sub',
-  // MyPageProfileEditScreen: 'my-page/profile/edit',
-} as const;
+export const ScreenPaths = {
+  [Screens.ROOT]: "/",
+  [Screens.MAIN]: "/main",
+  [Screens.HOME]: "/home",
+  [Screens.FAVOR_SETTING]: "/favor-setting",
+  [Screens.PROFILE]: "/profile",
+  [Screens.LOGIN]: "/login",
+};
 
-export type TypeOfScreenName = typeof ScreenName;
-export type ValueOfScreenName = TypeOfScreenName[keyof TypeOfScreenName];
+export type TypeOfScreenPaths = typeof ScreenPaths;
+export type ValueOfScreenPaths = TypeOfScreenPaths[keyof TypeOfScreenPaths];
