@@ -8,7 +8,7 @@ import {devHandlers} from './dev';
 import {navigationHandlers} from './navigation';
 import {WebViewMessageEvent} from 'react-native-webview';
 import {
-  createErrorMessage,
+  WebViewMessageError,
   createResponseMessage,
 } from '@vrew/modules/web-bridge/utils';
 import {authHandlers} from './auth';
@@ -30,49 +30,49 @@ export const createMessageHandler = (args: CreateMessageHandlerArgs) =>
     const {webView} = args;
     const requestMessage = JSON.parse(message) as RequestMessage;
     const {action, request_id: requestId} = requestMessage;
+    console.log(`⚪️ [WEBVIEW_MESSAGE]_[REQUEST]_[${action}] \n ►`, {
+      message: requestMessage,
+    });
 
     const handler: WebBridgeMessageHandler = webBridgeMessageHandler[action];
 
-    if (!webView?.postMessage) {
-      console.log('webView를 찾을 수 없습니다!!', {webView});
-      return false;
-    }
-
-    // 에러 전송(정의되지 않은 action)
-    if (typeof handler !== 'function') {
-      const errorMessage = createErrorMessage(action, requestId, {
-        err_code: MessageError.NOT_REGISTERED_ACTION,
-        err_msg: 'Not registered action',
-      });
-      webView.postMessage(JSON.stringify(errorMessage));
-
-      return false;
-    }
-
-    // 응답결과 전송
     try {
+      if (!webView?.postMessage) {
+        throw new Error(`webView를 찾을 수 없습니다!! ${webView}`);
+      }
+
+      // 에러 전송(정의되지 않은 action)
+      if (typeof handler !== 'function') {
+        throw new WebViewMessageError(action, requestId, {
+          err_code: MessageError.NOT_REGISTERED_ACTION,
+          err_msg: 'Not registered action',
+        });
+      }
+
+      // 응답결과 전송
       const responseData = await handler(requestMessage, args);
       const responseMessage = createResponseMessage(
         action,
         requestId,
         responseData,
       );
+      console.log(`🟢 [WEBVIEW_MESSAGE]_[RESPONSE]_[${action}] \n ►`, {
+        message: responseMessage,
+      });
       webView.postMessage(JSON.stringify(responseMessage));
-    } catch (err) {
+    } catch (error: unknown) {
+      console.log(`🔴 [WEBVIEW_MESSAGE]_[ERROR]_[${action}] \n ►`, {error});
       if (!webView) {
-        console.log('2.webView를 찾을 수 없습니다!!');
+        throw new Error(`webView를 찾을 수 없습니다!! ${webView}`);
+      }
+
+      // error메세지 가공처리
+      if (error instanceof WebViewMessageError) {
+        webView.postMessage(JSON.stringify(error));
         return false;
       }
 
-      // TODO: 에러 타입에 따른 error message 전송
-      // 1. timeout
-      // 2. 각 handler 이벤트 실패
-      const errorMessage = createErrorMessage(action, requestId, {
-        err_code: 0,
-        err_msg: 'error message',
-      });
-      webView.postMessage(JSON.stringify(errorMessage));
-      return false;
+      throw error;
     }
 
     return true;

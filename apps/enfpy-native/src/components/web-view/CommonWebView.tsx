@@ -1,7 +1,10 @@
 import React, {forwardRef, useRef, useImperativeHandle, useId} from 'react';
-import WebView, {WebViewMessageEvent, WebViewProps} from 'react-native-webview';
+import WebView, {WebViewProps} from 'react-native-webview';
 import {StyleSheet} from 'react-native';
-import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
+import {
+  WebViewMessageEvent,
+  WebViewSourceUri,
+} from 'react-native-webview/lib/WebViewTypes';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   MessageHandler,
@@ -45,13 +48,9 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
     useFocusEffect(() => {
       webViewRef?.current?.requestFocus?.();
     });
-
-    const handleMessage = (e: WebViewMessageEvent) => {
-      const message = JSON.parse(e.nativeEvent.data);
-      console.log('🟢[WEBVIEW][MESSAGE][RECEIVE]', {message});
-      messageHandler.current?.(e);
+    const handleMessage = (event: WebViewMessageEvent) => {
+      messageHandler.current?.(event);
     };
-
     const onMounted = (webView: WebView) => {
       if (!webView) {
         return;

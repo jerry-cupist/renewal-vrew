@@ -37,6 +37,9 @@ export const createResponseMessage = <D>(
   data,
 });
 
+/**
+ * @deprecated WebViewMessageError 사용 권고
+ */
 export const createErrorMessage = (
   action: WebBridgeActions,
   request_id: number,
@@ -47,6 +50,17 @@ export const createErrorMessage = (
   request_id,
   error,
 });
+
+export class WebViewMessageError extends Error {
+  constructor(
+    public action: WebBridgeActions,
+    public request_id: number,
+    public error: BridgeError
+  ) {
+    super();
+    this.name = "WebViewMessageError";
+  }
+}
 
 /**
  *
