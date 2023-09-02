@@ -89,7 +89,7 @@ export const postMessage = <
           const { data } = event;
 
           const responseMessage = JSON.parse(data) as ResponseMessage;
-          if (requestMessage.request_id !== requestMessage.request_id) {
+          if (requestMessage.request_id !== responseMessage.request_id) {
             return;
           }
 
