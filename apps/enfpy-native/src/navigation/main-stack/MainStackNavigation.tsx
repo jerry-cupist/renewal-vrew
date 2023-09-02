@@ -2,11 +2,11 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {MainBottomTabNavigation} from '../main-bottom-tab/MainBottomTabNavigation';
-import RootScreen from '../../screens';
-import LoginScreen from '../../screens/login';
-import ProfileScreen from '../../screens/profile';
+import RootScreen from '@screens/index';
+import LoginScreen from '@screens/login';
+import ProfileScreen from '@screens/profile';
 import {Screens} from '@vrew/modules/web-bridge/constants/screen-enfpy';
-import {FavorSettingScreen} from '../../screens/favor-setting/FavorSetting';
+import {FavorSettingScreen} from '@screens/favor-setting/FavorSetting';
 
 const Stack = createNativeStackNavigator();
 

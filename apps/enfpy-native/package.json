@@ -12,13 +12,14 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-native-async-storage/async-storage": "^1.19.3",
+    "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@vrew/apis": "workspace:*",
     "@vrew/modules": "workspace:*",
     "@vrew/utils": "workspace:*",
+    "babel-plugin-module-resolver": "^5.0.0",
     "react": "^18.1.0",
     "react-native": "^0.70.3",
     "react-native-safe-area-context": "^4.7.1",

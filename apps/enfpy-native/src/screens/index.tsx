@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import WebView from 'react-native-webview';
-import {CommonWebView} from '../components/web-view/CommonWebView';
+import {CommonWebView} from '@components/web-view/CommonWebView';
 import {
   ScreenPaths,
   Screens,

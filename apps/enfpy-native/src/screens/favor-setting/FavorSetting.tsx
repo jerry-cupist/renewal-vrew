@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {CommonWebView} from '../../components/web-view/CommonWebView';
+import {CommonWebView} from '@components/web-view/CommonWebView';
 import {
   ScreenPaths,
   Screens,

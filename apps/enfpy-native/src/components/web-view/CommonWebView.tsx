@@ -9,9 +9,9 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   MessageHandler,
   useWebViewHandler,
-} from '../../contexts/web-bridge/WebViewContext';
-import {createMessageHandler} from '../../contexts/web-bridge/handlers';
-import useConfig from '../../hooks/useConfig';
+} from '@contexts/web-bridge/WebViewContext';
+import {createMessageHandler} from '@contexts/web-bridge/handlers';
+import useConfig from '@hooks/useConfig';
 
 export interface CommonWebViewProps extends WebViewProps {
   source: WebViewSourceUri;

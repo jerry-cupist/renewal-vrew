@@ -5,6 +5,22 @@
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Completeness */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["./*"],
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@constants/*": ["constants/*"],
+      "@contexts/*": ["contexts/*"],
+      "@hocs/*": ["hocs/*"],
+      "@hooks/*": ["hooks/*"],
+      "@modules/*": ["modules/*"],
+      "@navigation/*": ["navigation/*"],
+      "@screens/*": ["screens/*"],
+      "@store/*": ["store/*"],
+      "@type/*": ["type/*"],
+      "@utils/*": ["utils/*"],
+    },
   }
 }

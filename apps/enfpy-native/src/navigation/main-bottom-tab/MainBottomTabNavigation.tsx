@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {Screens} from '@vrew/modules/web-bridge/constants/screen-enfpy';
-import {HomeScreen} from '../../screens/home/HomeScreen';
+import {HomeScreen} from '@screens/home/HomeScreen';
 
 const Tab = createBottomTabNavigator();
 
