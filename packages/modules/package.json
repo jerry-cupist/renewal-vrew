@@ -2,6 +2,8 @@
   "name": "@vrew/modules",
   "packageManager": "yarn@3.2.4",
   "devDependencies": {
+    "@react-navigation/native": "^6.1.7",
+    "react-native-webview": "^13.5.1",
     "typescript": "4.8.4"
   },
   "dependencies": {

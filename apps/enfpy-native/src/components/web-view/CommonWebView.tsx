@@ -1,64 +1,78 @@
-import React, {
-  forwardRef,
-  useRef,
-  useImperativeHandle,
-  useCallback,
-  useId,
-  useEffect,
-} from 'react';
-import WebView, {WebViewMessageEvent, WebViewProps} from 'react-native-webview';
+import React, {forwardRef, useRef, useImperativeHandle, useId} from 'react';
+import WebView, {WebViewProps} from 'react-native-webview';
 import {StyleSheet} from 'react-native';
-import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
-import {useNavigation} from '@react-navigation/native';
+import {
+  WebViewMessageEvent,
+  WebViewSourceUri,
+} from 'react-native-webview/lib/WebViewTypes';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   MessageHandler,
-  useBridge,
-} from '../../contexts/web-bridge/BridgeContext';
+  useWebViewHandler,
+} from '../../contexts/web-bridge/WebViewContext';
+import {createMessageHandler} from '../../contexts/web-bridge/handlers';
+import useConfig from '../../hooks/useConfig';
 import {WEB_URL} from '@env';
 
 export interface CommonWebViewProps extends WebViewProps {
   source: WebViewSourceUri;
 }
 
+/**
+ * TODO: 정규식으로 바꾸기
+ */
+const isValidUrl = (url: string) => {
+  // const regExp =
+  //   /(https|http)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#()?&//=]*)/;
+  // return regExp.test(url);
+
+  return url.startsWith('http');
+};
+
 export const CommonWebView = forwardRef<any, CommonWebViewProps>(
-  (props, ref) => {
+  ({source}, ref) => {
     const id = useId();
     const navigation = useNavigation();
-    const {createMessageHandler} = useBridge();
-
-    const webViewRef = useRef<WebView>(null);
-    const messageHandlerRef = useRef<MessageHandler | null>(null);
-
+    const webViewRef = useRef<WebView | null>(null);
+    const messageHandler = useRef<MessageHandler>();
     useImperativeHandle(ref, () => webViewRef.current);
+    const {registerWebView} = useWebViewHandler();
+    const config = useConfig();
 
-    const initMessageHandler = useCallback(() => {
-      if (webViewRef.current && createMessageHandler) {
-        messageHandlerRef.current = createMessageHandler({
-          id,
-          webView: webViewRef.current,
-          navigation,
-        });
+    const uri = isValidUrl(source.uri)
+      ? source.uri
+      : config.webUrl + source.uri;
+
+    /**
+     * screen 전환시 웹뷰가 포커스되지 않는 이슈가 있다.
+     */
+    useFocusEffect(() => {
+      webViewRef?.current?.requestFocus?.();
+    });
+    const handleMessage = (event: WebViewMessageEvent) => {
+      messageHandler.current?.(event);
+    };
+    const onMounted = (webView: WebView) => {
+      if (!webView) {
+        return;
       }
-    }, [createMessageHandler, id, navigation]);
+      messageHandler.current = createMessageHandler({
+        id,
+        webView: webView,
+        navigation,
+      });
+      webViewRef.current = webView;
 
-    const handleMessage = (e: WebViewMessageEvent) => {
-      console.log('message received', JSON.parse(e.nativeEvent.data));
-      messageHandlerRef.current?.(e);
+      registerWebView({id, webView: webViewRef.current});
     };
 
-    useEffect(() => {
-      initMessageHandler();
-    }, [initMessageHandler]);
-
     return (
-      <>
-        <WebView
-          ref={webViewRef}
-          source={{uri: WEB_URL + props.source.uri}}
-          onMessage={handleMessage}
-          style={styles.container}
-        />
-      </>
+      <WebView
+        ref={webViewRef}
+        source={props.source}
+        onMessage={handleMessage}
+        style={styles.container}
+      />
     );
   },
 );

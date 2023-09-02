@@ -1,91 +1,62 @@
-import {
-  CommonActions,
-  NavigationProp,
-  StackActions,
-} from '@react-navigation/native';
+import {CommonActions, StackActions} from '@react-navigation/native';
 import {
   WebBridgeActions,
   WebBridgeActionDatas,
 } from '@vrew/modules/web-bridge/types/action';
-import {RequestMessage} from '@vrew/modules/web-bridge/types/message';
-import WebView from 'react-native-webview';
+import {
+  createMessageHandler,
+  createMessageHandlers,
+} from '@vrew/modules/web-bridge/utils';
 
-interface Navigation extends NavigationProp<any> {}
-interface NavigationHandlerArgs {
-  navigation: Navigation;
-  webView: WebView;
-}
-
-const navigate = (
-  {
-    data,
-  }: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]>,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const navigate = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
+>(({data}, {navigation}) => {
   const {screenName, params} = data;
-
   navigation.dispatch(CommonActions.navigate(screenName, params));
-};
+});
 
-const goBack = (
-  _: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_GO_BACK]>,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const goBack = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_GO_BACK]
+>((_, {navigation}) => {
   navigation.dispatch(CommonActions.goBack());
-};
+});
 
-const canGoBack = (
-  _: RequestMessage<
-    WebBridgeActionDatas[WebBridgeActions.NAVIGATION_CAN_GO_BACK]
-  >,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const canGoBack = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_CAN_GO_BACK]
+>((_, {navigation}) => {
   navigation.canGoBack();
-};
+});
 
-const push = (
-  {
-    data,
-  }: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_PUSH]>,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const push = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_PUSH]
+>(({data}, {navigation}) => {
   const {screenName, params} = data;
   navigation.dispatch(StackActions.push(screenName, params));
-};
+});
 
-const popToTop = (
-  _: RequestMessage<
-    WebBridgeActionDatas[WebBridgeActions.NAVIGATION_POP_TO_TOP]
-  >,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const popToTop = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_POP_TO_TOP]
+>((_, {navigation}) => {
   navigation.dispatch(StackActions.popToTop());
-};
+});
 
-const pop = (
-  {data}: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_POP]>,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const pop = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_POP]
+>(({data}, {navigation}) => {
   navigation.dispatch(StackActions.pop(data));
-};
+});
 
-const replace = (
-  {
-    data,
-  }: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_REPLACE]>,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const replace = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_REPLACE]
+>(({data}, {navigation}) => {
   const {screenName, params} = data;
 
   navigation.dispatch(StackActions.replace(screenName, params));
-};
+});
 
-const reset = (
-  {
-    data,
-  }: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_RESET]>,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const reset = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_RESET]
+>(({data}, {navigation}) => {
   const {index, routes} = data;
 
   navigation.dispatch(
@@ -97,27 +68,21 @@ const reset = (
       })),
     }),
   );
-};
+});
 
-const reload = (
-  _: RequestMessage<WebBridgeActionDatas[WebBridgeActions.NAVIGATION_RELOAD]>,
-  {webView}: NavigationHandlerArgs,
-) => {
+const reload = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_REPLACE]
+>((_, {webView}) => {
   webView.reload();
-};
+});
 
-const setOptions = (
-  {
-    data,
-  }: RequestMessage<
-    WebBridgeActionDatas[WebBridgeActions.NAVIGATION_SET_OPTIONS]
-  >,
-  {navigation}: NavigationHandlerArgs,
-) => {
+const setOptions = createMessageHandler<
+  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_SET_OPTIONS]
+>(({data}, {navigation}) => {
   navigation.setOptions(data);
-};
+});
 
-export const navigationHandlers = {
+export const navigationHandlers = createMessageHandlers({
   [WebBridgeActions.NAVIGATION_NAVIGATE]: navigate,
   [WebBridgeActions.NAVIGATION_GO_BACK]: goBack,
   [WebBridgeActions.NAVIGATION_CAN_GO_BACK]: canGoBack,
@@ -128,4 +93,4 @@ export const navigationHandlers = {
   [WebBridgeActions.NAVIGATION_RESET]: reset,
   [WebBridgeActions.NAVIGATION_RELOAD]: reload,
   [WebBridgeActions.NAVIGATION_SET_OPTIONS]: setOptions,
-};
+});

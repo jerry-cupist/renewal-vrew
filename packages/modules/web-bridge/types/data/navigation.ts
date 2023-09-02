@@ -1,6 +1,6 @@
 import { ValueOfScreenName } from "../../constants/screen-enfpy";
 
-export interface NavigateArg<P = object> {
+export interface NavigateArg<P = undefined> {
   screenName: ValueOfScreenName;
   params?: P;
 }

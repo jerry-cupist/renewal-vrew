@@ -1,16 +1,13 @@
+import { PropsWithChildren } from "react";
 import AuthProvider from "../context/AuthProvider";
-import TokenUpdate from "../context/TokenUpdate";
+import QueryClientProvider from "../context/QueryClientProvider";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body>
         <AuthProvider>
-          <TokenUpdate>{children}</TokenUpdate>
+          <QueryClientProvider>{children}</QueryClientProvider>
         </AuthProvider>
       </body>
     </html>
