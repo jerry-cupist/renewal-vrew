@@ -6,7 +6,7 @@ import RootScreen from '../../screens';
 import LoginScreen from '../../screens/login';
 import ProfileScreen from '../../screens/profile';
 import {Screens} from '@vrew/modules/web-bridge/constants/screen-enfpy';
-import {FavorSettingScreen} from '../../screens/home/FavorSetting';
+import {FavorSettingScreen} from '../../screens/favor-setting/FavorSetting';
 
 const Stack = createNativeStackNavigator();
 

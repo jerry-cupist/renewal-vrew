@@ -20,7 +20,7 @@ export const ScreenPaths = {
   [Screens.ROOT]: "/",
   [Screens.MAIN]: "/main",
   [Screens.HOME]: "/home",
-  [Screens.HOME_FAVOR_SETTING]: "/home/favor-setting",
+  [Screens.HOME_FAVOR_SETTING]: "/favor-setting",
   [Screens.PROFILE]: "/profile",
   [Screens.LOGIN]: "/login",
 };
