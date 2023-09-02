@@ -1,17 +1,16 @@
-export const WEB_URL = {
-  ROOT: "/",
-  LOGIN: "/login",
-  PROFILE: "/profile",
-  MAIN: "/main",
-  MAIN_MBTI: "/main/mbti",
-  SUB: "/sub",
-} as const;
+/**
+ * 스크린 이름을 WEB_URL기준으로 생성합니다.
+ */
 
-type WebUrlType = typeof WEB_URL;
-type PageName = keyof WebUrlType;
-export type WebPathnameType = WebUrlType[PageName];
+import {
+  ENFPY_WEB_URL,
+  EnfpyPathnameType,
+  EnfpyWebPathnameType,
+  EnfpyWebUrlType,
+} from "./page-enpfy";
+
 type ScreenNameType =
-  | Exclude<WebPathnameType extends `/${infer T}` ? T : never, "">
+  | Exclude<EnfpyWebPathnameType extends `/${infer T}` ? T : never, "">
   | "root";
 
 export type PathName = `/${string}`;
@@ -26,9 +25,9 @@ const removeSlash = <T extends PathName>(pathname: T) => {
 };
 
 export type ScreenNameMapType = {
-  [name in PageName]: name extends "ROOT"
+  [name in EnfpyPathnameType]: name extends "ROOT"
     ? "root"
-    : RemoveSlash<WebUrlType[name]>;
+    : RemoveSlash<EnfpyWebUrlType[name]>;
 };
 
 /**
@@ -36,11 +35,11 @@ export type ScreenNameMapType = {
  * @note '/' 경로만 예외적으로 'root'가 이름이 됩니다.
  */
 const buildScreenName = () => {
-  const pageNames = Object.keys(WEB_URL) as PageName[];
+  const pageNames = Object.keys(ENFPY_WEB_URL) as EnfpyPathnameType[];
 
   return pageNames.reduce(
-    (prev: Record<string, ScreenNameType>, cur: PageName) => {
-      const pageUrl = WEB_URL[cur];
+    (prev: Record<string, ScreenNameType>, cur: EnfpyPathnameType) => {
+      const pageUrl = ENFPY_WEB_URL[cur];
       const screenName = removeSlash(pageUrl) as ScreenNameType;
 
       return {
@@ -60,7 +59,7 @@ export type ValueOfScreenName = ScreenNameMapType[keyof ScreenNameMapType];
  *
  * @example convertToScreenNameFromWebUrl("/profile/mbti") // "profile/mbti"
  */
-export const convertToScreenNameFromWebUrl = <T extends WebPathnameType>(
+export const convertToScreenNameFromWebUrl = <T extends EnfpyWebPathnameType>(
   pathname: T
 ): ValueOfScreenName => {
   const screenName = removeSlash(pathname);
