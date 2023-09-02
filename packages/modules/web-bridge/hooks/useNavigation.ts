@@ -1,19 +1,22 @@
 import { WebBridgeActionDatas, WebBridgeActions } from "../types/action";
-import { postMessage } from "../utils/message";
+import messageUtil from "../utils/message";
 
 const navigate = (
   args: WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
 ) => {
-  postMessage(WebBridgeActions.NAVIGATION_NAVIGATE, args);
+  messageUtil.postMessage({
+    action: WebBridgeActions.NAVIGATION_NAVIGATE,
+    data: args,
+  });
 };
 
 const goBack = () => {
-  postMessage(WebBridgeActions.NAVIGATION_GO_BACK);
+  messageUtil.postMessage({ action: WebBridgeActions.NAVIGATION_GO_BACK });
 };
 
-export const useNavigation = () => {
-  return {
-    navigate,
-    goBack,
-  };
+const navigationMessages = {
+  navigate,
+  goBack,
 };
+
+export const useNavigation = () => navigationMessages;

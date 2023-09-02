@@ -1,12 +1,15 @@
 import { WebBridgeActionDatas, WebBridgeActions } from "../types/action";
-import { postMessage } from "../utils/message";
+import messageUtil from "../utils/message";
 
-const consoleLog = (
-  args: WebBridgeActionDatas[WebBridgeActions.DEV_CONSOLE_LOG]
-) => {
-  postMessage(WebBridgeActions.DEV_CONSOLE_LOG, args);
+export const devMessages = {
+  consoleLog: (
+    args: WebBridgeActionDatas[WebBridgeActions.DEV_CONSOLE_LOG]
+  ) => {
+    messageUtil.postMessage({
+      action: WebBridgeActions.DEV_CONSOLE_LOG,
+      data: args,
+    });
+  },
 };
 
-export const useDev = () => {
-  return { consoleLog };
-};
+export const useDev = () => devMessages;

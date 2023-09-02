@@ -48,14 +48,22 @@ export const createErrorMessage = (
   error,
 });
 
+/**
+ *
+ * @param param.timeout {number} (default:3000)
+ * @returns
+ */
 export const postMessage = <
   ActionType extends WebBridgeActions,
   DataType extends WebBridgeActionDatas[ActionType]
->(
-  action: ActionType,
-  data?: DataType
-) =>
+>(params: {
+  action: ActionType;
+  data?: DataType;
+  timeout?: number;
+}) =>
   new Promise<ResponseMessage>((resolve, reject) => {
+    const { action, data, timeout = 3000 } = params;
+
     let timeId: null | number = null;
     let handleMessage = (event: MessageEvent<string>) => {};
 
@@ -71,22 +79,26 @@ export const postMessage = <
 
       timeId = setTimeout(() => {
         reject(new Error(`[POST_MESSAGE]_[TIMEOUT] ${action}`));
-      }, 3000);
+      }, timeout);
 
-      const message = createRequestMessage(action, data);
-      webView.postMessage(JSON.stringify(message));
+      const requestMessage = createRequestMessage(action, data);
+      webView.postMessage(JSON.stringify(requestMessage));
 
       handleMessage = (event: MessageEvent<string>) => {
-        window.removeEventListener("message", handleMessage);
         try {
           const { data } = event;
 
+          const responseMessage = JSON.parse(data) as ResponseMessage;
+          if (requestMessage.request_id !== requestMessage.request_id) {
+            return;
+          }
+
+          window.removeEventListener("message", handleMessage);
           if (typeof timeId === "number") {
             clearTimeout(timeId);
           }
 
-          const receivedMessage = JSON.parse(data) as ResponseMessage;
-          resolve(receivedMessage);
+          resolve(responseMessage);
         } catch (error: unknown) {
           reject(error);
         }
@@ -98,3 +110,12 @@ export const postMessage = <
       reject(error);
     }
   });
+
+const messageUtil = {
+  createRequestMessage,
+  createResponseMessage,
+  createErrorMessage,
+  postMessage,
+};
+
+export default messageUtil;

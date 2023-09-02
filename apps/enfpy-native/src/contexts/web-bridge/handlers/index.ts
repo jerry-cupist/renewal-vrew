@@ -20,9 +20,8 @@ const webBridgeMessageHandler = {
   ...authHandlers,
 };
 
-export const createMessageHandler =
-  (args: CreateMessageHandlerArgs) =>
-  async (e: WebViewMessageEvent): Promise<boolean> => {
+export const createMessageHandler = (args: CreateMessageHandlerArgs) =>
+  async function messageHandler(e: WebViewMessageEvent): Promise<boolean> {
     if (!e?.nativeEvent?.data) {
       return false;
     }
