@@ -40,7 +40,7 @@ const buildScreenName = () => {
   return pageNames.reduce(
     (prev: Record<string, ScreenNameType>, cur: EnfpyPathnameType) => {
       const pageUrl = ENFPY_WEB_URL[cur];
-      const screenName = removeSlash(pageUrl) as ScreenNameType;
+      const screenName = removeSlash(pageUrl) || ("root" as ScreenNameType);
 
       return {
         ...prev,
