@@ -1,8 +1,8 @@
 "use client";
 
+import { PrimaryButton } from "@components/button/PrimaryButton";
 import styled from "@emotion/styled";
 import { Wrapper } from "@vrew/ui/layout/Wrapper";
-import Image from "next/image";
 
 export interface HomeCardProps {
   nickname: string;
@@ -14,6 +14,8 @@ export interface HomeCardProps {
 }
 
 export const HomeCard = (props: HomeCardProps) => {
+  const handleRequestFriend = () => {};
+  const handleDelete = () => {};
   return (
     <Container>
       <img src={props.image} alt="" />
@@ -32,9 +34,9 @@ export const HomeCard = (props: HomeCardProps) => {
             <p>{props.mbti}</p>
             <p>더 보기</p>
           </div>
-          <div>
-            <button>닫기</button>
-            <button>친구 신청</button>
+          <div className="buttonList">
+            <PrimaryButton label="삭제" onClick={handleDelete} />
+            <PrimaryButton label="친구 신청" onClick={handleRequestFriend} />
           </div>
         </Wrapper>
       </Information>
@@ -51,6 +53,17 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .buttonList {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+
+    button {
+      width: calc(50% - 5px);
+    }
   }
 `;
 

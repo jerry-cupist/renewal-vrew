@@ -10,4 +10,6 @@ export const Wrapper = ({ children }: WrapperProps) => {
 
 const Container = styled.div`
   padding: 0 16px;
+  height: 100%;
+  width: 100%;
 `;

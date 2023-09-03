@@ -1,35 +1,37 @@
 "use client";
 
 import React from "react";
-import styled from "@emotion/styled";
+import { Container } from "./PrimaryButton.style";
 
 export interface PrimaryButtonProps {
   label: string;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  radius?: "middle" | "full";
+  prefixIconElement?: React.ReactNode;
+  postfixIconElement?: React.ReactNode;
+  radiusType?: "middle" | "full";
   onClick: () => void;
   color?: string;
 }
 
 export const PrimaryButton = (props: PrimaryButtonProps) => {
-  const { label, leftIcon, rightIcon, radius, onClick, color } = props;
-
-  const Container = styled.button`
-    padding: 11px 16px;
-    background: ${(props) => props.color || "red"};
-    border-radius: ${radius === "middle" ? 8 : radius === "full" ? 99 : 4}px;
-    font-size: 18px;
-    width: 100%;
-    color: white;
-    font-weight: 600;
-  `;
+  const {
+    label,
+    prefixIconElement,
+    postfixIconElement,
+    radiusType,
+    onClick,
+    color,
+  } = props;
 
   return (
-    <Container onClick={onClick} type="button" color={color}>
-      {leftIcon}
+    <Container
+      color={color}
+      radiusType={radiusType}
+      onClick={onClick}
+      type="button"
+    >
+      {prefixIconElement}
       {label}
-      {rightIcon}
+      {postfixIconElement}
     </Container>
   );
 };
