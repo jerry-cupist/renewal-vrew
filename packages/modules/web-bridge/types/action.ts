@@ -8,11 +8,8 @@ import {
   OptionArgs,
 } from "./data/navigation";
 
-/**
- * WEB => RN 수신 액션
- */
 export enum WebBridgeActions {
-  /** 네비게이션 */
+  /** navigation */
   NAVIGATION_NAVIGATE = "navigation-navigate",
   NAVIGATION_GO_BACK = "navigation-go-back",
   NAVIGATION_CAN_GO_BACK = "navigation-can-go-back",
@@ -23,15 +20,9 @@ export enum WebBridgeActions {
   NAVIGATION_RESET = "navigation-reset",
   NAVIGATION_RELOAD = "navigation-reload",
   NAVIGATION_SET_OPTIONS = "navigation-set-options",
-
   /** dev */
   DEV_CONSOLE_LOG = "dev-console-log",
 }
-
-/**
- * RN => Web 요청 액션
- */
-export enum WebBridgeRequestActions {}
 
 export type WebBridgeActionDatas = {
   [WebBridgeActions.NAVIGATION_NAVIGATE]: NavigateArg;
