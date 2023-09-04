@@ -24,3 +24,5 @@ export const buildFetcher = (webview: WebView) =>
         return networkResponse;
       });
   };
+
+export type Fetcher = ReturnType<typeof buildFetcher>;

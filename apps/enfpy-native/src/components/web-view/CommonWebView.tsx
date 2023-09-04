@@ -18,6 +18,7 @@ import {
 } from '../../contexts/web-bridge/WebViewContext';
 import {createRequestMessageHandler} from '../../contexts/web-bridge/handlers';
 import useConfig from '../../hooks/useConfig';
+import {Fetcher, buildFetcher} from '@vrew/modules/app-bridge/buildFetcher';
 
 export interface CommonWebViewProps extends WebViewProps {
   source: WebViewSourceUri;
@@ -62,16 +63,25 @@ const buildCustomEventManager = () => {
   };
 };
 
-export const CommonWebView = forwardRef<WebView, CommonWebViewProps>(
+export interface CommonWebViewRef {
+  webView: WebView;
+  fetcher: Fetcher;
+}
+
+export const CommonWebView = forwardRef<CommonWebViewRef, CommonWebViewProps>(
   ({source, ...props}, ref) => {
     const id = useId();
     const navigation = useNavigation();
     const [customEventManager] = useState(() => buildCustomEventManager());
     const webViewRef = useRef<WebView>();
+    const fetcherRef = useRef<Fetcher>();
     const requestMessageHandler = useRef<MessageHandler>();
-    useImperativeHandle(ref, () => webViewRef.current!);
     const {registerWebView} = useWebViewHandler();
     const config = useConfig();
+    useImperativeHandle(ref, () => ({
+      webView: webViewRef.current as WebView,
+      fetcher: fetcherRef.current as Fetcher,
+    }));
 
     const uri = isValidUrl(source.uri)
       ? source.uri
@@ -107,6 +117,7 @@ export const CommonWebView = forwardRef<WebView, CommonWebViewProps>(
       webViewRef.current.removeEventListener =
         customEventManager.removeEventListener;
 
+      fetcherRef.current = buildFetcher(webViewRef.current);
       registerWebView({id, webView: webViewRef.current});
     };
 
