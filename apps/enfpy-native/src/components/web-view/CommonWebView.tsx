@@ -1,4 +1,10 @@
-import React, {forwardRef, useRef, useImperativeHandle, useId} from 'react';
+import React, {
+  forwardRef,
+  useRef,
+  useImperativeHandle,
+  useId,
+  useState,
+} from 'react';
 import WebView, {WebViewProps} from 'react-native-webview';
 import {StyleSheet} from 'react-native';
 import {
@@ -28,13 +34,42 @@ const isValidUrl = (url: string) => {
   return url.startsWith('http');
 };
 
-export const CommonWebView = forwardRef<any, CommonWebViewProps>(
-  ({source}, ref) => {
+const buildCustomEventManager = () => {
+  let eventMap: Record<string, ((event: any) => void)[]> = {};
+
+  const addEventListener = (eventName: string, callbackFn: any) => {
+    const handlers = eventMap[eventName] || [];
+    eventMap[eventName] = handlers.concat(callbackFn);
+  };
+
+  const emit = (eventName: string, event: any) => {
+    const handlers = eventMap[eventName] || [];
+
+    handlers.forEach(handler => {
+      handler(event);
+    });
+  };
+
+  const removeEventListener = (eventName: string, eventListener: any) => {
+    const handlers = eventMap[eventName] || [];
+    eventMap[eventName] = handlers.filter(handler => handler !== eventListener);
+  };
+
+  return {
+    removeEventListener,
+    addEventListener,
+    emit,
+  };
+};
+
+export const CommonWebView = forwardRef<WebView, CommonWebViewProps>(
+  ({source, ...props}, ref) => {
     const id = useId();
     const navigation = useNavigation();
-    const webViewRef = useRef<WebView | null>(null);
-    const messageHandler = useRef<MessageHandler>();
-    useImperativeHandle(ref, () => webViewRef.current);
+    const [customEventManager] = useState(() => buildCustomEventManager());
+    const webViewRef = useRef<WebView>();
+    const requestMessageHandler = useRef<MessageHandler>();
+    useImperativeHandle(ref, () => webViewRef.current!);
     const {registerWebView} = useWebViewHandler();
     const config = useConfig();
 
@@ -48,19 +83,29 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
     useFocusEffect(() => {
       webViewRef?.current?.requestFocus?.();
     });
+
     const handleMessage = (event: WebViewMessageEvent) => {
-      messageHandler.current?.(event);
+      // APP => WEB 요청 응답에 대한 처리
+      customEventManager.emit('message', event);
+
+      // WEB => APP 요청에 대한 처리
+      requestMessageHandler.current?.(event);
     };
+
     const onMounted = (webView: WebView) => {
       if (!webView) {
         return;
       }
-      messageHandler.current = createMessageHandler({
+      requestMessageHandler.current = createMessageHandler({
         id,
         webView: webView,
         navigation,
       });
       webViewRef.current = webView;
+      // 외부 핸들링으 위한 확장
+      webViewRef.current.addEventListener = customEventManager.addEventListener;
+      webViewRef.current.removeEventListener =
+        customEventManager.removeEventListener;
 
       registerWebView({id, webView: webViewRef.current});
     };
@@ -71,6 +116,7 @@ export const CommonWebView = forwardRef<any, CommonWebViewProps>(
         source={{...source, uri}}
         onMessage={handleMessage}
         style={styles.container}
+        {...props}
       />
     );
   },
