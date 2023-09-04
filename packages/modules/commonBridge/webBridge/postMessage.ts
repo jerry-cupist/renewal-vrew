@@ -3,72 +3,12 @@
  */
 
 import WebView, { WebViewMessageEvent } from "react-native-webview";
+import { BridgeMessage, ResponseMessage } from "../types/message";
+import { createRequestMessage } from "../utils/messageUtil";
 
-export interface BridgeMessage<
-  ActionType extends string = string,
-  DataType = any
-> {
-  type: "request" | "response";
-  action: ActionType;
-  request_id: number;
-  data: DataType;
-}
-
-export interface RequestMessage<
-  ActionType extends string = string,
-  DataType = any
-> extends BridgeMessage<ActionType, DataType> {
-  type: "request";
-}
-
-export interface ResponseMessage<
-  ActionType extends string = string,
-  DataType = any
-> extends BridgeMessage<ActionType, DataType> {
-  type: "response";
-}
-
-/**
- * APP => WEB 케이스가 분리되어야 함
- */
-export enum AppBridgeAction {
-  NETWORK_REQUEST = "network-request",
-}
-
-const createRequestIdUtil = () => {
-  let requestId = 0;
-  return { get: () => requestId, increase: () => ++requestId };
-};
-
-const requestIdUtil = createRequestIdUtil();
-
-export const createRequestMessage = <
-  ActionType extends AppBridgeAction,
-  DataType extends object
->(
-  action: ActionType,
-  data: DataType
-): RequestMessage<ActionType, DataType> => ({
-  type: "request",
-  action,
-  request_id: requestIdUtil.increase(),
-  data,
-});
-
-export const createResponseMessage = <DataType>(
-  action: AppBridgeAction,
-  request_id: number,
-  data: DataType
-): ResponseMessage<AppBridgeAction> => ({
-  type: "response",
-  action,
-  request_id,
-  data,
-});
-
-interface PostMessageParams {
+export interface PostMessageParams<ActionType extends string = string> {
   target: WebView;
-  action: AppBridgeAction;
+  action: ActionType;
   data?: any;
   timeout?: number;
 }
@@ -78,9 +18,9 @@ type WebViewMessageHandler = (event: WebViewMessageEvent) => void;
 /**
  * APP => WEB Request message
  */
-const _postMessage = <ResponseType = any>(
+const postMessage = <ActionType extends string = string, ResponseType = any>(
   params: PostMessageParams
-): Promise<BridgeMessage<AppBridgeAction, ResponseType>> => {
+): Promise<BridgeMessage<ActionType, ResponseType>> => {
   const { target, action, data, timeout = 3000 } = params;
 
   let handleResponseMassage: WebViewMessageHandler = () => {};
@@ -108,10 +48,22 @@ const _postMessage = <ResponseType = any>(
 
           const responseMessage = JSON.parse(
             event.nativeEvent.data
-          ) as BridgeMessage<AppBridgeAction, ResponseType>;
+          ) as ResponseMessage<ActionType, ResponseType>;
+
+          const isResponseMessage = responseMessage.type === "response";
+          if (!isResponseMessage) {
+            return;
+          }
+
+          if (typeof responseMessage.request_id === "undefined") {
+            throw new Error(
+              `[APP_BRIDGE]_[RESPONSE]: requestId를 찾을 수 없습니다`
+            );
+          }
 
           const isValidMessage =
-            requestMessage.request_id === responseMessage.request_id;
+            requestMessage.request_id.toString() ===
+            responseMessage.request_id.toString();
           if (!isValidMessage) {
             return;
           }
@@ -130,11 +82,10 @@ const _postMessage = <ResponseType = any>(
       // webView에 수신 이벤트 처리
       target.addEventListener("message", handleResponseMassage);
     } catch (error: unknown) {
+      console.error({ error });
       reject(error);
     }
   });
 };
 
-const appBridge = { postMessage: _postMessage };
-
-export default appBridge;
+export default postMessage;

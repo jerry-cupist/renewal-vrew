@@ -1,18 +1,26 @@
 import {
-  WebBridgeActions,
-  WebBridgeActionDatas,
-} from '@vrew/modules/web-bridge/types/action';
-import {
   createMessageHandler,
   createMessageHandlers,
-} from '@vrew/modules/web-bridge/utils';
+} from '@vrew/modules/commonBridge/appBridge/utils';
+import {
+  AppBridgeActionDatas,
+  AppBridgeReqActions,
+} from '@vrew/modules/enfpyBridge/appBrdige/actions';
 
 const consoleLog = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.DEV_CONSOLE_LOG]
+  'dev-console-log',
+  AppBridgeActionDatas['dev-console-log']
 >(({data}) => {
   console.log('✉️   [LOG]', data.message);
 });
 
-export const devHandlers = createMessageHandlers({
-  [WebBridgeActions.DEV_CONSOLE_LOG]: consoleLog,
+type StartWith<
+  Types extends string,
+  PrefixType extends string,
+> = Types extends `${PrefixType}${string}` ? Types : never;
+
+type DevActionType = StartWith<AppBridgeReqActions, 'dev-'>;
+
+export const devHandlers = createMessageHandlers<DevActionType>({
+  'dev-console-log': consoleLog,
 });

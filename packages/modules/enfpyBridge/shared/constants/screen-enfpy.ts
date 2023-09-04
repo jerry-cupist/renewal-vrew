@@ -17,12 +17,11 @@ export type PathName = `/${string}`;
 type RemoveSlash<PathNameType extends PathName> =
   PathNameType extends `/${infer T}` ? T : PathNameType;
 
-const removeSlash = <T extends PathName>(pathname: T) => {
-  return pathname
+const removeSlash = <T extends PathName>(pathname: T) =>
+  pathname
     .split("/")
     .filter((segment) => segment !== "")
     .join("/") as RemoveSlash<T>;
-};
 
 export type ScreenNameMapType = {
   [name in EnfpyPathnameType]: name extends "ROOT"

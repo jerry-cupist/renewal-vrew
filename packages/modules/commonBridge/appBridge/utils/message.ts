@@ -1,75 +1,11 @@
+import { ResponseMessage } from "../../types/message";
 import {
-  RequestMessage,
-  ResponseMessage,
-  ErrorMessage,
-  BridgeError,
-  BridgeActions,
-} from "../types/message";
-import { WebBridgeActionDatas, WebBridgeActions } from "../types/action";
-
-const createRequestIdUtil = () => {
-  let requestId = 0;
-  return { get: () => requestId, increase: () => ++requestId };
-};
-
-const requestIdUtil = createRequestIdUtil();
-
-/**
- * TODO: DataType추론
- */
-export const createRequestMessage = <
-  ActionType extends BridgeActions,
-  DataType = any
->(
-  action: ActionType,
-  data: DataType
-): RequestMessage<ActionType, DataType> => ({
-  type: "request",
-  action,
-  request_id: requestIdUtil.increase(),
-  data,
-});
-
-export const createResponseMessage = <
-  ActionType extends BridgeActions,
-  DataType = any
->(
-  action: ActionType,
-  request_id: number,
-  data: DataType
-): ResponseMessage<ActionType, DataType> => ({
-  type: "response",
-  action,
-  request_id,
-  data,
-});
-
-/**
- * @deprecated WebViewMessageError 사용 권고
- */
-export const createErrorMessage = (
-  action: BridgeActions,
-  request_id: number,
-  error: BridgeError
-): ErrorMessage => ({
-  type: "error",
-  action,
-  request_id,
-  error,
-});
-
-export class WebViewMessageError extends Error {
-  constructor(
-    public action: BridgeActions,
-    public request_id: number,
-    public error: BridgeError
-  ) {
-    super(`[${error.err_code}] ${error.err_msg}`);
-    this.name = "WebViewMessageError";
-  }
-}
+  createRequestMessage,
+  createResponseMessage,
+} from "../../utils/messageUtil";
 
 type PostMessageType = "request" | "response";
+type MessageEventHandler = (event: MessageEvent) => void;
 
 /**
  * WEB => APP의 요청과 APP => WEB의 응답을 처리한다.
@@ -77,16 +13,15 @@ type PostMessageType = "request" | "response";
  * TODO: 응답타입 추론
  */
 export const postMessage = <
-  ActionType extends BridgeActions = BridgeActions,
-  DataType = any,
-  MessageType extends PostMessageType = "request",
-  RequestIdType = MessageType extends "response" ? number : undefined
+  ActionType extends string = string,
+  DataType = any
 >(params: {
   action: ActionType;
   data?: DataType;
   timeout?: number;
-  type: MessageType;
-  requestId?: RequestIdType;
+  type: PostMessageType;
+  /** MessageType이 response인 경우 필수 */
+  requestId?: number;
 }): Promise<ResponseMessage<ActionType>> =>
   new Promise((resolve, reject) => {
     const { action, data, timeout = 3000, type } = params;
@@ -95,7 +30,7 @@ export const postMessage = <
     const isResponseMessage = type === "response";
 
     let timeId: null | number = null;
-    let handleResponseMessage = (event: MessageEvent<string>) => {};
+    let handleResponseMessage: MessageEventHandler = () => {};
 
     try {
       const webView =
@@ -159,11 +94,13 @@ export const postMessage = <
     }
   });
 
-const messageUtil = {
-  createRequestMessage,
-  createResponseMessage,
-  createErrorMessage,
-  postMessage,
-};
-
-export default messageUtil;
+export type AppPostMessage<
+  ActionType extends string = string,
+  DataType = any
+> = (params: {
+  action: ActionType;
+  data?: DataType | undefined;
+  timeout?: number | undefined;
+  type: PostMessageType;
+  requestId?: number | undefined;
+}) => Promise<ResponseMessage<ActionType>>;

@@ -1,14 +1,11 @@
-import { useBridgeMessageCreator } from "@vrew/modules/web-bridge/hooks/useBridgeMessageCreator";
 import { useRouter } from "next/navigation";
 import { NavigateOptions as _NavigateOptions } from "next/dist/shared/lib/app-router-context";
 import CONFIG from "../../constant/config";
-import { NavigateArg } from "@vrew/modules/web-bridge/types/data/navigation";
 import { useCallback } from "react";
-import {
-  PathName,
-  WebPathnameType,
-  convertToScreenNameFromWebUrl,
-} from "@vrew/modules/web-bridge/constants/screen-enfpy";
+import { NavigateArg } from "@vrew/modules/commonBridge/appBridge/types/data/navigation";
+import { useBridgeMessageCreator } from "@vrew/modules/enfpyBridge/appBrdige/hooks/useBridgeMessageCreator";
+import { convertToScreenNameFromWebUrl } from "@vrew/modules/enfpyBridge/shared/constants/screen-enfpy";
+import { EnfpyWebPathnameType } from "@vrew/modules/enfpyBridge/shared/constants/page-enpfy";
 
 interface NavigateOptions extends _NavigateOptions {
   /** RN에서만 전달된다. */
@@ -34,7 +31,7 @@ export const useNavigation = () => {
       } else {
         const { params } = options || {};
         const screenName = convertToScreenNameFromWebUrl(
-          href as WebPathnameType
+          href as EnfpyWebPathnameType
         );
 
         bridge.navigation.navigate({

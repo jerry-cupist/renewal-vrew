@@ -3,10 +3,9 @@ import {
   CommonWebView,
   CommonWebViewRef,
 } from '../components/web-view/CommonWebView';
-import {ENFPY_WEB_URL} from '@vrew/modules/web-bridge/constants/page-enpfy';
 
 import {View, Button} from 'react-native';
-import {PostPhoneVerificationResponse} from '../../../../packages/apis/enfpy/auth';
+import {ENFPY_WEB_URL} from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy';
 
 export default function RootScreen() {
   const webviewRef = useRef<CommonWebViewRef>(null);
@@ -17,7 +16,8 @@ export default function RootScreen() {
     }
 
     const {fetcher} = webviewRef.current;
-    fetcher<PostPhoneVerificationResponse>({
+
+    fetcher({
       url: '/health-check',
       method: 'get',
     })

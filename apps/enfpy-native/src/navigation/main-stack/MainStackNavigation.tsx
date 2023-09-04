@@ -6,7 +6,7 @@ import Sub from '../../screens/sub/Sub';
 import RootScreen from '../../screens';
 import LoginScreen from '../../screens/login';
 import ProfileScreen from '../../screens/profile';
-import {SCREEN_NAME} from '@vrew/modules/web-bridge/constants/screen-enfpy';
+import {SCREEN_NAME} from '@vrew/modules/enfpyBridge/shared/constants/screen-enfpy';
 
 const Stack = createNativeStackNavigator();
 

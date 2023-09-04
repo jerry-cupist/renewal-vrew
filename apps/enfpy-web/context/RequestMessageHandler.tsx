@@ -3,17 +3,24 @@
 import { PropsWithChildren, useEffect } from "react";
 import enfpyApiClient from "../apis";
 import { EnfpyRequestConfig } from "@vrew/apis/enfpy";
-import { AppBridgeAction, RequestMessage } from "@vrew/modules/app-bridge";
-import messageUtil, {
-  WebViewMessageError,
-} from "@vrew/modules/web-bridge/utils/message";
-import { MessageError } from "@vrew/modules/web-bridge/types/message";
+
+import {
+  MessageError,
+  RequestMessage,
+} from "@vrew/modules/commonBridge/types/message";
+import { AppBridgeAction } from "@vrew/modules/enfpyBridge/webBrdige/actions";
+import { WebViewMessageError } from "@vrew/modules/commonBridge/utils/messageUtil";
+import { enfpyAppBridge } from "@vrew/modules/enfpyBridge/appBrdige";
+import {
+  FETCHER_ACTION_TYPES,
+  FetcherActionType,
+} from "@vrew/modules/commonBridge/webBridge/buildFetcher";
 
 /**
  * TODO: 메세지 출처 검증 필요
  */
-const isNetworkRequestMessage = (message: RequestMessage) =>
-  message.action === AppBridgeAction.NETWORK_REQUEST &&
+const isNetworkRequestMessage = (message: RequestMessage<AppBridgeAction>) =>
+  message.action === FETCHER_ACTION_TYPES.FETCHER_REQUEST &&
   message.type === "request" &&
   typeof message.request_id === "number";
 
@@ -31,7 +38,7 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
 
       try {
         const message = JSON.parse(event.data) as RequestMessage<
-          AppBridgeAction.NETWORK_REQUEST,
+          FetcherActionType["FETCHER_REQUEST"],
           EnfpyRequestConfig
         >;
         requestId = message.request_id;
@@ -43,8 +50,8 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
         const axiosConfig = message.data;
         const response = await enfpyApiClient.request(axiosConfig);
 
-        messageUtil.postMessage({
-          action: AppBridgeAction.NETWORK_REQUEST,
+        enfpyAppBridge.postMessage({
+          action: FETCHER_ACTION_TYPES.FETCHER_REQUEST,
           data: {
             data: response.data,
             config: {
@@ -63,7 +70,7 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
           // TODO: 메세지 가공필요
           const errorMessage = "통신에러";
           responseError = new WebViewMessageError(
-            AppBridgeAction.NETWORK_REQUEST,
+            FETCHER_ACTION_TYPES.FETCHER_REQUEST,
             requestId,
             {
               err_code: MessageError.NOT_REGISTERED_ACTION,
@@ -72,8 +79,8 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
           );
         }
 
-        messageUtil.postMessage({
-          action: AppBridgeAction.NETWORK_REQUEST,
+        enfpyAppBridge.postMessage({
+          action: FETCHER_ACTION_TYPES.FETCHER_REQUEST,
           type: "response",
           data: responseError,
         });

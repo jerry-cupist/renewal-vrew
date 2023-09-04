@@ -18,7 +18,9 @@ import {
 } from '../../contexts/web-bridge/WebViewContext';
 import {createRequestMessageHandler} from '../../contexts/web-bridge/handlers';
 import useConfig from '../../hooks/useConfig';
-import {Fetcher, buildFetcher} from '@vrew/modules/app-bridge/buildFetcher';
+import buildFetcher, {
+  Fetcher,
+} from '@vrew/modules/commonBridge/webBridge/buildFetcher';
 import {buildCustomEventManager} from '../../utils/customEvent';
 
 export interface CommonWebViewProps extends WebViewProps {

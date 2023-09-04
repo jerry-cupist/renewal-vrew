@@ -1,20 +1,22 @@
 import {
+  AppBridgeMessageHandler,
   CreateMessageHandlerArgs,
-  MessageError,
-  RequestMessage,
-  WebBridgeMessageHandler,
-} from '@vrew/modules/web-bridge/types/message';
+} from '@vrew/modules/commonBridge/appBridge/types/message';
 import {devHandlers} from './dev';
 import {navigationHandlers} from './navigation';
 import {WebViewMessageEvent} from 'react-native-webview';
 import {
+  MessageError,
+  RequestMessage,
+} from '@vrew/modules/commonBridge/types/message';
+import {AppBridgeReqActions} from '@vrew/modules/enfpyBridge/appBrdige/actions';
+import {
   WebViewMessageError,
   createResponseMessage,
-} from '@vrew/modules/web-bridge/utils';
-import {WebBridgeActions} from '@vrew/modules/web-bridge/types/action';
+} from '@vrew/modules/commonBridge/utils/messageUtil';
 
 // TODO: createHandler 등을 통해 각 핸들러의 매개변수와 반환값이 추론되도록 변경
-const webBridgeMessageHandler = {
+const appBridgeMessageHandler = {
   ...navigationHandlers,
   ...devHandlers,
 };
@@ -32,7 +34,7 @@ export const createRequestMessageHandler = (args: CreateMessageHandlerArgs) =>
     const {webView} = args;
     const requestMessage = JSON.parse(
       message,
-    ) as RequestMessage<WebBridgeActions>;
+    ) as RequestMessage<AppBridgeReqActions>;
     const {action, request_id: requestId} = requestMessage;
 
     // WEB => APP 요청이 아닌 경우
@@ -44,7 +46,9 @@ export const createRequestMessageHandler = (args: CreateMessageHandlerArgs) =>
       message: requestMessage,
     });
 
-    const handler: WebBridgeMessageHandler = webBridgeMessageHandler[action];
+    const handler = appBridgeMessageHandler[
+      action
+    ] as AppBridgeMessageHandler<AppBridgeReqActions>;
 
     try {
       if (!webView?.postMessage) {
