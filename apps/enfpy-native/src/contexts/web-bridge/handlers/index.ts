@@ -11,6 +11,7 @@ import {
   WebViewMessageError,
   createResponseMessage,
 } from '@vrew/modules/web-bridge/utils';
+import {WebBridgeActions} from '@vrew/modules/web-bridge/types/action';
 
 // TODO: createHandler 등을 통해 각 핸들러의 매개변수와 반환값이 추론되도록 변경
 const webBridgeMessageHandler = {
@@ -18,7 +19,10 @@ const webBridgeMessageHandler = {
   ...devHandlers,
 };
 
-export const createMessageHandler = (args: CreateMessageHandlerArgs) =>
+/**
+ * WEB => APP 요청에 대한 응답 처리
+ */
+export const createRequestMessageHandler = (args: CreateMessageHandlerArgs) =>
   async function messageHandler(e: WebViewMessageEvent): Promise<boolean> {
     if (!e?.nativeEvent?.data) {
       return false;
@@ -26,8 +30,16 @@ export const createMessageHandler = (args: CreateMessageHandlerArgs) =>
 
     const {data: message} = e.nativeEvent;
     const {webView} = args;
-    const requestMessage = JSON.parse(message) as RequestMessage;
+    const requestMessage = JSON.parse(
+      message,
+    ) as RequestMessage<WebBridgeActions>;
     const {action, request_id: requestId} = requestMessage;
+
+    // WEB => APP 요청이 아닌 경우
+    if (requestMessage.type !== 'request') {
+      return false;
+    }
+
     console.log(`⚪️ [WEBVIEW_MESSAGE]_[REQUEST]_[${action}] \n ►`, {
       message: requestMessage,
     });

@@ -16,7 +16,7 @@ import {
   MessageHandler,
   useWebViewHandler,
 } from '../../contexts/web-bridge/WebViewContext';
-import {createMessageHandler} from '../../contexts/web-bridge/handlers';
+import {createRequestMessageHandler} from '../../contexts/web-bridge/handlers';
 import useConfig from '../../hooks/useConfig';
 
 export interface CommonWebViewProps extends WebViewProps {
@@ -96,13 +96,13 @@ export const CommonWebView = forwardRef<WebView, CommonWebViewProps>(
       if (!webView) {
         return;
       }
-      requestMessageHandler.current = createMessageHandler({
+      requestMessageHandler.current = createRequestMessageHandler({
         id,
         webView: webView,
         navigation,
       });
       webViewRef.current = webView;
-      // 외부 핸들링으 위한 확장
+      // 외부 핸들링을 위한 확장
       webViewRef.current.addEventListener = customEventManager.addEventListener;
       webViewRef.current.removeEventListener =
         customEventManager.removeEventListener;
