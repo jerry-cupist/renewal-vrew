@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import AuthProvider from "../context/AuthProvider";
 import QueryClientProvider from "../context/QueryClientProvider";
-import MessageHandler from "../context/MessageHandler";
+import RequestMessageHandler from "../context/RequestMessageHandler";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
@@ -9,7 +9,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body>
         <AuthProvider>
           <QueryClientProvider>
-            <MessageHandler>{children}</MessageHandler>
+            <RequestMessageHandler>{children}</RequestMessageHandler>
           </QueryClientProvider>
         </AuthProvider>
       </body>
