@@ -8,6 +8,7 @@ export const devMessages = {
     messageUtil.postMessage({
       action: WebBridgeActions.DEV_CONSOLE_LOG,
       data: args,
+      type: "request",
     });
   },
 };

@@ -2857,6 +2857,7 @@ __metadata:
   resolution: "@vrew/modules@workspace:packages/modules"
   dependencies:
     "@react-navigation/native": ^6.1.7
+    "@vrew/apis": "workspace:*"
     axios: ^1.5.0
     react-native-webview: ^13.5.1
     typescript: 4.8.4

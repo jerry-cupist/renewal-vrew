@@ -7,11 +7,15 @@ const navigate = (
   messageUtil.postMessage({
     action: WebBridgeActions.NAVIGATION_NAVIGATE,
     data: args,
+    type: "request",
   });
 };
 
 const goBack = () => {
-  messageUtil.postMessage({ action: WebBridgeActions.NAVIGATION_GO_BACK });
+  messageUtil.postMessage({
+    action: WebBridgeActions.NAVIGATION_GO_BACK,
+    type: "request",
+  });
 };
 
 const navigationMessages = {
