@@ -1,9 +1,9 @@
 "use client";
 
 import { Header } from "@vrew/ui";
-import Link from "next/link";
 import useAuth from "../hooks/useAuth";
-import { useSession } from "next-auth/react";
+import Anchor from "../components/Anchor";
+import { useSession } from "../hooks/server/auth";
 
 export default function Page(): JSX.Element {
   const auth = useAuth();
@@ -23,7 +23,7 @@ export default function Page(): JSX.Element {
 
           <div>
             {auth.isSignIn && (
-              <button onClick={() => auth.signOut()}>로그아웃</button>
+              <button onClick={() => auth.signOut({})}>로그아웃</button>
             )}
           </div>
 
@@ -31,7 +31,7 @@ export default function Page(): JSX.Element {
             <h4>withAuth</h4>
             <ul>
               <li>
-                <Link href="profile">프로필 페이지</Link>
+                <Anchor href="/profile">프로필 페이지</Anchor>
               </li>
             </ul>
           </div>
@@ -39,7 +39,7 @@ export default function Page(): JSX.Element {
             <h4>withOutAuth</h4>
             <ul>
               <li>
-                <Link href="login">로그인 페이지</Link>
+                <Anchor href="/login">로그인 페이지</Anchor>
               </li>
             </ul>
           </div>

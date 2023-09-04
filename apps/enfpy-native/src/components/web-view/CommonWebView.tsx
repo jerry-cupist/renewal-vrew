@@ -1,59 +1,74 @@
-import React, {
-  forwardRef,
-  useRef,
-  useImperativeHandle,
-  useId,
-  useEffect,
-} from 'react';
-import WebView, {WebViewMessageEvent, WebViewProps} from 'react-native-webview';
+import React, {forwardRef, useRef, useImperativeHandle, useId} from 'react';
+import WebView, {WebViewProps} from 'react-native-webview';
 import {StyleSheet} from 'react-native';
-import {WebViewSourceUri} from 'react-native-webview/lib/WebViewTypes';
-import {useNavigation} from '@react-navigation/native';
+import {
+  WebViewMessageEvent,
+  WebViewSourceUri,
+} from 'react-native-webview/lib/WebViewTypes';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   MessageHandler,
   useWebViewHandler,
 } from '../../contexts/web-bridge/WebViewContext';
 import {createMessageHandler} from '../../contexts/web-bridge/handlers';
+import useConfig from '../../hooks/useConfig';
 
 export interface CommonWebViewProps extends WebViewProps {
   source: WebViewSourceUri;
 }
 
+/**
+ * TODO: 정규식으로 바꾸기
+ */
+const isValidUrl = (url: string) => {
+  // const regExp =
+  //   /(https|http)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#()?&//=]*)/;
+  // return regExp.test(url);
+
+  return url.startsWith('http');
+};
+
 export const CommonWebView = forwardRef<any, CommonWebViewProps>(
-  (props, ref) => {
+  ({source}, ref) => {
     const id = useId();
     const navigation = useNavigation();
     const webViewRef = useRef<WebView | null>(null);
     const messageHandler = useRef<MessageHandler>();
     useImperativeHandle(ref, () => webViewRef.current);
     const {registerWebView} = useWebViewHandler();
+    const config = useConfig();
 
-    useEffect(() => {
-      if (webViewRef.current) {
-        registerWebView({id, webView: webViewRef.current});
-      }
-    }, [registerWebView, id]);
+    const uri = isValidUrl(source.uri)
+      ? source.uri
+      : config.webUrl + source.uri;
 
-    const handleMessage = (e: WebViewMessageEvent) => {
-      console.log('message received', JSON.parse(e.nativeEvent.data));
-      messageHandler.current?.(e);
+    /**
+     * screen 전환시 웹뷰가 포커스되지 않는 이슈가 있다.
+     */
+    useFocusEffect(() => {
+      webViewRef?.current?.requestFocus?.();
+    });
+    const handleMessage = (event: WebViewMessageEvent) => {
+      messageHandler.current?.(event);
     };
-
-    const initWebView = (webView: WebView) => {
-      if (webView) {
-        messageHandler.current = createMessageHandler({
-          id,
-          webView: webView,
-          navigation,
-        });
-        webViewRef.current = webView;
+    const onMounted = (webView: WebView) => {
+      if (!webView) {
+        return;
       }
+      messageHandler.current = createMessageHandler({
+        id,
+        webView: webView,
+        navigation,
+      });
+      webViewRef.current = webView;
+
+      registerWebView({id, webView: webViewRef.current});
     };
 
     return (
       <WebView
-        ref={initWebView}
-        source={props.source}
+        ref={onMounted}
+        source={{...source, uri}}
         onMessage={handleMessage}
         style={styles.container}
       />
