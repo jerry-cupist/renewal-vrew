@@ -16,7 +16,7 @@ export const createRequestMessage = <
 ): RequestMessage<ActionType, DataType> => ({
   type: "request",
   action,
-  request_id: requestIdUtil.increase(),
+  requestId: requestIdUtil.increase(),
   data,
 });
 
@@ -25,19 +25,19 @@ export const createResponseMessage = <
   DataType = any
 >(
   action: ActionType,
-  request_id: number,
+  requestId: number,
   data: DataType
 ): ResponseMessage<ActionType, DataType> => ({
   type: "response",
   action,
-  request_id,
+  requestId,
   data,
 });
 
 export class WebViewMessageError extends Error {
   constructor(
     public action: string,
-    public request_id: number,
+    public requestId: number,
     public error: BridgeError
   ) {
     super(`[${error.err_code}] ${error.err_msg}`);

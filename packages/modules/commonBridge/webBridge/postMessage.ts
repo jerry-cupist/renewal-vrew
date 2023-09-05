@@ -55,15 +55,15 @@ const postMessage = <ActionType extends string = string, ResponseType = any>(
             return;
           }
 
-          if (typeof responseMessage.request_id === "undefined") {
+          if (typeof responseMessage.requestId === "undefined") {
             throw new Error(
               `[APP_BRIDGE]_[RESPONSE]: requestId를 찾을 수 없습니다`
             );
           }
 
           const isValidMessage =
-            requestMessage.request_id.toString() ===
-            responseMessage.request_id.toString();
+            requestMessage.requestId.toString() ===
+            responseMessage.requestId.toString();
           if (!isValidMessage) {
             return;
           }

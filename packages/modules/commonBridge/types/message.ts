@@ -18,7 +18,7 @@ export interface RequestMessage<
   DataType = any
 > extends BridgeMessage<ActionType, DataType> {
   type: "request";
-  request_id: number;
+  requestId: number;
 }
 
 export interface ResponseMessage<
@@ -26,7 +26,7 @@ export interface ResponseMessage<
   DataType = any
 > extends BridgeMessage<ActionType, DataType> {
   type: "response";
-  request_id: number;
+  requestId: number;
 }
 
 export interface BridgeError {
@@ -39,6 +39,6 @@ export interface ErrorMessage<
   DataType = any
 > extends BridgeMessage<ActionType, DataType> {
   type: "error";
-  request_id: number;
+  requestId: number;
   error: BridgeError;
 }

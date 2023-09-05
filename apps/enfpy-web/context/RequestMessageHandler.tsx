@@ -22,7 +22,7 @@ import {
 const isNetworkRequestMessage = (message: RequestMessage<AppBridgeAction>) =>
   message.action === FETCHER_ACTION.FETCHER_REQUEST &&
   message.type === "request" &&
-  typeof message.request_id === "number";
+  typeof message.requestId === "number";
 
 /**
  * APP의 네트워크 요청 처리
@@ -41,7 +41,7 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
           FetcherActionType["FETCHER_REQUEST"],
           EnfpyRequestConfig
         >;
-        requestId = message.request_id;
+        requestId = message.requestId;
 
         if (!isNetworkRequestMessage(message)) {
           return;
@@ -61,7 +61,7 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
             },
           },
           type: "response",
-          requestId: message.request_id,
+          requestId: message.requestId,
         });
       } catch (error) {
         let responseError = error;

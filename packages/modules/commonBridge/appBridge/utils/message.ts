@@ -11,6 +11,7 @@ type MessageEventHandler = (event: MessageEvent) => void;
  * WEB => APP의 요청과 APP => WEB의 응답을 처리한다.
  * @param param.timeout {number} (default:3000)
  * TODO: 응답타입 추론
+ * TODO: 요청 타입
  */
 export const postMessage = <
   ActionType extends string = string,
@@ -69,7 +70,7 @@ export const postMessage = <
             const responseMessage = JSON.parse(
               data
             ) as ResponseMessage<ActionType>;
-            if (requestMessage.request_id !== responseMessage.request_id) {
+            if (requestMessage.requestId !== responseMessage.requestId) {
               return;
             }
 
