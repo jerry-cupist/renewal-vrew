@@ -1,0 +1,3 @@
+{
+  "extends": "@vrew/tsconfig/base.json"
+}
