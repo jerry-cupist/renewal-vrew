@@ -2398,12 +2398,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native@npm:^0.70.4":
-  version: 0.70.11
-  resolution: "@types/react-native@npm:0.70.11"
+"@types/react-native@npm:^0.70.3":
+  version: 0.70.14
+  resolution: "@types/react-native@npm:0.70.14"
   dependencies:
     "@types/react": "*"
-  checksum: d81155adbc0ca7d407772a4be531834890b2a64ebd992d9658c8384d7c39d1026da85ee504ea412887eb4269b9911d213d013a141f352df9e7a7256c267c0c73
+  checksum: 6df79ca70fe0643229dc23ad5121b4bdc80347a10ea8b352e89a97dda6e6f234c5a035e1d88debd3452f91964b95e7cc9a157105c9e09d93cadd28fd079394ba
   languageName: node
   linkType: hard
 
@@ -2416,7 +2416,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.21":
+"@types/react@npm:*":
   version: 18.0.28
   resolution: "@types/react@npm:18.0.28"
   dependencies:
@@ -2438,7 +2438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.0":
+"@types/react@npm:^18.1.0, @types/react@npm:^18.2.0":
   version: 18.2.21
   resolution: "@types/react@npm:18.2.21"
   dependencies:
@@ -2803,8 +2803,8 @@ __metadata:
     "@react-navigation/native-stack": ^6.9.13
     "@tsconfig/react-native": ^2.0.2
     "@types/jest": ^26.0.23
-    "@types/react": ^18.0.21
-    "@types/react-native": ^0.70.4
+    "@types/react": ^18.1.0
+    "@types/react-native": ^0.70.3
     "@types/react-test-renderer": ^18.0.0
     "@typescript-eslint/eslint-plugin": ^5.37.0
     "@typescript-eslint/parser": ^5.37.0
@@ -2821,7 +2821,7 @@ __metadata:
     react-native-screens: ^3.24.0
     react-native-webview: ^13.4.0
     react-test-renderer: ^18.1.0
-    typescript: ^4.8.4
+    typescript: 5.2.2
   languageName: unknown
   linkType: soft
 
@@ -2848,7 +2848,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     store2: ^2.14.2
-    typescript: 4.8.4
+    typescript: 5.2.2
   languageName: unknown
   linkType: soft
 
@@ -12354,7 +12354,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.5.2, typescript@npm:^4.8.4":
+"typescript@npm:5.2.2":
+  version: 5.2.2
+  resolution: "typescript@npm:5.2.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 7912821dac4d962d315c36800fe387cdc0a6298dba7ec171b350b4a6e988b51d7b8f051317786db1094bd7431d526b648aba7da8236607febb26cf5b871d2d3c
+  languageName: node
+  linkType: hard
+
+"typescript@npm:^4.5.2":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
   bin:
@@ -12374,7 +12384,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.5.2#~builtin<compat/typescript>, typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@5.2.2#~builtin<compat/typescript>":
+  version: 5.2.2
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=701156"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 07106822b4305de3f22835cbba949a2b35451cad50888759b6818421290ff95d522b38ef7919e70fb381c5fe9c1c643d7dea22c8b31652a717ddbd57b7f4d554
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.5.2#~builtin<compat/typescript>":
   version: 4.9.5
   resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=701156"
   bin:
