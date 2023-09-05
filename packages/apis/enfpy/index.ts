@@ -162,7 +162,16 @@ export class EnfpyApiClient {
   deleteToken = () => {
     delete this.instance.defaults.headers["Authorization"];
   };
+
+  request = (config: AxiosRequestConfig) => {
+    return this.instance(config);
+  };
 }
+
+export type EnfpyRequestConfig<D = any> = Pick<
+  AxiosRequestConfig<D>,
+  "baseURL" | "params" | "data" | "url" | "method"
+>;
 
 export default new EnfpyApiClient({
   client: apiClient,

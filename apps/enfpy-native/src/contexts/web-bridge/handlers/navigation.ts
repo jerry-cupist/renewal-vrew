@@ -1,53 +1,62 @@
 import {CommonActions, StackActions} from '@react-navigation/native';
 import {
-  WebBridgeActions,
-  WebBridgeActionDatas,
-} from '@vrew/modules/web-bridge/types/action';
-import {
   createMessageHandler,
   createMessageHandlers,
-} from '@vrew/modules/web-bridge/utils';
+} from '@vrew/modules/commonBridge/appBridge/utils';
+import {
+  AppBridgeActionDatas,
+  AppBridgeReqActions,
+} from '@vrew/modules/enfpyBridge/appBrdige/actions';
+import {StartWith} from '../../../types/util';
 
+// TODO: 액션타입 추론
 const navigate = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
+  'navigation-navigate',
+  AppBridgeActionDatas['navigation-navigate']
 >(({data}, {navigation}) => {
   const {screenName, params} = data;
   navigation.dispatch(CommonActions.navigate(screenName, params));
 });
 
 const goBack = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_GO_BACK]
+  'navigation-go-back',
+  AppBridgeActionDatas['navigation-go-back']
 >((_, {navigation}) => {
   navigation.dispatch(CommonActions.goBack());
 });
 
 const canGoBack = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_CAN_GO_BACK]
+  'navigation-can-go-back',
+  AppBridgeActionDatas['navigation-can-go-back']
 >((_, {navigation}) => {
   navigation.canGoBack();
 });
 
 const push = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_PUSH]
+  'navigation-push',
+  AppBridgeActionDatas['navigation-push']
 >(({data}, {navigation}) => {
   const {screenName, params} = data;
   navigation.dispatch(StackActions.push(screenName, params));
 });
 
 const popToTop = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_POP_TO_TOP]
+  'navigation-pop-to-top',
+  AppBridgeActionDatas['navigation-pop-to-top']
 >((_, {navigation}) => {
   navigation.dispatch(StackActions.popToTop());
 });
 
 const pop = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_POP]
+  'navigation-pop',
+  AppBridgeActionDatas['navigation-pop']
 >(({data}, {navigation}) => {
   navigation.dispatch(StackActions.pop(data));
 });
 
 const replace = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_REPLACE]
+  'navigation-replace',
+  AppBridgeActionDatas['navigation-replace']
 >(({data}, {navigation}) => {
   const {screenName, params} = data;
 
@@ -55,7 +64,8 @@ const replace = createMessageHandler<
 });
 
 const reset = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_RESET]
+  'navigation-reset',
+  AppBridgeActionDatas['navigation-reset']
 >(({data}, {navigation}) => {
   const {index, routes} = data;
 
@@ -71,26 +81,34 @@ const reset = createMessageHandler<
 });
 
 const reload = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_REPLACE]
+  'navigation-reload',
+  AppBridgeActionDatas['navigation-reload']
 >((_, {webView}) => {
   webView.reload();
 });
 
 const setOptions = createMessageHandler<
-  WebBridgeActionDatas[WebBridgeActions.NAVIGATION_SET_OPTIONS]
+  'navigation-set-options',
+  AppBridgeActionDatas['navigation-set-options']
 >(({data}, {navigation}) => {
   navigation.setOptions(data);
 });
 
-export const navigationHandlers = createMessageHandlers({
-  [WebBridgeActions.NAVIGATION_NAVIGATE]: navigate,
-  [WebBridgeActions.NAVIGATION_GO_BACK]: goBack,
-  [WebBridgeActions.NAVIGATION_CAN_GO_BACK]: canGoBack,
-  [WebBridgeActions.NAVIGATION_PUSH]: push,
-  [WebBridgeActions.NAVIGATION_POP_TO_TOP]: popToTop,
-  [WebBridgeActions.NAVIGATION_POP]: pop,
-  [WebBridgeActions.NAVIGATION_REPLACE]: replace,
-  [WebBridgeActions.NAVIGATION_RESET]: reset,
-  [WebBridgeActions.NAVIGATION_RELOAD]: reload,
-  [WebBridgeActions.NAVIGATION_SET_OPTIONS]: setOptions,
+type NavigationActionPrefix = 'navigation-';
+type NavigationActionType = StartWith<
+  AppBridgeReqActions,
+  NavigationActionPrefix
+>;
+
+export const navigationHandlers = createMessageHandlers<NavigationActionType>({
+  'navigation-navigate': navigate,
+  'navigation-can-go-back': canGoBack,
+  'navigation-go-back': goBack,
+  'navigation-push': push,
+  'navigation-pop-to-top': popToTop,
+  'navigation-pop': pop,
+  'navigation-reload': reload,
+  'navigation-replace': replace,
+  'navigation-reset': reset,
+  'navigation-set-options': setOptions,
 });
