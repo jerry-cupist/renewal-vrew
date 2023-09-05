@@ -7,6 +7,7 @@ import {
   AppBridgeActionDatas,
   AppBridgeReqActions,
 } from '@vrew/modules/enfpyBridge/appBrdige/actions';
+import {StartWith} from '../../../types/util';
 
 // TODO: 액션타입 추론
 const navigate = createMessageHandler<
@@ -93,12 +94,11 @@ const setOptions = createMessageHandler<
   navigation.setOptions(data);
 });
 
-type StartWith<
-  Types extends string,
-  PrefixType extends string,
-> = Types extends `${PrefixType}${string}` ? Types : never;
-
-type NavigationActionType = StartWith<AppBridgeReqActions, 'navigation'>;
+type NavigationActionPrefix = 'navigation-';
+type NavigationActionType = StartWith<
+  AppBridgeReqActions,
+  NavigationActionPrefix
+>;
 
 export const navigationHandlers = createMessageHandlers<NavigationActionType>({
   'navigation-navigate': navigate,

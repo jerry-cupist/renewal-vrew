@@ -6,6 +6,7 @@ import {
   AppBridgeActionDatas,
   AppBridgeReqActions,
 } from '@vrew/modules/enfpyBridge/appBrdige/actions';
+import {StartWith} from '../../../types/util';
 
 const consoleLog = createMessageHandler<
   'dev-console-log',
@@ -14,12 +15,8 @@ const consoleLog = createMessageHandler<
   console.log('✉️   [LOG]', data.message);
 });
 
-type StartWith<
-  Types extends string,
-  PrefixType extends string,
-> = Types extends `${PrefixType}${string}` ? Types : never;
-
-type DevActionType = StartWith<AppBridgeReqActions, 'dev-'>;
+type DevActionPrefix = 'dev-';
+type DevActionType = StartWith<AppBridgeReqActions, DevActionPrefix>;
 
 export const devHandlers = createMessageHandlers<DevActionType>({
   'dev-console-log': consoleLog,
