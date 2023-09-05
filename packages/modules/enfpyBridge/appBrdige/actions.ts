@@ -7,11 +7,11 @@ import {
   ReplaceArgs,
   ResetArgs,
 } from "../../commonBridge/appBridge/types/data/navigation";
-import { FETCHER_ACTION_TYPES } from "../../commonBridge/webBridge/buildFetcher";
+import { FETCHER_ACTION } from "../../commonBridge/webBridge/buildFetcher";
 
 /** 수신 */
 const AppBridgeResActions = {
-  ...FETCHER_ACTION_TYPES,
+  ...FETCHER_ACTION,
 } as const;
 
 /** 송신 */

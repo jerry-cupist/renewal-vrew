@@ -1,7 +1,7 @@
-import { FETCHER_ACTION_TYPES } from "../../commonBridge/webBridge/buildFetcher";
+import { FETCHER_ACTION } from "../../commonBridge/webBridge/buildFetcher";
 
 const AppBridgeAction = {
-  ...FETCHER_ACTION_TYPES,
+  ...FETCHER_ACTION,
 } as const;
 
 export type AppBridgeAction =

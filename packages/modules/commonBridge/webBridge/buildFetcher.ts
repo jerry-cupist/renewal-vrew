@@ -15,11 +15,11 @@ interface NetworkRequestResult<
   config: ConfigType;
 }
 
-export const FETCHER_ACTION_TYPES = {
+export const FETCHER_ACTION = {
   FETCHER_REQUEST: "fetcher-request",
 } as const;
 
-export type FetcherActionType = typeof FETCHER_ACTION_TYPES;
+export type FetcherActionType = typeof FETCHER_ACTION;
 
 /**
  * @todo 응답값추론 추가
@@ -31,7 +31,7 @@ const buildFetcher = (webview: WebView) =>
     return webBridge
       .postMessage({
         target: webview,
-        action: FETCHER_ACTION_TYPES.FETCHER_REQUEST,
+        action: FETCHER_ACTION.FETCHER_REQUEST,
         timeout: requestConfig.timeout || 3000,
         data: requestConfig,
       })

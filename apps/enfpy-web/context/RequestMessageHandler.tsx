@@ -12,7 +12,7 @@ import { AppBridgeAction } from "@vrew/modules/enfpyBridge/webBrdige/actions";
 import { WebViewMessageError } from "@vrew/modules/commonBridge/utils/messageUtil";
 import { enfpyAppBridge } from "@vrew/modules/enfpyBridge/appBrdige";
 import {
-  FETCHER_ACTION_TYPES,
+  FETCHER_ACTION,
   FetcherActionType,
 } from "@vrew/modules/commonBridge/webBridge/buildFetcher";
 
@@ -20,7 +20,7 @@ import {
  * TODO: 메세지 출처 검증 필요
  */
 const isNetworkRequestMessage = (message: RequestMessage<AppBridgeAction>) =>
-  message.action === FETCHER_ACTION_TYPES.FETCHER_REQUEST &&
+  message.action === FETCHER_ACTION.FETCHER_REQUEST &&
   message.type === "request" &&
   typeof message.request_id === "number";
 
@@ -51,7 +51,7 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
         const response = await enfpyApiClient.request(axiosConfig);
 
         enfpyAppBridge.postMessage({
-          action: FETCHER_ACTION_TYPES.FETCHER_REQUEST,
+          action: FETCHER_ACTION.FETCHER_REQUEST,
           data: {
             data: response.data,
             config: {
@@ -70,7 +70,7 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
           // TODO: 메세지 가공필요
           const errorMessage = "통신에러";
           responseError = new WebViewMessageError(
-            FETCHER_ACTION_TYPES.FETCHER_REQUEST,
+            FETCHER_ACTION.FETCHER_REQUEST,
             requestId,
             {
               err_code: MessageError.NOT_REGISTERED_ACTION,
@@ -80,7 +80,7 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
         }
 
         enfpyAppBridge.postMessage({
-          action: FETCHER_ACTION_TYPES.FETCHER_REQUEST,
+          action: FETCHER_ACTION.FETCHER_REQUEST,
           type: "response",
           data: responseError,
         });
