@@ -23,7 +23,7 @@ const postMessage = <ActionType extends string = string, ResponseType = any>(
 ): Promise<BridgeMessage<ActionType, ResponseType>> => {
   const { target, action, data, timeout = 3000 } = params;
 
-  let handleResponseMassage: WebViewMessageHandler = () => {};
+  let handleResponseMessage: WebViewMessageHandler = () => {};
 
   return new Promise((resolve, reject) => {
     let timeId: null | number = null;
@@ -33,14 +33,14 @@ const postMessage = <ActionType extends string = string, ResponseType = any>(
         throw new Error("[POST_MESSAGE] target을 찾을 수 없습니다");
       }
       timeId = setTimeout(() => {
-        target.removeEventListener("message", handleResponseMassage);
+        target.removeEventListener("message", handleResponseMessage);
         reject(new Error(`[POST_MESSAGE]_[TIMEOUT] ${action}`));
       }, timeout);
 
       const requestMessage = createRequestMessage(action, data);
       target.postMessage(JSON.stringify(requestMessage));
 
-      handleResponseMassage = (event) => {
+      handleResponseMessage = (event) => {
         try {
           if (typeof event.nativeEvent.data !== "string") {
             return;
@@ -71,7 +71,7 @@ const postMessage = <ActionType extends string = string, ResponseType = any>(
           if (timeId) {
             clearTimeout(timeId);
           }
-          target.removeEventListener("message", handleResponseMassage);
+          target.removeEventListener("message", handleResponseMessage);
           resolve(responseMessage);
         } catch (error: unknown) {
           console.log(`[NETWORK]-수신 에러${error}`);
@@ -80,7 +80,7 @@ const postMessage = <ActionType extends string = string, ResponseType = any>(
       };
 
       // webView에 수신 이벤트 처리
-      target.addEventListener("message", handleResponseMassage);
+      target.addEventListener("message", handleResponseMessage);
     } catch (error: unknown) {
       console.error({ error });
       reject(error);
