@@ -1,4 +1,8 @@
-import { BridgeError, RequestMessage, ResponseMessage } from "../types/message";
+import {
+  BridgeErrorType,
+  RequestMessage,
+  ResponseMessage,
+} from "../types/message";
 
 const createRequestIdUtil = () => {
   let requestId = 0;
@@ -7,40 +11,53 @@ const createRequestIdUtil = () => {
 
 const requestIdUtil = createRequestIdUtil();
 
+export interface CreateRequestMessageParams<
+  ActionType extends string = string,
+  DataType = any
+> {
+  action: ActionType;
+  data: DataType;
+}
+
+export interface CreateResponseMessageParams<
+  ActionType extends string = string,
+  DataType = any
+> {
+  action: ActionType;
+  data: DataType;
+  requestId: number;
+}
+
 export const createRequestMessage = <
   ActionType extends string = string,
   DataType = any
 >(
-  action: ActionType,
-  data: DataType
+  params: CreateRequestMessageParams<ActionType, DataType>
 ): RequestMessage<ActionType, DataType> => ({
   type: "request",
-  action,
+  action: params.action,
   requestId: requestIdUtil.increase(),
-  data,
+  data: params.data,
 });
 
 export const createResponseMessage = <
   ActionType extends string = string,
   DataType = any
 >(
-  action: ActionType,
-  requestId: number,
-  data: DataType
+  params: CreateResponseMessageParams<ActionType, DataType>
 ): ResponseMessage<ActionType, DataType> => ({
   type: "response",
-  action,
-  requestId,
-  data,
+  action: params.action,
+  requestId: params.requestId,
+  data: params.data,
 });
 
-export class WebViewMessageError extends Error {
+export class BridgeError extends Error {
   constructor(
-    public action: string,
-    public requestId: number,
-    public error: BridgeError
+    private args: { action: string; error: BridgeErrorType; requestId?: number }
   ) {
-    super(`[${error.err_code}] ${error.err_msg}`);
-    this.name = "WebViewMessageError";
+    const { action, error } = args;
+    super(`[${error.err_code}]_[${action}] ${error.err_msg}`);
+    this.name = "BridgeError";
   }
 }

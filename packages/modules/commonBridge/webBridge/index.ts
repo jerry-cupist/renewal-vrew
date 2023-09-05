@@ -2,17 +2,12 @@
  * RN(webView) => Web 브릿지 코드
  */
 
-import { BridgeMessage } from "../types/message";
-import postMessage, { PostMessageParams } from "./postMessage";
-
-type PostMessageType<ActionType extends string = string, ResponseType = any> = (
-  params: PostMessageParams
-) => Promise<BridgeMessage<ActionType, ResponseType>>;
+import { RequestMessageType, requestMessage } from "./postMessage";
 
 export interface WebBridge<Actions extends string = string> {
-  postMessage: PostMessageType<Actions>;
+  requestMessage: RequestMessageType<Actions>;
 }
 
-const webBridge: WebBridge = { postMessage };
+const webBridge: WebBridge = { requestMessage };
 
 export default webBridge;

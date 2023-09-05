@@ -1,17 +1,16 @@
 import { enfpyAppBridge } from "..";
 
 const navigate = (args: any) => {
-  enfpyAppBridge.postMessage({
+  enfpyAppBridge.request({
     action: "navigation-navigate",
     data: args,
-    type: "request",
   });
 };
 
 const goBack = () => {
-  enfpyAppBridge.postMessage({
+  enfpyAppBridge.request({
     action: "navigation-go-back",
-    type: "request",
+    data: {},
   });
 };
 

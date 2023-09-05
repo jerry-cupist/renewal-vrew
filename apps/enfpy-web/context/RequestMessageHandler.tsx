@@ -9,7 +9,7 @@ import {
   RequestMessage,
 } from "@vrew/modules/commonBridge/types/message";
 import { AppBridgeAction } from "@vrew/modules/enfpyBridge/webBrdige/actions";
-import { WebViewMessageError } from "@vrew/modules/commonBridge/utils/messageUtil";
+import { BridgeError } from "@vrew/modules/commonBridge/utils/messageUtil";
 import { enfpyAppBridge } from "@vrew/modules/enfpyBridge/appBrdige";
 import {
   FETCHER_ACTION,
@@ -50,8 +50,9 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
         const axiosConfig = message.data;
         const response = await enfpyApiClient.request(axiosConfig);
 
-        enfpyAppBridge.postMessage({
+        enfpyAppBridge.response({
           action: FETCHER_ACTION.FETCHER_REQUEST,
+          requestId: message.requestId,
           data: {
             data: response.data,
             config: {
@@ -60,30 +61,28 @@ const RequestMessageHandler = ({ children }: PropsWithChildren) => {
               timeout: response.config.timeout,
             },
           },
-          type: "response",
-          requestId: message.requestId,
         });
       } catch (error) {
         let responseError = error;
 
         if (requestId !== null) {
-          // TODO: 메세지 가공필요
+          // TODO: 에러 메세지 가공필요
           const errorMessage = "통신에러";
-          responseError = new WebViewMessageError(
-            FETCHER_ACTION.FETCHER_REQUEST,
+          responseError = new BridgeError({
+            action: FETCHER_ACTION.FETCHER_REQUEST,
             requestId,
-            {
+            error: {
               err_code: MessageError.NOT_REGISTERED_ACTION,
               err_msg: errorMessage,
-            }
-          );
-        }
+            },
+          });
 
-        enfpyAppBridge.postMessage({
-          action: FETCHER_ACTION.FETCHER_REQUEST,
-          type: "response",
-          data: responseError,
-        });
+          enfpyAppBridge.response({
+            action: FETCHER_ACTION.FETCHER_REQUEST,
+            requestId,
+            data: responseError,
+          });
+        }
       }
     };
 

@@ -3,10 +3,9 @@ import { AppBridgeActionDatas } from "../actions";
 
 export const devMessages = {
   consoleLog: (args: AppBridgeActionDatas["dev-console-log"]) => {
-    enfpyAppBridge.postMessage({
+    return enfpyAppBridge.request({
       action: "dev-console-log",
       data: args,
-      type: "request",
     });
   },
 };

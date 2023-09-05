@@ -1,44 +1,44 @@
 export enum MessageError {
   NOT_REGISTERED_ACTION = 4004,
+  /** 액션 핸들러를 찾지 못함 */
+  NOT_REGISTERED_ACTION_HANDLER = 4005,
   REQUEST_TIMEOUT = 5000,
+  /** requestId가 없거나 잘못된 경우 */
+  INVALID_REQUEST_ID = 6000,
+
+  /** 웹뷰를 찾지 못함 */
+  NOT_FOUND_WEBVIEW = 7000,
 }
 
-type BridgeMessageType = "request" | "response" | "error";
+export type BridgeMessageType = "request" | "response" | "error";
 
 export interface BridgeMessage<
+  MessageType extends BridgeMessageType = BridgeMessageType,
   ActionType extends string = string,
   DataType = any
 > {
-  type: BridgeMessageType;
+  type: MessageType;
   action: ActionType;
   data: DataType;
-}
-export interface RequestMessage<
-  ActionType extends string = string,
-  DataType = any
-> extends BridgeMessage<ActionType, DataType> {
-  type: "request";
   requestId: number;
 }
-
-export interface ResponseMessage<
+export type RequestMessage<
   ActionType extends string = string,
   DataType = any
-> extends BridgeMessage<ActionType, DataType> {
-  type: "response";
-  requestId: number;
-}
+> = BridgeMessage<"request", ActionType, DataType>;
 
-export interface BridgeError {
-  err_code: number;
+export type ResponseMessage<
+  ActionType extends string = string,
+  DataType = any
+> = BridgeMessage<"response", ActionType, DataType>;
+export interface BridgeErrorType {
+  err_code: MessageError;
   err_msg: string;
 }
 
 export interface ErrorMessage<
   ActionType extends string = string,
   DataType = any
-> extends BridgeMessage<ActionType, DataType> {
-  type: "error";
-  requestId: number;
-  error: BridgeError;
+> extends BridgeMessage<"error", ActionType, DataType> {
+  error: BridgeErrorType;
 }

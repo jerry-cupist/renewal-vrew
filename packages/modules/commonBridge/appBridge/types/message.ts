@@ -13,6 +13,6 @@ export type AppBridgeMessageHandler<
   TPayload = any,
   TResult = any
 > = (
-  payload: BridgeMessage<ActionType, TPayload>,
+  payload: BridgeMessage<"request", ActionType, TPayload>,
   messageHandlerArgs: CreateMessageHandlerArgs
 ) => TResult | Promise<TResult>;

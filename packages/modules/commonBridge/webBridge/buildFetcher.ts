@@ -7,14 +7,6 @@ export type NetworkRequestConfig<D = any> = Pick<
   "baseURL" | "params" | "data" | "url" | "method" | "timeout"
 >;
 
-interface NetworkRequestResult<
-  ConfigType extends NetworkRequestConfig = NetworkRequestConfig,
-  DataType = any
-> {
-  data: DataType;
-  config: ConfigType;
-}
-
 export const FETCHER_ACTION = {
   FETCHER_REQUEST: "fetcher-request",
 } as const;
@@ -29,12 +21,16 @@ export type FetcherActionType = typeof FETCHER_ACTION;
 const buildFetcher = (webview: WebView) =>
   function fetcher(requestConfig: NetworkRequestConfig) {
     return webBridge
-      .postMessage({
-        target: webview,
-        action: FETCHER_ACTION.FETCHER_REQUEST,
-        timeout: requestConfig.timeout || 3000,
-        data: requestConfig,
-      })
+      .requestMessage(
+        webview,
+        {
+          action: FETCHER_ACTION.FETCHER_REQUEST,
+          data: requestConfig,
+        },
+        {
+          timeout: requestConfig.timeout || 3000,
+        }
+      )
       .then((message) => {
         const networkResponse = message.data;
         return networkResponse;

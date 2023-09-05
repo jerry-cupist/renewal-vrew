@@ -3,15 +3,12 @@
  */
 
 import WebView, { WebViewMessageEvent } from "react-native-webview";
-import { BridgeMessage, ResponseMessage } from "../types/message";
-import { createRequestMessage } from "../utils/messageUtil";
-
-export interface PostMessageParams<ActionType extends string = string> {
-  target: WebView;
-  action: ActionType;
-  data?: any;
-  timeout?: number;
-}
+import { BridgeMessage, MessageError, ResponseMessage } from "../types/message";
+import {
+  BridgeError,
+  CreateRequestMessageParams,
+  createRequestMessage,
+} from "../utils/messageUtil";
 
 type WebViewMessageHandler = (event: WebViewMessageEvent) => void;
 
@@ -19,9 +16,12 @@ type WebViewMessageHandler = (event: WebViewMessageEvent) => void;
  * APP => WEB Request message
  */
 const postMessage = <ActionType extends string = string, ResponseType = any>(
-  params: PostMessageParams
-): Promise<BridgeMessage<ActionType, ResponseType>> => {
-  const { target, action, data, timeout = 3000 } = params;
+  target: WebView,
+  message: BridgeMessage<"request", ActionType>,
+  options?: { timeout?: number }
+): Promise<BridgeMessage<"response", ActionType, ResponseType>> => {
+  const { timeout = 3000 } = options || {};
+  const { action } = message;
 
   let handleResponseMessage: WebViewMessageHandler = () => {};
 
@@ -37,8 +37,7 @@ const postMessage = <ActionType extends string = string, ResponseType = any>(
         reject(new Error(`[POST_MESSAGE]_[TIMEOUT] ${action}`));
       }, timeout);
 
-      const requestMessage = createRequestMessage(action, data);
-      target.postMessage(JSON.stringify(requestMessage));
+      target.postMessage(JSON.stringify(message));
 
       handleResponseMessage = (event) => {
         try {
@@ -56,13 +55,17 @@ const postMessage = <ActionType extends string = string, ResponseType = any>(
           }
 
           if (typeof responseMessage.requestId === "undefined") {
-            throw new Error(
-              `[APP_BRIDGE]_[RESPONSE]: requestId를 찾을 수 없습니다`
-            );
+            throw new BridgeError({
+              action,
+              error: {
+                err_code: MessageError.INVALID_REQUEST_ID,
+                err_msg: `[APP_BRIDGE]_[RESPONSE]: requestId를 찾을 수 없습니다`,
+              },
+            });
           }
 
           const isValidMessage =
-            requestMessage.requestId.toString() ===
+            message.requestId.toString() ===
             responseMessage.requestId.toString();
           if (!isValidMessage) {
             return;
@@ -87,5 +90,26 @@ const postMessage = <ActionType extends string = string, ResponseType = any>(
     }
   });
 };
+
+/**
+ * 요청 메세지
+ */
+export const requestMessage = <
+  ActionType extends string = string,
+  DataType = any
+>(
+  target: WebView,
+  params: CreateRequestMessageParams<ActionType, DataType>,
+  options?: { timeout?: number }
+) => postMessage(target, createRequestMessage(params), options);
+
+export type RequestMessageType<
+  ActionType extends string = string,
+  DataType = any
+> = (
+  target: WebView,
+  params: CreateRequestMessageParams<ActionType, DataType>,
+  options?: { timeout?: number }
+) => Promise<BridgeMessage<"response", ActionType, any>>;
 
 export default postMessage;

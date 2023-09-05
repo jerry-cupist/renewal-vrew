@@ -11,7 +11,7 @@ import {
 } from '@vrew/modules/commonBridge/types/message';
 import {AppBridgeReqActions} from '@vrew/modules/enfpyBridge/appBrdige/actions';
 import {
-  WebViewMessageError,
+  BridgeError,
   createResponseMessage,
 } from '@vrew/modules/commonBridge/utils/messageUtil';
 
@@ -23,6 +23,7 @@ const appBridgeMessageHandler = {
 
 /**
  * WEB => APP 요청에 대한 응답 처리
+ * webView에서 수신한 web의 요청을 처리한다.
  */
 export const createRequestMessageHandler = (args: CreateMessageHandlerArgs) =>
   async function messageHandler(e: WebViewMessageEvent): Promise<boolean> {
@@ -35,7 +36,7 @@ export const createRequestMessageHandler = (args: CreateMessageHandlerArgs) =>
     const requestMessage = JSON.parse(
       message,
     ) as RequestMessage<AppBridgeReqActions>;
-    const {action, request_id: requestId} = requestMessage;
+    const {action, requestId: requestId} = requestMessage;
 
     // WEB => APP 요청이 아닌 경우
     if (requestMessage.type !== 'request') {
@@ -52,24 +53,35 @@ export const createRequestMessageHandler = (args: CreateMessageHandlerArgs) =>
 
     try {
       if (!webView?.postMessage) {
-        throw new Error(`webView를 찾을 수 없습니다!! ${webView}`);
+        throw new BridgeError({
+          action,
+          requestId,
+          error: {
+            err_code: MessageError.NOT_FOUND_WEBVIEW,
+            err_msg: 'webView를 찾을 수 없습니다!!',
+          },
+        });
       }
 
       // 에러 전송(정의되지 않은 action)
       if (typeof handler !== 'function') {
-        throw new WebViewMessageError(action, requestId, {
-          err_code: MessageError.NOT_REGISTERED_ACTION,
-          err_msg: 'Not registered action',
+        throw new BridgeError({
+          action,
+          requestId,
+          error: {
+            err_code: MessageError.NOT_REGISTERED_ACTION,
+            err_msg: 'Not registered action',
+          },
         });
       }
 
       // 응답결과 전송
       const responseData = await handler(requestMessage, args);
-      const responseMessage = createResponseMessage(
+      const responseMessage = createResponseMessage({
         action,
         requestId,
-        responseData,
-      );
+        data: responseData,
+      });
       console.log(`🟢 [WEBVIEW_MESSAGE]_[RESPONSE]_[${action}] \n ►`, {
         message: responseMessage,
       });
@@ -80,11 +92,14 @@ export const createRequestMessageHandler = (args: CreateMessageHandlerArgs) =>
         throw new Error(`webView를 찾을 수 없습니다!! ${webView}`);
       }
 
-      // error메세지 가공처리
-      if (error instanceof WebViewMessageError) {
+      if (error instanceof BridgeError) {
+        // TODO: [HANDLED_ERROR]error메세지 가공처리
         webView.postMessage(JSON.stringify(error));
         return false;
       }
+
+      // [UNHANDLED_ERROR] 예측하지 못한 에러
+      webView.postMessage(JSON.stringify(error));
 
       throw error;
     }
