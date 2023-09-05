@@ -1,7 +1,7 @@
-import enfpyApiClient from "@vrew/apis/enfpy";
-import tokenUtil from "../utils/tokenUtil";
-import { queryClient } from "../context/QueryClientProvider";
-import { authKeys, getSession, silentRefresh } from "../hooks/server/auth";
+import enfpyApiClient from '@vrew/apis/enfpy'
+import tokenUtil from '../utils/tokenUtil'
+import { queryClient } from '../context/QueryClientProvider'
+import { authKeys, getSession, silentRefresh } from '../hooks/server/auth'
 
 /**
  * apiClient에 대한 환경 설정
@@ -9,21 +9,23 @@ import { authKeys, getSession, silentRefresh } from "../hooks/server/auth";
 
 enfpyApiClient.setConfig({
   baseUrl: process.env.NEXT_PUBLIC_MAIN_API_HOST,
-});
+})
 
 /**
  * 만료시 갱신요청
  * @note axios와 localStorage에 토큰 갱신은 next-auth events.signIn에서 처리됩니다.
  */
-enfpyApiClient.addEventListener("onUnauthorizedRequest", async () => {
-  const token = tokenUtil.get();
-  console.log("[onUnauthorizedRequest]", { token });
+enfpyApiClient.addEventListener('onUnauthorizedRequest', async () => {
+  const token = tokenUtil.get()
+  console.log('[onUnauthorizedRequest]', { token })
   if (token.refreshToken) {
-    await silentRefresh(token.refreshToken);
+    await silentRefresh(token.refreshToken)
 
     // 세션 업데이트
-    queryClient.fetchQuery({ ...authKeys.session() });
+    queryClient.fetchQuery({
+      ...authKeys.session(),
+    })
   }
-});
+})
 
-export default enfpyApiClient;
+export default enfpyApiClient

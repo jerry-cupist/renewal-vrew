@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import { PropsWithChildren } from "react";
-import { SessionProvider } from "next-auth/react";
+import { PropsWithChildren } from 'react'
+import { SessionProvider } from 'next-auth/react'
 
 /**
  * 서버 컴포넌트에서 Provider를 직접 사용할 수 없는 제약사항 때문에
@@ -12,6 +12,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     <SessionProvider refetchInterval={0} refetchOnWindowFocus>
       {children}
     </SessionProvider>
-  );
-};
-export default AuthProvider;
+  )
+}
+export default AuthProvider

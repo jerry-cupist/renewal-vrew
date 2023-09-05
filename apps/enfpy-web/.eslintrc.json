@@ -1,11 +1,25 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@tanstack/query", "@typescript-eslint", "prettier"],
   "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
     "plugin:@tanstack/eslint-plugin-query/recommended",
-    "next/core-web-vitals"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
-  "plugins": ["@tanstack/query"],
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
     "@tanstack/query/exhaustive-deps": "error",
-    "@tanstack/query/prefer-query-object-syntax": "error"
-  }
+    "@tanstack/query/prefer-query-object-syntax": "error",
+    "prefer-const": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "no-unused-vars": "off"
+  },
+  "ignorePatterns": ["node_modules/"]
 }

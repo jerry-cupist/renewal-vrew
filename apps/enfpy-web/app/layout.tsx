@@ -1,7 +1,7 @@
-import { PropsWithChildren } from "react";
-import AuthProvider from "../context/AuthProvider";
-import QueryClientProvider from "../context/QueryClientProvider";
-import RequestMessageHandler from "../context/RequestMessageHandler";
+import { PropsWithChildren } from 'react'
+import AuthProvider from '../context/AuthProvider'
+import QueryClientProvider from '../context/QueryClientProvider'
+import RequestMessageHandler from '../context/RequestMessageHandler'
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
@@ -14,5 +14,5 @@ export default function RootLayout({ children }: PropsWithChildren) {
         </AuthProvider>
       </body>
     </html>
-  );
+  )
 }

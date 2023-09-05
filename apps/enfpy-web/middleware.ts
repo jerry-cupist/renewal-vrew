@@ -1,7 +1,8 @@
-import { withAuth } from "next-auth/middleware";
-import ENPFY_URL from "./constant/url";
-import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
+import { withAuth } from 'next-auth/middleware'
+
+import ENPFY_URL from './constant/url'
+import { getToken } from 'next-auth/jwt'
+import { NextRequest, NextResponse } from 'next/server'
 
 /**
  * 페이지 접근 권한을 확인하고 리다이랙션한다.
@@ -11,8 +12,8 @@ import { NextRequest, NextResponse } from "next/server";
  */
 
 interface WithAuthRequestParams {
-  req: NextRequest;
-  accessToken?: string;
+  req: NextRequest
+  accessToken?: string
 }
 
 /**
@@ -21,25 +22,25 @@ interface WithAuthRequestParams {
  * e.g 로그인 페이지 (로그인 한 다음에 접근이 불가능해야 함)
  */
 const withAuthRequest = (params: WithAuthRequestParams) => {
-  const { req, accessToken } = params;
-  const url = req.nextUrl.clone();
-  const { pathname } = req.nextUrl;
-  const isSignIn = Boolean(accessToken);
+  const { req, accessToken } = params
+  const url = req.nextUrl.clone()
+  const { pathname } = req.nextUrl
+  const isSignIn = Boolean(accessToken)
 
   if (!isSignIn) {
-    url.pathname = ENPFY_URL.LOGIN;
-    url.search = `callbackUrl=${pathname}`;
+    url.pathname = ENPFY_URL.LOGIN
+    url.search = `callbackUrl=${pathname}`
 
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url)
   }
 
-  return null;
-};
+  return null
+}
 
 interface WithOutAuthRequestParams {
-  req: NextRequest;
-  accessToken?: string;
-  redirectUrl?: string;
+  req: NextRequest
+  accessToken?: string
+  redirectUrl?: string
 }
 
 /**
@@ -47,32 +48,32 @@ interface WithOutAuthRequestParams {
  * e.g 마이페이지 (로그인 해야만 접근 가능함)
  */
 const withOutAuthRequest = (params: WithOutAuthRequestParams) => {
-  const { req, accessToken, redirectUrl = ENPFY_URL.ROOT } = params;
-  const url = req.nextUrl.clone();
-  const isSignIn = Boolean(accessToken);
+  const { req, accessToken, redirectUrl = ENPFY_URL.ROOT } = params
+  const url = req.nextUrl.clone()
+  const isSignIn = Boolean(accessToken)
 
   if (isSignIn) {
-    url.pathname = redirectUrl;
-    url.search = "";
+    url.pathname = redirectUrl
+    url.search = ''
 
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url)
   }
 
-  return null;
-};
+  return null
+}
 
 /**
  * 인증이 필요한 경로
  */
-const withAuthList: string[] = [ENPFY_URL.PROFILE];
+const withAuthList: string[] = [ENPFY_URL.PROFILE]
 /**
  * 인증한 사용자가 접근할 수 없는 경로
  * e.g. 회원가입, 로그인
  */
-const withOutAuthList: string[] = [ENPFY_URL.LOGIN];
+const withOutAuthList: string[] = [ENPFY_URL.LOGIN]
 
-const isWithAuth = (pathname: string) => withAuthList.includes(pathname);
-const isWithOutAuth = (pathname: string) => withOutAuthList.includes(pathname);
+const isWithAuth = (pathname: string) => withAuthList.includes(pathname)
+const isWithOutAuth = (pathname: string) => withOutAuthList.includes(pathname)
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
@@ -82,18 +83,24 @@ export default withAuth(
     const token = await getToken({
       req,
       secret: process.env.NEXTAUTH_SECRET,
-    });
+    })
 
     // 사용자가 요청하는 페이지 pathname
-    const { pathname } = req.nextUrl;
+    const { pathname } = req.nextUrl
 
     if (isWithAuth(pathname)) {
-      return withAuthRequest({ req, accessToken: token?.accessToken });
+      return withAuthRequest({
+        req,
+        accessToken: token?.accessToken,
+      })
     } else if (isWithOutAuth(pathname)) {
-      return withOutAuthRequest({ req, accessToken: token?.accessToken });
+      return withOutAuthRequest({
+        req,
+        accessToken: token?.accessToken,
+      })
     }
 
-    return null;
+    return null
   },
   {
     callbacks: {
@@ -102,12 +109,12 @@ export default withAuth(
        */
       authorized: ({ token }) => true, //token?.role === "admin",
     },
-  }
-);
+  },
+)
 
 /**
  * 미들웨어가 실행될 특정 pathname을 지정하면, 해당 pathname에서만 동작함
  */
 export const config = {
   mathcher: [...withAuthList, ...withOutAuthList],
-};
+}

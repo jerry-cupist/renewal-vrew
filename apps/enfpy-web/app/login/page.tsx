@@ -1,6 +1,6 @@
-import { Header } from "@vrew/ui";
-import LoginForm from "../../features/auth/LoginForm";
-import Link from "next/link";
+import { Header } from '@vrew/ui'
+import LoginForm from '../../features/auth/LoginForm'
+import Link from 'next/link'
 
 export default function LoginPage(): JSX.Element {
   return (
@@ -9,5 +9,5 @@ export default function LoginPage(): JSX.Element {
       <Link href="/" />
       <LoginForm />
     </>
-  );
+  )
 }

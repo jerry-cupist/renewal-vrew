@@ -1,5 +1,5 @@
-"use client";
-import { useEffect } from "react";
+'use client'
+import { useEffect } from 'react'
 
 /**
  * React ErrorBoundary의 fallback으로 동작합니다.
@@ -8,13 +8,13 @@ export default function LoginError({
   error,
   reset,
 }: {
-  error: Error;
-  reset: () => void;
+  error: Error
+  reset: () => void
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error);
-  }, [error]);
+    console.error(error)
+  }, [error])
 
   return (
     <div>
@@ -28,5 +28,5 @@ export default function LoginError({
         Try again
       </button>
     </div>
-  );
+  )
 }

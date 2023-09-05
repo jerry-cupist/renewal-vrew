@@ -1,7 +1,7 @@
-import React from 'react';
-import {StatusBar} from 'react-native';
-import {MainStackNavigation} from './src/navigation/main-stack/MainStackNavigation';
-import {WebViewContainer} from './src/contexts/web-bridge/WebViewContext';
+import React from 'react'
+import { StatusBar } from 'react-native'
+import { MainStackNavigation } from './src/navigation/main-stack/MainStackNavigation'
+import { WebViewContainer } from './src/contexts/web-bridge/WebViewContext'
 
 const App = () => {
   return (
@@ -13,7 +13,7 @@ const App = () => {
       />
       <MainStackNavigation />
     </WebViewContainer>
-  );
-};
+  )
+}
 
-export default App;
+export default App

@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
 import {
   QueryClient,
   QueryClientProvider as _QueryClientProvider,
-} from "@tanstack/react-query";
-import React, { PropsWithChildren } from "react";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import CONFIG from "../constant/config";
+} from '@tanstack/react-query'
+import React, { PropsWithChildren } from 'react'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import CONFIG from '../constant/config'
 
 /**
  * TODO: 디폴트 설정
@@ -14,7 +14,7 @@ import CONFIG from "../constant/config";
  * @note By default, React Query Devtools are only included in bundles when process.env.NODE_ENV === 'development', so you don't need to worry about excluding them during a production build.
  * @see https://tanstack.com/query/v4/docs/react/devtools
  */
-export const queryClient = new QueryClient({});
+export const queryClient = new QueryClient({})
 
 /**
  * 윈도우 포커스 시점을 커스텀한다.
@@ -51,5 +51,5 @@ export default function QueryClientProvider({ children }: PropsWithChildren) {
       )}
       {children}
     </_QueryClientProvider>
-  );
+  )
 }
