@@ -1,10 +1,10 @@
+import { Session } from 'next-auth'
 import {
   useMutation,
   UseMutationOptions,
   useQuery,
   UseQueryOptions,
 } from '@tanstack/react-query'
-import { Session } from 'next-auth'
 import {
   getSession as _getSession,
   signIn,
@@ -81,14 +81,14 @@ export const useSignOut = (
     { callbackUrl?: string }
   >,
 ) =>
-  useMutation(
-    (params?: { callbackUrl?: string } | undefined) =>
+  useMutation({
+    mutationFn: (params?: { callbackUrl?: string } | undefined) =>
       signOut({
         callbackUrl: params?.callbackUrl,
         redirect: false,
       }),
-    options,
-  )
+    ...options,
+  })
 
 const signInWithPhone = (
   params: PostSignInRequest,
@@ -123,7 +123,11 @@ export const useSignIn = (
     UseMutationOptions<SignInResponse | undefined, unknown, PostSignInRequest>,
     'mutationFn'
   >,
-) => useMutation(signInWithPhone, options)
+) =>
+  useMutation({
+    mutationFn: signInWithPhone,
+    ...options,
+  })
 
 /**
  * 토큰으로 로그인 처리
@@ -164,4 +168,8 @@ export const useSilentRefresh = (
     >,
     'mutationFn'
   >,
-) => useMutation(silentRefresh, options)
+) =>
+  useMutation({
+    mutationFn: silentRefresh,
+    ...options,
+  })
