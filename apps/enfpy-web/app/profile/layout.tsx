@@ -1,7 +1,7 @@
 export default function Layout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }): JSX.Element {
-  return <div>{children}</div>;
+  return <div>{children}</div>
 }

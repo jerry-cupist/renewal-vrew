@@ -8,6 +8,7 @@ export interface PostSignInRequest {
 }
 export interface PostSignInResponse {
   data: UserTokenResponse;
+
 }
 
 export interface PostPhoneVerificationRequest {

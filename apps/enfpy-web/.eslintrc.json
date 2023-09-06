@@ -1,11 +1,35 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["@tanstack/query", "@typescript-eslint", "prettier"],
+  "ignorePatterns": ["node_modules/"],
   "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
     "plugin:@tanstack/eslint-plugin-query/recommended",
-    "next/core-web-vitals"
+    "plugin:@next/next/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
-  "plugins": ["@tanstack/query"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
     "@tanstack/query/exhaustive-deps": "error",
-    "@tanstack/query/prefer-query-object-syntax": "error"
+    "@tanstack/query/prefer-query-object-syntax": "error",
+    "prefer-const": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "no-unused-vars": "error",
+    "@next/next/no-img-element": "error"
   }
 }

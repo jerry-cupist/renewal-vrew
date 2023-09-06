@@ -12,9 +12,23 @@
     "build": "turbo run build",
     "start": "turbo run start",
     "test": "turbo run test",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "postinstall": "husky install",
+    "prepare": "husky install",
+    "lint-front": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc --write -u"
+    ]
   },
   "devDependencies": {
-    "turbo": "^1.6.1"
+    "@vrew/tsconfig": "workspace:*",
+    "eslint": "^8.48.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "turbo": "^1.10.12"
   }
 }
