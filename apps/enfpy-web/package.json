@@ -32,7 +32,7 @@
     "@types/react-dom": "18.2.0",
     "@typescript-eslint/eslint-plugin": "6.6.0",
     "@typescript-eslint/parser": "6.6.0",
-    "@vrew/tsconfig": "*",
+    "@vrew/tsconfig": "workspace:*",
     "eslint": "^8.48.0",
     "eslint-config-next": "^13.4.19",
     "eslint-config-prettier": "^9.0.0",
