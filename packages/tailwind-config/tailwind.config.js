@@ -1,11 +1,6 @@
-const config = {
+module.exports = {
   darkMode: 'class',
-  content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}', // Note the addition of the `app` directory.
-    './context/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './features/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+
   theme: {
     borderRadius: {
       DEFAULT: '8px',
@@ -98,4 +93,3 @@ const config = {
 
   plugins: [],
 }
-export default config
