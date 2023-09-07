@@ -2862,7 +2862,7 @@ __metadata:
     "@vrew/apis": "workspace:*"
     "@vrew/modules": "workspace:*"
     "@vrew/tsconfig": "workspace:*"
-    "@vrew/ui": "*"
+    "@vrew/ui": "workspace:*"
     "@vrew/utils": "workspace:*"
     autoprefixer: ^10.4.15
     axios: ^1.5.0
@@ -2878,6 +2878,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     store2: ^2.14.2
+    tailwind-config: "workspace:*"
     tailwindcss: ^3.3.3
     typescript: 5.2.2
   languageName: unknown
@@ -2904,6 +2905,7 @@ __metadata:
     husky: ^8.0.0
     lint-staged: ^14.0.1
     prettier: ^3.0.3
+    prettier-plugin-tailwindcss: ^0.5.3
     turbo: ^1.10.12
   languageName: unknown
   linkType: soft
@@ -2914,7 +2916,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@vrew/ui@*, @vrew/ui@workspace:packages/ui":
+"@vrew/ui@workspace:*, @vrew/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@vrew/ui@workspace:packages/ui"
   dependencies:
@@ -2923,6 +2925,7 @@ __metadata:
     "@types/react": ^18.2.0
     "@types/react-dom": ^18.2.0
     "@vrew/tsconfig": "workspace:*"
+    next: 13.4.19
     react: ^18.2.0
     typescript: 5.2.2
   languageName: unknown
@@ -10817,7 +10820,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:^0.5.4":
+"prettier-plugin-tailwindcss@npm:^0.5.3, prettier-plugin-tailwindcss@npm:^0.5.4":
   version: 0.5.4
   resolution: "prettier-plugin-tailwindcss@npm:0.5.4"
   peerDependencies:
@@ -12734,6 +12737,14 @@ __metadata:
   checksum: 08249c7046125d9d0a944a6e96cfe9ec66908d6b8a9db125531be6eb05fa0de047fd5542e9d43b4f987057f00a093b276b8d3e19af162a9c40db2681058fd306
   languageName: node
   linkType: hard
+
+"tailwind-config@workspace:*, tailwind-config@workspace:packages/tailwind-config":
+  version: 0.0.0-use.local
+  resolution: "tailwind-config@workspace:packages/tailwind-config"
+  dependencies:
+    tailwindcss: ^3.3.3
+  languageName: unknown
+  linkType: soft
 
 "tailwindcss@npm:^3.3.3":
   version: 3.3.3
