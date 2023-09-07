@@ -1,14 +1,17 @@
 import enfpyApiClient from '../apis'
 import storeUtil from './storeUtil'
 
-const tokenUtil = {
-  update(refreshToken: string) {
-    const token = {
-      refreshToken,
-    }
+interface TokenType {
+  refreshToken: string
+  accessToken: string
+}
 
-    storeUtil.set('token', token)
-    enfpyApiClient.updateToken(refreshToken)
+const tokenUtil = {
+  update(token: TokenType) {
+    storeUtil.set('token', {
+      refreshToken: token.refreshToken,
+    })
+    enfpyApiClient.updateToken(token.accessToken)
     // TODO RN에 토큰 동기화
     // return postMessage('token',token)
   },
@@ -18,7 +21,7 @@ const tokenUtil = {
   },
 
   get() {
-    return storeUtil.get('token', {})
+    return storeUtil.get('token', {}) as TokenType
   },
 }
 

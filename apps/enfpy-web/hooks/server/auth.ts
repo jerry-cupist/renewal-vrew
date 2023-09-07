@@ -33,8 +33,11 @@ export type AuthQueryKeys = inferQueryKeys<typeof authKeys>
 
 export const getSession = () =>
   _getSession().then(session => {
-    if (session?.refreshToken) {
-      tokenUtil.update(session.refreshToken)
+    if (session?.refreshToken && session.accessToken) {
+      tokenUtil.update({
+        accessToken: session.accessToken,
+        refreshToken: session.accessToken,
+      })
     }
     return session
   })
