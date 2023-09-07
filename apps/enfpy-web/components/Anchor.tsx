@@ -1,9 +1,10 @@
 'use client'
 
-import Link, { LinkProps } from 'next/link'
+import { LinkProps } from 'next/link'
 import { MouseEventHandler, PropsWithChildren } from 'react'
 import CONFIG from '../constant/config'
 import { useNavigation } from '../hooks/navigation/useNavigation'
+import { Link } from '@vrew/ui'
 
 interface AnchorProps extends LinkProps {
   enableLink?: boolean

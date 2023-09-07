@@ -1,6 +1,6 @@
 'use client'
 
-import { Header } from '@vrew/ui'
+import { Container, Header, Text } from '@vrew/ui'
 import useAuth from '../hooks/useAuth'
 import Anchor from '../components/Anchor'
 import { useSession } from '../hooks/server/auth'
@@ -10,16 +10,16 @@ export default function Page(): JSX.Element {
   const session = useSession()
 
   return (
-    <>
-      <Header text="ENFPY" />
+    <Container padding={false}>
+      <Header text="ENFPY_2" />
 
       {auth.isLoading ? (
         '로딩중'
       ) : (
         <>
-          <h3>
+          <Text variant="title2">
             {auth.isSignIn ? `Hi ${session.data?.user.id}!` : '로그인 하세요'}
-          </h3>
+          </Text>
 
           <div>
             {auth.isSignIn && (
@@ -28,7 +28,7 @@ export default function Page(): JSX.Element {
           </div>
 
           <div>
-            <h4>withAuth</h4>
+            <Text variant="title2">withAuth</Text>
             <ul>
               <li>
                 <Anchor href="/profile">프로필 페이지</Anchor>
@@ -36,7 +36,7 @@ export default function Page(): JSX.Element {
             </ul>
           </div>
           <div>
-            <h4>withOutAuth</h4>
+            <Text variant="title2">withOutAuth</Text>
             <ul>
               <li>
                 <Anchor href="/login">로그인 페이지</Anchor>
@@ -45,6 +45,6 @@ export default function Page(): JSX.Element {
           </div>
         </>
       )}
-    </>
+    </Container>
   )
 }

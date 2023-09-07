@@ -1,7 +1,6 @@
-export default function Layout({
-  children,
-}: {
-  children: React.ReactNode
-}): JSX.Element {
-  return <div>{children}</div>
+import { Container } from '@vrew/ui'
+import { PropsWithChildren } from 'react'
+
+export default function LoginLayout({ children }: PropsWithChildren) {
+  return <Container>{children}</Container>
 }

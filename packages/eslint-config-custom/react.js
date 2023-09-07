@@ -23,6 +23,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'prettier',
   ],
+  plugins: ['@typescript-eslint', 'prettier'],
   globals: {
     JSX: true,
   },
