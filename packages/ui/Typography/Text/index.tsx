@@ -1,18 +1,39 @@
 'use client'
 
+import clsx from 'clsx'
 import { HTMLAttributes, PropsWithChildren } from 'react'
-
-interface Props extends HTMLAttributes<HTMLParagraphElement> {
-  variant: 'title2' | 'subtitle2'
-}
 
 const TEXT_VARIANT = {
   title2: 'text-title2',
   subtitle2: 'text-subtitle2',
+  body3: 'text-body3',
 } as const
 
-export function Text({ variant, ...props }: PropsWithChildren<Props>) {
-  const textClass = TEXT_VARIANT[variant]
+type TextVariant = keyof typeof TEXT_VARIANT
 
-  return <p {...props} className={`text-purple ${textClass}`} />
+const TEXT_COLOR = {
+  white: 'text-[#fff]',
+  black: 'text-[#1A1A1A]',
+} as const
+type TextColor = keyof typeof TEXT_COLOR
+
+interface Props extends HTMLAttributes<HTMLParagraphElement> {
+  variant: TextVariant
+  color?: TextColor
+}
+
+export function Text({
+  variant,
+  color = 'black',
+  ...props
+}: PropsWithChildren<Props>) {
+  const textVariant = TEXT_VARIANT[variant]
+  const textColor = TEXT_COLOR[color]
+
+  return (
+    <p
+      {...props}
+      className={clsx(textVariant && textVariant, textColor && textColor)}
+    />
+  )
 }

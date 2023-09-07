@@ -7,19 +7,17 @@ interface Props {
 }
 
 const MBTI_COLOR = {
-  ISTJ: '#5F6BF2',
+  ISTJ: 'bg-[#5F6BF2]',
 } as const
 
 export default function ProfileHeader({ mbti }: Props) {
   const backgroundColor = MBTI_COLOR[mbti]
 
   return (
-    <Container
-      backgroundColor={backgroundColor}
-      padding={false}
-      className="bg-[#5F6BF2]"
-    >
-      <SvgMypageIstj width="100%" height={194} />
+    <Container backgroundColor={backgroundColor} padding={false}>
+      <div className="h-[254px] flex items-end">
+        <SvgMypageIstj width="100%" height={194} />
+      </div>
     </Container>
   )
 }

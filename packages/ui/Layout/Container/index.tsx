@@ -27,7 +27,7 @@ export function Container({
         'container overflow-y-auto',
         fullScreen && 'h-screen w-screen',
         padding && 'p-6',
-        backgroundColor && `bg-[${backgroundColor}]`,
+        backgroundColor && backgroundColor,
       )}
     >
       {children}

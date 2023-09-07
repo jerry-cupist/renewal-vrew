@@ -84,6 +84,11 @@ module.exports = {
             letterSpacing: 'auto',
           },
         ],
+
+        body3: [
+          '16px',
+          { fontWeight: 'bold', lineHeight: 'auto', letterSpacing: '-0.25px' },
+        ],
       },
       lineHeight: {
         40: '40px',
