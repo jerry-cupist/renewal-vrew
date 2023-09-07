@@ -2866,6 +2866,7 @@ __metadata:
     "@vrew/utils": "workspace:*"
     autoprefixer: ^10.4.15
     axios: ^1.5.0
+    clsx: ^2.0.0
     eslint: ^8.48.0
     eslint-config-next: ^13.4.19
     eslint-config-prettier: ^9.0.0
@@ -2920,13 +2921,25 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@vrew/ui@workspace:packages/ui"
   dependencies:
+    "@next/eslint-plugin-next": ^13.4.19
     "@turbo/gen": ^1.10.12
     "@types/node": ^20.5.2
     "@types/react": ^18.2.0
     "@types/react-dom": ^18.2.0
+    "@typescript-eslint/eslint-plugin": 6.6.0
+    "@typescript-eslint/parser": 6.6.0
     "@vrew/tsconfig": "workspace:*"
+    clsx: ^2.0.0
+    eslint: ^8.48.0
+    eslint-config-custom: "workspace:*"
+    eslint-config-next: ^13.4.19
+    eslint-config-prettier: ^9.0.0
+    eslint-config-turbo: ^1.10.12
+    eslint-plugin-prettier: ^5.0.0
     next: 13.4.19
+    prettier: ^3.0.3
     react: ^18.2.0
+    tailwindcss: ^3.3.3
     typescript: 5.2.2
   languageName: unknown
   linkType: soft
@@ -4308,6 +4321,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clsx@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "clsx@npm:2.0.0"
+  checksum: a2cfb2351b254611acf92faa0daf15220f4cd648bdf96ce369d729813b85336993871a4bf6978ddea2b81b5a130478339c20d9d0b5c6fc287e5147f0c059276e
+  languageName: node
+  linkType: hard
+
 "co@npm:^4.6.0":
   version: 4.6.0
   resolution: "co@npm:4.6.0"
@@ -5352,7 +5372,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eslint-config-custom@workspace:packages/eslint-config-custom"
   dependencies:
+    "@next/eslint-plugin-next": ^13.4.19
+    "@typescript-eslint/eslint-plugin": 6.6.0
+    "@typescript-eslint/parser": 6.6.0
+    eslint: ^8.48.0
+    eslint-config-next: ^13.4.19
+    eslint-config-prettier: ^9.0.0
     eslint-config-turbo: ^1.10.12
+    eslint-plugin-prettier: ^5.0.0
+    prettier: ^3.0.3
   languageName: unknown
   linkType: soft
 
