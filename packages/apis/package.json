@@ -2,7 +2,16 @@
   "name": "@vrew/apis",
   "packageManager": "yarn@3.2.4",
   "devDependencies": {
+    "@types/node": "^20.5.2",
+    "@typescript-eslint/eslint-plugin": "6.6.0",
+    "@typescript-eslint/parser": "6.6.0",
+    "@vrew/tsconfig": "workspace:*",
+    "eslint": "^8.48.0",
     "eslint-config-custom": "workspace:*",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-turbo": "^1.10.12",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.3",
     "typescript": "5.2.2"
   },
   "dependencies": {
