@@ -19,6 +19,15 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cupist-resource.cupist.dev',
+        port: '',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig
