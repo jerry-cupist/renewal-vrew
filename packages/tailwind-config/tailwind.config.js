@@ -1,5 +1,20 @@
+/** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: 'class',
+  /** 컨텐츠 스캔 범위에서 탐색되지 않은 tailwind css class의 생성이 필요한 경우 아래 배열에 추가할 수 있습니다 */
+  safelist: [
+    // 'bg-red-500',
+  ],
+
+  /**
+   * 콘텐츠 스캔에서 의도하지 않은 css class가 생길 수 있습니다.
+   * 그런 경우 아래 배열을 통해 css class가 생성되지 않도록 지정할 수 있습니다.
+   * @see https://tailwindcss.com/docs/content-configuration#discarding-classes
+   */
+  blocklist: [
+    // 'container'
+  ],
 
   theme: {
     borderRadius: {
