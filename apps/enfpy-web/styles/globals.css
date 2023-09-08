@@ -25,6 +25,20 @@
   */
 /* @tailwind variants; */
 
+@layer components {
+  .chip-primary {
+    @apply select-none relative flex items-center h-[28px] p-[8px] rounded-[6px] gap-[4px] overflow-hidden;
+  }
+
+  .chip-primary::after {
+    @apply content-[""] absolute inset-0 pointer-events-none bg-[#1a1a3e] opacity-0;
+  }
+
+  .chip-primary:active::after {
+    @apply opacity-10;
+  }
+}
+
 html,
 body {
   padding: 0;
