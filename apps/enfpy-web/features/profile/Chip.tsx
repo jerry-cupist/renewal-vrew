@@ -30,8 +30,10 @@ export default function Chip({
     'after:absolute',
     'after:inset-0',
     'after:pointer-events-none',
+    'after:bg-[#1a1a3e]',
+    'after:opacity-0',
   ].join(' ')
-  const activeClass = 'active:after:bg-[#1a1a3e] active:after:opacity-10'
+  const activeClass = 'active:after:opacity-10'
 
   return (
     <button
