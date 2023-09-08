@@ -31,8 +31,7 @@ export default function Chip({
     'after:inset-0',
     'after:pointer-events-none',
   ].join(' ')
-  const activeClass =
-    'active:bg-[gray] active:after:bg-[#1a1a3e] active:after:opacity-10'
+  const activeClass = 'active:after:bg-[#1a1a3e] active:after:opacity-10'
 
   return (
     <button
