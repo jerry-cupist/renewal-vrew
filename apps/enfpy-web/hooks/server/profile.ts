@@ -36,9 +36,17 @@ export const useUserInfo = () =>
     select: ({ data }) => data.user,
   })
 
-export const useUserMeta = () =>
+/**
+ * 성향테스트
+ */
+export const usePersonalityTest = () =>
   useProfile({
-    select: ({ meta }) => meta,
+    select: ({ data, meta }) => {
+      const { personalityTestDetail } = meta.resource
+      return data.profile.property?.personalityTestTags?.map(
+        testTag => personalityTestDetail[testTag.personalityTestDetailId],
+      )
+    },
   })
 
 export const useProfileDetail = () =>

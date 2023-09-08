@@ -7,6 +7,7 @@ const TEXT_VARIANT = {
   title2: 'text-title2',
   subtitle2: 'text-subtitle2',
   body3: 'text-body3',
+  button2: 'text-button2',
 } as const
 
 type TextVariant = keyof typeof TEXT_VARIANT

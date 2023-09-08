@@ -1,5 +1,6 @@
 import { Text } from '@vrew/ui'
 import IconIstj from '../../components/icon/IconIstj'
+import Chip from './Chip'
 
 interface Props {
   mbti: MbtiTypes
@@ -29,16 +30,24 @@ const MbtiTagInfo = {
 
 type MbtiTypes = keyof typeof MbtiTagInfo
 
+/**
+ * 라벨 버튼 스타일 공통화
+ */
 export default function MbtiChip(props: Props) {
   const mbti = props.mbti.toLocaleLowerCase() as MbtiTypes
   const tagInfo = MbtiTagInfo[mbti]
   const Icon = tagInfo?.Icon
+  const text = [mbti.toUpperCase(), tagInfo.text].join(' · ')
+
   return (
-    <div className="bg-[#5F6BF2] flex flex-row px-[10px] py-[6px] rounded-[8px]">
-      {Icon && <Icon className="w-[16px] h-[16px] mr-[4px]" />}
+    <Chip
+      backgroundColor="bg-[#5F6BF2]"
+      color="text-[#000]"
+      leftIcon={<Icon className="w-[16px] h-[16px] mr-[4px]" />}
+    >
       <Text variant="body3" color="white">
-        {[mbti.toUpperCase(), tagInfo.text].join(' · ')}
+        {text}
       </Text>
-    </div>
+    </Chip>
   )
 }
