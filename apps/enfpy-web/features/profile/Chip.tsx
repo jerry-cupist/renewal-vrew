@@ -20,6 +20,7 @@ export default function Chip({
   backgroundColor,
   color,
   fullWidth,
+  className,
   ...props
 }: PropsWithChildren<Props>) {
   const validColorClass = backgroundColor && !isColorCode(backgroundColor)
@@ -33,6 +34,7 @@ export default function Chip({
         fullWidth && 'w-full',
         backgroundColorClass,
         colorClass,
+        className,
       )}
       {...props}
     >
