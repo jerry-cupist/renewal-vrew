@@ -1,13 +1,13 @@
-import { AppBridgeMessageHandler } from "../types/message";
+import { AppBridgeMessageHandler } from '../types/message'
 
 export const createMessageHandler = <
   ActionType extends string,
   PlayLoadType = any,
-  ResultType = void
+  ResultType = void,
 >(
-  handler: AppBridgeMessageHandler<ActionType, PlayLoadType, ResultType>
-) => handler;
+  handler: AppBridgeMessageHandler<ActionType, PlayLoadType, ResultType>,
+) => handler
 
 export const createMessageHandlers = <Actions extends string>(handlers: {
-  [Action in Actions]: AppBridgeMessageHandler<Action>;
-}) => handlers;
+  [Action in Actions]: AppBridgeMessageHandler<Action>
+}) => handlers

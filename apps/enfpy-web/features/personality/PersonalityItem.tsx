@@ -27,13 +27,13 @@ export const PersonalityItem = ({ item, onClick }: PersonalityItemProps) => {
     <button onClick={handleClick} className="relative w-full h-full basis-1/2">
       <div className="relative w-full pb-[100%]">
         <Image
-          className="absolute rounded"
+          className="absolute object-cover rounded bg-slate-300"
           src={item.thumbnailPath || ''}
-          layout="fill"
+          fill
           alt={item.title}
         />
       </div>
-      <div className="info-wrapper">
+      <div>
         <Text variant="title2" color="black" className="text-[15px]">
           {item.title}
         </Text>

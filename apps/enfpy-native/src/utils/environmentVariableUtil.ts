@@ -7,6 +7,6 @@ const ENV = {
   MAIN_API_HOST: 'https://enfpy.cupist.dev',
   // WEB_URL: 'https://enfpy-web.cupist.dev',
   WEB_URL: 'http://localhost:3000',
-};
+}
 
-export default ENV;
+export default ENV

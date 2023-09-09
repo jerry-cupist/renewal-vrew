@@ -10,35 +10,35 @@ export enum MessageError {
   NOT_FOUND_WEBVIEW = 7000,
 }
 
-export type BridgeMessageType = "request" | "response" | "error";
+export type BridgeMessageType = 'request' | 'response' | 'error'
 
 export interface BridgeMessage<
   MessageType extends BridgeMessageType = BridgeMessageType,
   ActionType extends string = string,
-  DataType = any
+  DataType = any,
 > {
-  type: MessageType;
-  action: ActionType;
-  data: DataType;
-  requestId: number;
+  type: MessageType
+  action: ActionType
+  data: DataType
+  requestId: number
 }
 export type RequestMessage<
   ActionType extends string = string,
-  DataType = any
-> = BridgeMessage<"request", ActionType, DataType>;
+  DataType = any,
+> = BridgeMessage<'request', ActionType, DataType>
 
 export type ResponseMessage<
   ActionType extends string = string,
-  DataType = any
-> = BridgeMessage<"response", ActionType, DataType>;
+  DataType = any,
+> = BridgeMessage<'response', ActionType, DataType>
 export interface BridgeErrorType {
-  err_code: MessageError;
-  err_msg: string;
+  err_code: MessageError
+  err_msg: string
 }
 
 export interface ErrorMessage<
   ActionType extends string = string,
-  DataType = any
-> extends BridgeMessage<"error", ActionType, DataType> {
-  error: BridgeErrorType;
+  DataType = any,
+> extends BridgeMessage<'error', ActionType, DataType> {
+  error: BridgeErrorType
 }

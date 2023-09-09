@@ -2,16 +2,16 @@ import {
   BridgeMessage,
   BridgeMessageType,
   ResponseMessage,
-} from "../../types/message";
+} from '../../types/message'
 import {
   CreateRequestMessageParams,
   CreateResponseMessageParams,
   createRequestMessage,
   createResponseMessage,
-} from "../../utils/messageUtil";
+} from '../../utils/messageUtil'
 
-type PostMessageType = "request" | "response";
-type MessageEventHandler = (event: MessageEvent) => void;
+// type PostMessageType = 'request' | 'response'
+type MessageEventHandler = (event: MessageEvent) => void
 
 /**
  * WEB => APP의 요청과 APP => WEB의 응답을 처리한다.
@@ -22,118 +22,118 @@ type MessageEventHandler = (event: MessageEvent) => void;
 export const postMessage = <
   MessageType extends BridgeMessageType = BridgeMessageType,
   ActionType extends string = string,
-  DataType = any
+  DataType = any,
 >(
   message: BridgeMessage<MessageType, ActionType, DataType>,
-  options?: { timeout?: number }
+  options?: { timeout?: number },
 ): Promise<ResponseMessage<ActionType>> =>
   new Promise((resolve, reject) => {
-    const { timeout = 3000 } = options || {};
-    const { action, type, requestId } = message;
-    const isRequestMessage = type === "request";
-    const isResponseMessage = type === "response";
+    const { timeout = 3000 } = options || {}
+    const { action, type, requestId } = message
+    const isRequestMessage = type === 'request'
+    const isResponseMessage = type === 'response'
 
-    let timeId: null | number = null;
-    let handleResponseMessage: MessageEventHandler = () => {};
+    let timeId: null | number = null
+    let handleResponseMessage: MessageEventHandler = () => {}
 
     try {
       const webView =
-        typeof window !== "undefined"
+        typeof window !== 'undefined'
           ? (window as any).ReactNativeWebView
-          : null;
+          : null
 
       if (!webView) {
-        throw new Error("[POST_MESSAGE] 웹뷰를 찾을 수 없습니다");
+        throw new Error('[POST_MESSAGE] 웹뷰를 찾을 수 없습니다')
       }
 
       if (isRequestMessage) {
         timeId = setTimeout(() => {
-          reject(new Error(`[POST_MESSAGE]_[TIMEOUT] ${action}`));
-        }, timeout);
+          reject(new Error(`[POST_MESSAGE]_[TIMEOUT] ${action}`))
+        }, timeout)
       }
 
-      if (isResponseMessage && typeof requestId !== "number") {
+      if (isResponseMessage && typeof requestId !== 'number') {
         throw new Error(
-          `[POST_MESSAGE]_RES requestId를 찾을 수 없습니다: ${requestId}`
-        );
+          `[POST_MESSAGE]_RES requestId를 찾을 수 없습니다: ${requestId}`,
+        )
       }
 
-      webView.postMessage(JSON.stringify(message));
+      webView.postMessage(JSON.stringify(message))
 
       if (isRequestMessage) {
         handleResponseMessage = (event: MessageEvent<string>) => {
           try {
-            const { data } = event;
-            const requestMessage = message;
+            const { data } = event
+            const requestMessage = message
             const responseMessage = JSON.parse(
-              data
-            ) as ResponseMessage<ActionType>;
+              data,
+            ) as ResponseMessage<ActionType>
             if (requestMessage.requestId !== responseMessage.requestId) {
-              return;
+              return
             }
 
-            window.removeEventListener("message", handleResponseMessage);
-            if (typeof timeId === "number") {
-              clearTimeout(timeId);
+            window.removeEventListener('message', handleResponseMessage)
+            if (typeof timeId === 'number') {
+              clearTimeout(timeId)
             }
 
-            resolve(responseMessage);
+            resolve(responseMessage)
           } catch (error: unknown) {
-            reject(error);
+            reject(error)
           }
-        };
+        }
 
-        window.addEventListener("message", handleResponseMessage);
+        window.addEventListener('message', handleResponseMessage)
       }
     } catch (error: unknown) {
       if (isRequestMessage) {
-        window.removeEventListener("message", handleResponseMessage);
+        window.removeEventListener('message', handleResponseMessage)
       }
-      reject(error);
+      reject(error)
     }
-  });
+  })
 
 export type AppPostMessage<
   MessageType extends BridgeMessageType = BridgeMessageType,
   ActionType extends string = string,
-  DataType = any
+  DataType = any,
 > = (
   message: BridgeMessage<MessageType, ActionType, DataType>,
   options?: {
-    timeout?: number;
-  }
-) => Promise<ResponseMessage<ActionType>>;
+    timeout?: number
+  },
+) => Promise<ResponseMessage<ActionType>>
 
 /**
  * 요청 메세지
  */
 export const requestMessage = <
   ActionType extends string = string,
-  DataType = any
+  DataType = any,
 >(
-  params: CreateRequestMessageParams<ActionType, DataType>
-) => postMessage(createRequestMessage(params));
+  params: CreateRequestMessageParams<ActionType, DataType>,
+) => postMessage(createRequestMessage(params))
 
 export type AppRequestMessage<
   ActionType extends string = string,
-  DataType = any
+  DataType = any,
 > = (
-  params: CreateRequestMessageParams<ActionType, DataType>
-) => Promise<ResponseMessage<ActionType>>;
+  params: CreateRequestMessageParams<ActionType, DataType>,
+) => Promise<ResponseMessage<ActionType>>
 
 /**
  * 응답 메세지
  */
 export const responseMessage = <
   ActionType extends string = string,
-  DataType = any
+  DataType = any,
 >(
-  params: CreateResponseMessageParams<ActionType, DataType>
-) => postMessage(createResponseMessage(params));
+  params: CreateResponseMessageParams<ActionType, DataType>,
+) => postMessage(createResponseMessage(params))
 
 export type AppResponseMessage<
   ActionType extends string = string,
-  DataType = any
+  DataType = any,
 > = (
-  params: CreateResponseMessageParams<ActionType, DataType>
-) => Promise<ResponseMessage<ActionType>>;
+  params: CreateResponseMessageParams<ActionType, DataType>,
+) => Promise<ResponseMessage<ActionType>>

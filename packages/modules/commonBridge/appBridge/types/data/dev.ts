@@ -1,3 +1,3 @@
 export interface ConsoleLogArgs {
-  message: string;
+  message: string
 }

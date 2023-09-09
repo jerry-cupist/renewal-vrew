@@ -1,22 +1,22 @@
-import { enfpyAppBridge } from "..";
+import { enfpyAppBridge } from '..'
 
 const navigate = (args: any) => {
   enfpyAppBridge.request({
-    action: "navigation-navigate",
+    action: 'navigation-navigate',
     data: args,
-  });
-};
+  })
+}
 
 const goBack = () => {
   enfpyAppBridge.request({
-    action: "navigation-go-back",
+    action: 'navigation-go-back',
     data: {},
-  });
-};
+  })
+}
 
 const navigationMessages = {
   navigate,
   goBack,
-};
+}
 
-export const useNavigation = () => navigationMessages;
+export const useNavigation = () => navigationMessages
