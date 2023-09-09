@@ -1,4 +1,3 @@
-import Flex from '@vrew/ui/Layout/Flex'
 import { ReactNode } from 'react'
 import Anchor from '../Anchor'
 import { usePathname } from 'next/navigation'
@@ -19,13 +18,11 @@ export default function BottomTabBarItem({
   const icon = isActive ? activeIcon : InActiveIcon
 
   return (
-    <Flex justify="justify-center" align="items-center" className="h-[48px]">
-      <Anchor
-        href={to}
-        className="flex items-center justify-center w-full h-full"
-      >
-        {icon}
-      </Anchor>
-    </Flex>
+    <Anchor
+      href={to}
+      className="flex items-center justify-center w-full h-[48px] "
+    >
+      {icon}
+    </Anchor>
   )
 }
