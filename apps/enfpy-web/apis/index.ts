@@ -1,7 +1,7 @@
 import enfpyApiClient from '@vrew/apis/enfpy'
 import tokenUtil from '../utils/tokenUtil'
 import { queryClient } from '../context/QueryClientProvider'
-import { authKeys, silentRefresh } from '../hooks/server/auth'
+import { authKeys, silentRefresh } from '../hooks/queries/auth'
 
 /**
  * apiClient에 대한 환경 설정

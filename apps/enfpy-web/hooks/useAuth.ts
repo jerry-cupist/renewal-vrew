@@ -5,7 +5,7 @@ import {
   useSignIn,
   useSignOut,
   useSilentRefresh,
-} from './server/auth'
+} from './queries/auth'
 
 const useAuth = () => {
   const navigation = useNavigation()

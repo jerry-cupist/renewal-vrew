@@ -4,7 +4,7 @@ import { Button, Container, Text } from '@vrew/ui'
 import useAuth from '../hooks/useAuth'
 import EnfpyLogo from '../assets/enfpy_logo.svg'
 import Flex from '@vrew/ui/Layout/Flex'
-import { useProfileDetail } from '../hooks/server/profile'
+import { useProfileDetail } from '../hooks/queries/profile'
 import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
 
 export default function Page(): JSX.Element {

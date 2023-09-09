@@ -2,7 +2,7 @@
 
 import { Container, Text } from '@vrew/ui'
 import ProfileHeader from '../../features/profile/profileHeader'
-import { useProfileDetail, useProfileImage } from '../../hooks/server/profile'
+import { useProfileDetail, useProfileImage } from '../../hooks/queries/profile'
 import ProfileImage from '../../features/profile/profileImage'
 import MbtiChip from '../../features/profile/MbtiChip'
 import Flex from '@vrew/ui/Layout/Flex'

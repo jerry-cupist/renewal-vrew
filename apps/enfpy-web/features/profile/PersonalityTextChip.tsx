@@ -1,6 +1,6 @@
 import { Text } from '@vrew/ui'
 import Chip from './Chip'
-import { usePersonalityTest } from '../../hooks/server/profile'
+import { usePersonalityTest } from '../../hooks/queries/profile'
 
 /**
  * 라벨 버튼 스타일 공통화
