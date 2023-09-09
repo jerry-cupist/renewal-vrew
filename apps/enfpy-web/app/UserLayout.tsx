@@ -3,13 +3,21 @@
 import { PropsWithChildren } from 'react'
 import BottomTabBar from '../components/BottomTabBar'
 import useAuth from '../hooks/useAuth'
+import clsx from 'clsx'
 
-export default function UserLayout({ children }: PropsWithChildren) {
+interface Props {
+  className?: string
+}
+
+export default function UserLayout({
+  children,
+  className,
+}: PropsWithChildren<Props>) {
   const auth = useAuth()
 
   return (
     <>
-      <main className="h-[calc(100%-48px)]">{children}</main>
+      <main className={clsx('h-[calc(100%-48px)]', className)}>{children}</main>
       {auth.isSignIn && <BottomTabBar />}
     </>
   )

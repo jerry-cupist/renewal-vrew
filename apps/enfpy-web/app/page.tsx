@@ -1,18 +1,19 @@
 'use client'
 
-import { Button, Container, Text } from '@vrew/ui'
+import { Button, Text } from '@vrew/ui'
 import useAuth from '../hooks/useAuth'
 import EnfpyLogo from '../assets/enfpy_logo.svg'
 import Flex from '@vrew/ui/Layout/Flex'
 import { useProfileDetail } from '../hooks/queries/profile'
 import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
+import UserLayout from './UserLayout'
 
 export default function Page(): JSX.Element {
   const auth = useAuth()
   const profile = useProfileDetail()
 
   return (
-    <Container padding={false} className="bg-slate-400 h-[100%]">
+    <UserLayout className="bg-slate-400 h-[100%]">
       <EnfpyLogo />
 
       {auth.isLoading ? (
@@ -33,6 +34,6 @@ export default function Page(): JSX.Element {
           )}
         </Flex>
       )}
-    </Container>
+    </UserLayout>
   )
 }
