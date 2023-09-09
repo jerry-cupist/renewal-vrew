@@ -2,7 +2,6 @@
 
 import { PropsWithChildren, ReactNode } from 'react'
 import BottomTabBar from '../components/BottomTabBar'
-import useAuth from '../hooks/useAuth'
 import Flex from '@vrew/ui/Layout/Flex'
 import clsx from 'clsx'
 
@@ -16,15 +15,13 @@ export default function UserLayout({
   className,
   header,
 }: PropsWithChildren<Props>) {
-  const auth = useAuth()
-
   return (
     <Flex direction="column" className={clsx('h-full', className)}>
       <main className="flex-grow w-full">
         {header}
         {children}
       </main>
-      {auth.isSignIn && <BottomTabBar />}
+      <BottomTabBar />
     </Flex>
   )
 }

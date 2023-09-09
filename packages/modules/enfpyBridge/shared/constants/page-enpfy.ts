@@ -7,6 +7,7 @@ export const ENFPY_WEB_URL = {
   SUB: '/sub',
   CHAT_LIST: '/chat-list',
   STATION: '/station',
+  PERSONALITY: '/personality',
 } as const
 
 export type EnfpyWebUrlType = typeof ENFPY_WEB_URL

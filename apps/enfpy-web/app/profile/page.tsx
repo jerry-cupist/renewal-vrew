@@ -8,7 +8,6 @@ export default function ProfilePage(): JSX.Element {
   return (
     <Container padding={false}>
       <ProfileHeader mbti="ISTJ" />
-
       <ProfileInfo />
     </Container>
   )
