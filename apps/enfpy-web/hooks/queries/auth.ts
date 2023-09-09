@@ -13,7 +13,7 @@ import {
   signOut,
   SignOutResponse,
 } from 'next-auth/react'
-import tokenUtil from '../../utils/tokenUtil'
+import tokenManager from '../../utils/tokenUtil'
 import { PostSignInRequest } from '@vrew/apis/enfpy/auth'
 import { CREDENTIALS_TYPE } from '../../app/api/auth/[...nextauth]/route'
 import { createQueryKeys, inferQueryKeys } from '@lukemorales/query-key-factory'
@@ -34,7 +34,7 @@ export type AuthQueryKeys = inferQueryKeys<typeof authKeys>
 export const getSession = () =>
   _getSession().then(session => {
     if (session?.refreshToken && session.accessToken) {
-      tokenUtil.update({
+      tokenManager.update({
         accessToken: session.accessToken,
         refreshToken: session.accessToken,
       })
@@ -141,7 +141,7 @@ export const silentRefresh = async (params: {
 }) => {
   const { refreshToken, options } = params
 
-  tokenUtil.delete()
+  tokenManager.delete()
   const response = await signIn(
     CREDENTIALS_TYPE.TOKEN,
     {

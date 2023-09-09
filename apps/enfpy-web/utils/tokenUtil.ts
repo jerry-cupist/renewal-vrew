@@ -6,8 +6,9 @@ interface TokenType {
   accessToken: string
 }
 
-const tokenUtil = {
+const tokenManager = {
   update(token: TokenType) {
+    console.log('token_update', token)
     storeUtil.set('token', {
       refreshToken: token.refreshToken,
     })
@@ -25,4 +26,4 @@ const tokenUtil = {
   },
 }
 
-export default tokenUtil
+export default tokenManager
