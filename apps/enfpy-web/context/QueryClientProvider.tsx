@@ -47,7 +47,7 @@ export default function QueryClientProvider({ children }: PropsWithChildren) {
   return (
     <_QueryClientProvider client={queryClient}>
       {CONFIG.NEXT_PUBLIC_REACT_QUERY_DEV_TOOLS && (
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools initialIsOpen={false} position="top-right" />
       )}
       {children}
     </_QueryClientProvider>
