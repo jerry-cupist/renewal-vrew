@@ -17,7 +17,7 @@ export default function UserLayout({
 }: PropsWithChildren<Props>) {
   return (
     <Flex direction="column" className={clsx('h-full', className)}>
-      <main className="flex-grow w-full">
+      <main className="relative flex-grow w-full h-full">
         {header}
         {children}
       </main>

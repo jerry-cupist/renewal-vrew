@@ -10,11 +10,14 @@ import useAuth from '../useAuth'
 export const personalityKeys = createQueryKeys('personalityTest', {
   get: (state: PersonalityTestState = 'activate') => ({
     queryKey: [state] as const,
-    queryFn: enfpyApiClient.personality.getPersonalityTest({
-      state,
-      version: 'v2',
-      limit: 20,
-    }),
+    queryFn: () =>
+      enfpyApiClient.personality
+        .getPersonalityTest({
+          state,
+          version: 'v2',
+          limit: 20,
+        })
+        .then(({ data }) => data.data),
   }),
 })
 
@@ -23,7 +26,7 @@ export type PersonalityQueryKeys = inferQueryKeys<typeof personalityKeys>
 /**
  * 성향 테스트 조회
  */
-export const usePersonalityTest = <T = GetPersonalityTest[]>(
+export const usePersonalityTest = <T = GetPersonalityTest<'v2'>[]>(
   options?: UseQueryOptions<
     GetPersonalityTest<'v2'>[],
     unknown,

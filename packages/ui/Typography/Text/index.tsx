@@ -26,6 +26,7 @@ interface Props extends HTMLAttributes<HTMLParagraphElement> {
 export function Text({
   variant,
   color = 'black',
+  className,
   ...props
 }: PropsWithChildren<Props>) {
   const textVariant = TEXT_VARIANT[variant]
@@ -34,7 +35,11 @@ export function Text({
   return (
     <p
       {...props}
-      className={clsx(textVariant && textVariant, textColor && textColor)}
+      className={clsx(
+        textVariant && textVariant,
+        textColor && textColor,
+        className,
+      )}
     />
   )
 }

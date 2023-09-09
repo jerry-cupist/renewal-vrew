@@ -1,10 +1,11 @@
 'use client'
 
-import { Header } from '@vrew/ui'
+import { Container } from '@vrew/ui'
+import PersonalityList from '../../features/personality/PersonalityList'
 export default function Page(): JSX.Element {
   return (
-    <>
-      <Header text="PERSONALITY" />
-    </>
+    <Container fullScreen className="pt-[16px]">
+      <PersonalityList />
+    </Container>
   )
 }
