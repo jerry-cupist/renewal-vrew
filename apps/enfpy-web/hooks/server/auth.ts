@@ -14,11 +14,11 @@ import {
   SignOutResponse,
 } from 'next-auth/react'
 import tokenUtil from '../../utils/tokenUtil'
-import ENPFY_URL from '../../constant/url'
 import { PostSignInRequest } from '@vrew/apis/enfpy/auth'
 import { CREDENTIALS_TYPE } from '../../app/api/auth/[...nextauth]/route'
 import { createQueryKeys, inferQueryKeys } from '@lukemorales/query-key-factory'
 import { TIME } from '../../constant/time'
+import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
 
 /**
  * @see https://www.npmjs.com/package/@lukemorales/query-key-factory
@@ -100,7 +100,7 @@ const signInWithPhone = (
   signIn(
     CREDENTIALS_TYPE.TELEPHONE,
     {
-      callbackUrl: ENPFY_URL.ROOT,
+      callbackUrl: ENFPY_WEB_URL.ROOT,
       redirect: false,
       ...options,
     },
@@ -146,7 +146,7 @@ export const silentRefresh = async (params: {
   const response = await signIn(
     CREDENTIALS_TYPE.TOKEN,
     {
-      callbackUrl: ENPFY_URL.ROOT,
+      callbackUrl: ENFPY_WEB_URL.ROOT,
       redirect: false,
       ...options,
     },

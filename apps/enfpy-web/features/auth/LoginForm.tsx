@@ -5,9 +5,9 @@ import { getPhoneNumber } from '@vrew/utils'
 import { FormEventHandler, useState } from 'react'
 import enfpyApiUtil from '../../apis'
 import useAuth from '../../hooks/useAuth'
-import ENPFY_URL from '../../constant/url'
 import { useNavigation } from '../../hooks/navigation/useNavigation'
 import { Button, Input, Text } from '@vrew/ui'
+import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
 
 export default function LoginForm(): JSX.Element {
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -37,7 +37,7 @@ export default function LoginForm(): JSX.Element {
       loginAccountIdentification: phoneVerification.data.phoneNumber,
     })
 
-    navigation.navigate(ENPFY_URL.ROOT)
+    navigation.navigate(ENFPY_WEB_URL.ROOT)
   }
 
   /**
