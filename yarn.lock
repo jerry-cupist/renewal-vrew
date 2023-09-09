@@ -4316,8 +4316,18 @@ __metadata:
   resolution: "@vrew/modules@workspace:packages/modules"
   dependencies:
     "@react-navigation/native": ^6.1.7
+    "@types/node": ^20.5.2
+    "@typescript-eslint/eslint-plugin": 6.6.0
+    "@typescript-eslint/parser": 6.6.0
     "@vrew/apis": "workspace:*"
+    "@vrew/tsconfig": "workspace:*"
     axios: ^1.5.0
+    eslint: ^8.48.0
+    eslint-config-custom: "workspace:*"
+    eslint-config-prettier: ^9.0.0
+    eslint-config-turbo: ^1.10.12
+    eslint-plugin-prettier: ^5.0.0
+    prettier: ^3.0.3
     react-native-webview: ^13.5.1
     typescript: 5.2.2
   languageName: unknown
