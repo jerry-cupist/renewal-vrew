@@ -16,26 +16,24 @@ export default function ProfilePage(): JSX.Element {
     <Container padding={false}>
       <ProfileHeader mbti="ISTJ" />
 
-      <div className="p-3">
-        <Flex>
-          <ProfileImage
-            src={profileImage.data}
-            size={96}
-            alt="프로필"
-            loading="eager"
-          />
+      <Flex className="p-3">
+        <ProfileImage
+          src={profileImage.data}
+          size={96}
+          alt="프로필"
+          loading="eager"
+        />
 
-          <Flex
-            column
-            itemsStart
-            className="ml-[16px] overflow-hidden w-full gap-[8px]"
-          >
-            <Text variant="subtitle2">{profile.data?.nickname}</Text>
-            <MbtiChip mbti="istj" />
-            <PersonalityTestChip />
-          </Flex>
+        <Flex
+          direction="column"
+          align="items-start"
+          className="ml-[16px] overflow-hidden w-full gap-[8px]"
+        >
+          <Text variant="subtitle2">{profile.data?.nickname}</Text>
+          <MbtiChip mbti="istj" />
+          <PersonalityTestChip />
         </Flex>
-      </div>
+      </Flex>
     </Container>
   )
 }
