@@ -6,8 +6,6 @@ import clsx from 'clsx'
 interface Props extends HTMLAttributes<HTMLDivElement> {
   fullScreen?: boolean
   padding?: boolean
-
-  backgroundColor?: string
 }
 
 /**
@@ -15,9 +13,9 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  */
 export function Container({
   children,
-  padding = true,
+  padding = false,
   fullScreen,
-  backgroundColor,
+  className,
   ...props
 }: PropsWithChildren<Props>) {
   return (
@@ -27,7 +25,7 @@ export function Container({
         'container overflow-y-auto',
         fullScreen && 'h-screen w-screen',
         padding && 'p-6',
-        backgroundColor && backgroundColor,
+        className,
       )}
     >
       {children}

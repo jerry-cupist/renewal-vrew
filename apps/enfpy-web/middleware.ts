@@ -65,7 +65,7 @@ const withOutAuthRequest = (params: WithOutAuthRequestParams) => {
 /**
  * 인증이 필요한 경로
  */
-const withAuthList: string[] = [ENPFY_URL.PROFILE]
+const withAuthList: string[] = [ENPFY_URL.PROFILE, ENPFY_URL.ROOT]
 /**
  * 인증한 사용자가 접근할 수 없는 경로
  * e.g. 회원가입, 로그인
@@ -107,7 +107,7 @@ export default withAuth(
       /**
        * admin | guest | user 등 세분화된 권한이 존재하는 경우
        */
-      authorized: ({ token }) => true, //token?.role === "admin",
+      authorized: () => true, //token?.role === "admin",
     },
   },
 )

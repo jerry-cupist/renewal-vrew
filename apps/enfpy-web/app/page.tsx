@@ -1,49 +1,33 @@
 'use client'
 
-import { Container, Header, Text } from '@vrew/ui'
+import { Button, Container, Text } from '@vrew/ui'
 import useAuth from '../hooks/useAuth'
-import Anchor from '../components/Anchor'
-import { useSession } from '../hooks/server/auth'
+import EnfpyLogo from '../assets/enfpy_logo.svg'
+import Flex from '@vrew/ui/Layout/Flex'
+import { useProfileDetail } from '../hooks/server/profile'
 
 export default function Page(): JSX.Element {
   const auth = useAuth()
-  const session = useSession()
+  const profile = useProfileDetail()
 
   return (
-    <Container padding={false}>
-      <Header text="ENFPY_2" />
+    <Container padding={false} className="bg-slate-400" fullScreen>
+      <EnfpyLogo />
 
       {auth.isLoading ? (
         '로딩중'
       ) : (
-        <>
-          <Text variant="title2">
-            {auth.isSignIn ? `Hi ${session.data?.user.id}!` : '로그인 하세요'}
+        <Flex className="p-[16px]">
+          <Text variant="subtitle2">
+            {auth.isSignIn ? `Hi ${profile.data?.nickname}!` : '로그인 하세요'}
           </Text>
 
-          <div>
-            {auth.isSignIn && (
-              <button onClick={() => auth.signOut({})}>로그아웃</button>
-            )}
-          </div>
-
-          <div>
-            <Text variant="title2">withAuth</Text>
-            <ul>
-              <li>
-                <Anchor href="/profile">프로필 페이지</Anchor>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <Text variant="title2">withOutAuth</Text>
-            <ul>
-              <li>
-                <Anchor href="/login">로그인 페이지</Anchor>
-              </li>
-            </ul>
-          </div>
-        </>
+          {auth.isSignIn && (
+            <Button className="ml-[16px]" onClick={() => auth.signOut({})}>
+              로그아웃
+            </Button>
+          )}
+        </Flex>
       )}
     </Container>
   )

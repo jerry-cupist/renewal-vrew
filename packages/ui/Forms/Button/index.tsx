@@ -1,17 +1,25 @@
 'use client'
 
+import clsx from 'clsx'
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: 'contained'
+  variant?: 'contained'
   color?: 'primary'
 }
 
-export function Button({ children, ...props }: PropsWithChildren<ButtonProps>) {
+export function Button({
+  children,
+  className,
+  ...props
+}: PropsWithChildren<ButtonProps>) {
   return (
     <button
       {...props}
-      className="px-2 relative rounded bg-purple disabled:bg-gray-200 text-white"
+      className={clsx(
+        'relative px-2 text-white rounded bg-purple disabled:bg-gray-200',
+        className,
+      )}
     >
       {children}
     </button>

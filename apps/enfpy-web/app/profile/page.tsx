@@ -15,7 +15,6 @@ export default function ProfilePage(): JSX.Element {
   return (
     <Container padding={false}>
       <ProfileHeader mbti="ISTJ" />
-
       <Flex className="p-3">
         <ProfileImage
           src={profileImage.data}
