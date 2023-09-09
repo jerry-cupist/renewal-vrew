@@ -5,6 +5,7 @@ import useAuth from '../hooks/useAuth'
 import EnfpyLogo from '../assets/enfpy_logo.svg'
 import Flex from '@vrew/ui/Layout/Flex'
 import { useProfileDetail } from '../hooks/server/profile'
+import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
 
 export default function Page(): JSX.Element {
   const auth = useAuth()
@@ -23,7 +24,10 @@ export default function Page(): JSX.Element {
           </Text>
 
           {auth.isSignIn && (
-            <Button className="ml-[16px]" onClick={() => auth.signOut({})}>
+            <Button
+              className="ml-[16px]"
+              onClick={() => auth.signOut({ callbackUrl: ENFPY_WEB_URL.LOGIN })}
+            >
               로그아웃
             </Button>
           )}
