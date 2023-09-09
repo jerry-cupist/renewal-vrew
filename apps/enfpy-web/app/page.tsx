@@ -11,12 +11,11 @@ import UserLayout from './UserLayout'
 export default function Page(): JSX.Element {
   const auth = useAuth()
   const profile = useProfileDetail()
+  const isLoading = auth.isLoading || profile.isLoading
 
   return (
-    <UserLayout className="bg-slate-400 h-[100%]">
-      <EnfpyLogo />
-
-      {auth.isLoading ? (
+    <UserLayout className="bg-slate-400 h-[100%]" header={<EnfpyLogo />}>
+      {isLoading ? (
         '로딩중'
       ) : (
         <Flex className="p-[16px]">

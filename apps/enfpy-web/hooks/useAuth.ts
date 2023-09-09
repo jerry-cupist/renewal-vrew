@@ -6,30 +6,37 @@ import {
   useSignOut,
   useSilentRefresh,
 } from './queries/auth'
+import { useQueryClient } from '@tanstack/react-query'
+import tokenManager from '../utils/tokenUtil'
 
 const useAuth = () => {
   const navigation = useNavigation()
   const session = useSession()
   const isSignIn = Boolean(session.data?.expires)
-  const refetchSession = session.refetch
+  const queryClient = useQueryClient()
   const signOut = useSignOut({
-    onSuccess: (data, variable) => {
-      if (variable.callbackUrl) {
-        navigation.navigate(variable.callbackUrl)
+    onMutate: () => {
+      queryClient.clear()
+      tokenManager.delete()
+    },
+    onSuccess: (data, variables) => {
+      session.refetch()
+
+      if (variables.callbackUrl) {
+        navigation.navigate(variables.callbackUrl)
       }
-      refetchSession()
     },
   })
 
   const signIn = useSignIn({
     onSuccess: () => {
-      refetchSession()
+      session.refetch()
     },
   })
 
   const _silentRefresh = useSilentRefresh({
     onSuccess: () => {
-      refetchSession()
+      session.refetch()
     },
   })
 

@@ -8,7 +8,6 @@ interface TokenType {
 
 const tokenManager = {
   update(token: TokenType) {
-    console.log('token_update', token)
     storeUtil.set('token', {
       refreshToken: token.refreshToken,
     })

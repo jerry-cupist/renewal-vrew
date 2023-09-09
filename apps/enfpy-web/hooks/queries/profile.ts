@@ -26,6 +26,7 @@ export const useProfile = <T = GetProfileResponse | null>(
 
   return useQuery({
     ...profileKeys.myProfile(),
+    retry: 1,
     ...options,
     enabled: auth.isSignIn && enabled,
   })
