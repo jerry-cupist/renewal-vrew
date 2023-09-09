@@ -3,6 +3,7 @@ import AuthProvider from '../context/AuthProvider'
 import QueryClientProvider from '../context/QueryClientProvider'
 import RequestMessageHandler from '../context/RequestMessageHandler'
 import '../styles/globals.css'
+import UserLayout from './UserLyaout'
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
@@ -10,7 +11,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body>
         <AuthProvider>
           <QueryClientProvider>
-            <RequestMessageHandler>{children}</RequestMessageHandler>
+            <RequestMessageHandler>
+              <UserLayout>{children}</UserLayout>
+            </RequestMessageHandler>
           </QueryClientProvider>
         </AuthProvider>
       </body>

@@ -1,17 +1,26 @@
 'use client'
 
-import _Link, { LinkProps } from 'next/link'
+import clsx from 'clsx'
+import _Link, { LinkProps as _LinkProps } from 'next/link'
 import { PropsWithChildren } from 'react'
 
-interface Props extends LinkProps {
+export interface LinkProps extends _LinkProps {
   enableLink?: boolean
+  className?: string
 }
 
-export function Link({ children, ...props }: PropsWithChildren<Props>) {
+export function Link({
+  children,
+  className,
+  ...props
+}: PropsWithChildren<LinkProps>) {
   return (
     <_Link
       {...props}
-      className="px-2 underline relative rounded bg-transparent disabled:bg-gray-200 text-cyan-400"
+      className={clsx(
+        'px-2 underline relative rounded bg-transparent disabled:bg-gray-200 text-cyan-400',
+        className,
+      )}
     >
       {children}
     </_Link>

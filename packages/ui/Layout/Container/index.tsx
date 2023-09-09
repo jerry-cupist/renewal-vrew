@@ -23,7 +23,7 @@ export function Container({
       {...props}
       className={clsx(
         'container overflow-y-auto',
-        fullScreen && 'h-screen w-screen',
+        fullScreen && 'h-full w-full',
         padding && 'p-6',
         className,
       )}

@@ -11,7 +11,7 @@ export default function Page(): JSX.Element {
   const profile = useProfileDetail()
 
   return (
-    <Container padding={false} className="bg-slate-400" fullScreen>
+    <Container padding={false} className="bg-slate-400 h-[100%]">
       <EnfpyLogo />
 
       {auth.isLoading ? (
