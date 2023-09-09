@@ -6,6 +6,7 @@ import ConnectionActiveIcon from '../../assets/connection_filled.svg'
 import StationIcon from '../../assets/station_outlined.svg'
 import StationActiveIcon from '../../assets/station_filled.svg'
 import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
+import CONFIG from '../../constant/config'
 
 const BOTTOM_TAB_LIST = [
   {
@@ -31,6 +32,10 @@ const BOTTOM_TAB_LIST = [
 ]
 
 export default function BottomTabBar() {
+  if (CONFIG.IS_WEBVIEW) {
+    return null
+  }
+
   return (
     <nav className="bg-[#FAFAFA] border-t-[rgba(0, 0, 0, 0.12)] w-full ">
       <ul className="flex justify-between w-full">
