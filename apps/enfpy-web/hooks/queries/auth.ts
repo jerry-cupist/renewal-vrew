@@ -56,8 +56,7 @@ export const useSession = <T = Session | null>(
 ) =>
   useQuery({
     ...authKeys.session(),
-    staleTime: TIME.MINUTE * 30,
-    cacheTime: TIME.DAY,
+    cacheTime: TIME.MINUTE * 30,
     ...options,
   })
 
