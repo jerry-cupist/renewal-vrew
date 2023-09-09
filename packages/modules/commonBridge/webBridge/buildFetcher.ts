@@ -1,17 +1,17 @@
-import WebView from "react-native-webview";
-import webBridge from ".";
-import { AxiosRequestConfig } from "axios";
+import WebView from 'react-native-webview'
+import webBridge from '.'
+import { AxiosRequestConfig } from 'axios'
 
 export type NetworkRequestConfig<D = any> = Pick<
   AxiosRequestConfig<D>,
-  "baseURL" | "params" | "data" | "url" | "method" | "timeout"
->;
+  'baseURL' | 'params' | 'data' | 'url' | 'method' | 'timeout'
+>
 
 export const FETCHER_ACTION = {
-  FETCHER_REQUEST: "fetcher-request",
-} as const;
+  FETCHER_REQUEST: 'fetcher-request',
+} as const
 
-export type FetcherActionType = typeof FETCHER_ACTION;
+export type FetcherActionType = typeof FETCHER_ACTION
 
 /**
  * @todo 응답값추론 추가
@@ -29,13 +29,13 @@ const buildFetcher = (webview: WebView) =>
         },
         {
           timeout: requestConfig.timeout || 3000,
-        }
+        },
       )
-      .then((message) => {
-        const networkResponse = message.data;
-        return networkResponse;
-      });
-  };
+      .then(message => {
+        const networkResponse = message.data
+        return networkResponse
+      })
+  }
 
-export type Fetcher = ReturnType<typeof buildFetcher>;
-export default buildFetcher;
+export type Fetcher = ReturnType<typeof buildFetcher>
+export default buildFetcher

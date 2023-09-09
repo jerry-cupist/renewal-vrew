@@ -1,5 +1,52 @@
+/**
+ * This injects Tailwind's base styles and any base styles registered by
+ * plugins.
+ */
+@tailwind base;
+
+/**
+  * This injects Tailwind's component classes and any component classes
+  * registered by plugins.
+  */
+@tailwind components;
+
+/**
+  * This injects Tailwind's utility classes and any utility classes registered
+  * by plugins.
+  */
+@tailwind utilities;
+
+/**
+  * Use this directive to control where Tailwind injects the hover, focus,
+  * responsive, dark mode, and other variants of each class.
+  *
+  * If omitted, Tailwind will append these classes to the very end of
+  * your stylesheet by default.
+  */
+/* @tailwind variants; */
+
+/**
+ * If you’re going to use @apply, use it for very small, highly reusable things like buttons and form controls 
+ * @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+ */
+@layer components {
+  .chip-primary {
+    @apply select-none relative flex items-center h-[28px] p-[8px] rounded-[6px] gap-[4px] overflow-hidden bg-[attr(tw-bg)];
+  }
+
+  .chip-primary::after {
+    @apply content-[""] absolute inset-0 pointer-events-none bg-[#1a1a3e] opacity-0;
+  }
+
+  .chip-primary:active::after {
+    @apply opacity-10;
+  }
+}
+
 html,
 body {
+  width: 100vw;
+  height: 100vh;
   padding: 0;
   margin: 0;
   font-family:
@@ -23,14 +70,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
 }

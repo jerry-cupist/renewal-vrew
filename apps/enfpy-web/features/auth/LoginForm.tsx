@@ -5,11 +5,12 @@ import { getPhoneNumber } from '@vrew/utils'
 import { FormEventHandler, useState } from 'react'
 import enfpyApiUtil from '../../apis'
 import useAuth from '../../hooks/useAuth'
-import ENPFY_URL from '../../constant/url'
 import { useNavigation } from '../../hooks/navigation/useNavigation'
+import { Button, Input, Text } from '@vrew/ui'
+import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
 
 export default function LoginForm(): JSX.Element {
-  const [phoneNumber, setPhoneNumber] = useState('01089265827')
+  const [phoneNumber, setPhoneNumber] = useState('')
 
   const [phoneVerification, setPhoneVerification] =
     useState<PostPhoneVerificationResponse>()
@@ -36,7 +37,7 @@ export default function LoginForm(): JSX.Element {
       loginAccountIdentification: phoneVerification.data.phoneNumber,
     })
 
-    navigation.navigate(ENPFY_URL.ROOT)
+    navigation.navigate(ENFPY_WEB_URL.ROOT)
   }
 
   /**
@@ -54,23 +55,34 @@ export default function LoginForm(): JSX.Element {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="phoneNumber"> 핸드폰번호</label>
-        <input
+        <Text variant="title2"> 핸드폰번호</Text>
+        <Input
           type="number"
           id="phoneNumber"
           value={phoneNumber}
+          placeholder="핸드폰 번호를 입력하세요"
           onChange={event => setPhoneNumber(event.currentTarget.value)}
         />
-        <button type="button" onClick={handleClickPhoneVerificationButton}>
+        <Button
+          variant="contained"
+          type="button"
+          onClick={handleClickPhoneVerificationButton}
+        >
           인증번호 받기
-        </button>
+        </Button>
       </div>
       <div>
-        <label htmlFor="phoneVerificationCode">인증번호</label>
-        <input type="number" id="phoneVerificationCode" />
+        <Text variant="title2"> 인증번호</Text>
+        <Input
+          type="number"
+          id="phoneVerificationCode"
+          placeholder="인증번호를 입력하세요"
+        />
       </div>
 
-      <button type="submit">로그인</button>
+      <Button variant="contained" type="submit">
+        로그인
+      </Button>
     </form>
   )
 }

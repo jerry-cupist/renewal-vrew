@@ -1,8 +1,8 @@
-import { FETCHER_ACTION } from "../../commonBridge/webBridge/buildFetcher";
+import { FETCHER_ACTION } from '../../commonBridge/webBridge/buildFetcher'
 
 const AppBridgeAction = {
   ...FETCHER_ACTION,
-} as const;
+} as const
 
 export type AppBridgeAction =
-  (typeof AppBridgeAction)[keyof typeof AppBridgeAction];
+  (typeof AppBridgeAction)[keyof typeof AppBridgeAction]

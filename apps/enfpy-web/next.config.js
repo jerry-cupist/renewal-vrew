@@ -19,6 +19,23 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cupist-resource.cupist.dev',
+        port: '',
+      },
+    ],
+  },
+  webpack: config => {
+    /** svg 파일을 컴포넌트로 import하는 설정 */
+    config.module.rules.push({
+      test: /\.svg$/i,
+      use: ['@svgr/webpack'],
+    })
+    return config
+  },
 }
 
 module.exports = nextConfig

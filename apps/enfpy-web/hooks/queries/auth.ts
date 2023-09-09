@@ -13,12 +13,12 @@ import {
   signOut,
   SignOutResponse,
 } from 'next-auth/react'
-import tokenUtil from '../../utils/tokenUtil'
-import ENPFY_URL from '../../constant/url'
+import tokenManager from '../../utils/tokenUtil'
 import { PostSignInRequest } from '@vrew/apis/enfpy/auth'
 import { CREDENTIALS_TYPE } from '../../app/api/auth/[...nextauth]/route'
 import { createQueryKeys, inferQueryKeys } from '@lukemorales/query-key-factory'
 import { TIME } from '../../constant/time'
+import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
 
 /**
  * @see https://www.npmjs.com/package/@lukemorales/query-key-factory
@@ -33,8 +33,11 @@ export type AuthQueryKeys = inferQueryKeys<typeof authKeys>
 
 export const getSession = () =>
   _getSession().then(session => {
-    if (session?.refreshToken) {
-      tokenUtil.update(session.refreshToken)
+    if (session?.refreshToken && session.accessToken) {
+      tokenManager.update({
+        accessToken: session.accessToken,
+        refreshToken: session.accessToken,
+      })
     }
     return session
   })
@@ -53,8 +56,7 @@ export const useSession = <T = Session | null>(
 ) =>
   useQuery({
     ...authKeys.session(),
-    staleTime: TIME.MINUTE * 30,
-    cacheTime: TIME.DAY,
+    cacheTime: TIME.MINUTE * 30,
     ...options,
   })
 
@@ -97,7 +99,7 @@ const signInWithPhone = (
   signIn(
     CREDENTIALS_TYPE.TELEPHONE,
     {
-      callbackUrl: ENPFY_URL.ROOT,
+      callbackUrl: ENFPY_WEB_URL.ROOT,
       redirect: false,
       ...options,
     },
@@ -139,11 +141,11 @@ export const silentRefresh = async (params: {
 }) => {
   const { refreshToken, options } = params
 
-  tokenUtil.delete()
+  tokenManager.delete()
   const response = await signIn(
     CREDENTIALS_TYPE.TOKEN,
     {
-      callbackUrl: ENPFY_URL.ROOT,
+      callbackUrl: ENFPY_WEB_URL.ROOT,
       redirect: false,
       ...options,
     },

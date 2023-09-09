@@ -1,13 +1,13 @@
-import { enfpyAppBridge } from "..";
-import { AppBridgeActionDatas } from "../actions";
+import { enfpyAppBridge } from '..'
+import { AppBridgeActionDatas } from '../actions'
 
 export const devMessages = {
-  consoleLog: (args: AppBridgeActionDatas["dev-console-log"]) => {
+  consoleLog: (args: AppBridgeActionDatas['dev-console-log']) => {
     return enfpyAppBridge.request({
-      action: "dev-console-log",
+      action: 'dev-console-log',
       data: args,
-    });
+    })
   },
-};
+}
 
-export const useDev = () => devMessages;
+export const useDev = () => devMessages
