@@ -78,7 +78,7 @@ export default function Flex({
   align = 'items-start',
   direction = 'row',
   justify = 'justify-start',
-  wrap = 'flex-wrap',
+  wrap = 'flex-nowrap',
   shrink = 'shrink',
   grow = 'grow',
 }: PropsWithChildren<Props>) {
