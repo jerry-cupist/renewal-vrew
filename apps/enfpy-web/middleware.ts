@@ -28,7 +28,7 @@ const withAuthRequest = (params: WithAuthRequestParams) => {
   const isSignIn = Boolean(accessToken)
 
   if (!isSignIn) {
-    url.pathname = ENFPY_WEB_URL.LOGIN
+    url.pathname = ENFPY_WEB_URL.INTRO
     url.search = `callbackUrl=${pathname}`
 
     return NextResponse.redirect(url)
