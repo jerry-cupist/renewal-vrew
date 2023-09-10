@@ -1,6 +1,7 @@
 export const ENFPY_WEB_URL = {
   ROOT: '/',
-  LOGIN: '/login',
+  INTRO: '/intro',
+  LOGIN: '/intro/login',
   PROFILE: '/profile',
   MAIN: '/main',
   MAIN_MBTI: '/main/mbti',
