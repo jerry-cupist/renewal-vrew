@@ -22,6 +22,9 @@ export const useNavigation = () => {
   const router = useRouter()
   const appNavigate = bridge.navigation.navigate
 
+  /**
+   * TODO: pathname 타입추론 가능하도록 변경하기
+   */
   const navigate = useCallback(
     (
       href: string,
