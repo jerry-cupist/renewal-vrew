@@ -26,7 +26,7 @@ export default function Page(): JSX.Element {
           {auth.isSignIn && (
             <Button
               className="ml-[16px]"
-              onClick={() => auth.signOut({ callbackUrl: ENFPY_WEB_URL.LOGIN })}
+              onClick={() => auth.signOut({ callbackUrl: ENFPY_WEB_URL.INTRO })}
             >
               로그아웃
             </Button>

@@ -1,6 +1,7 @@
 {
   "extends": "@vrew/tsconfig/nextjs.json",
   "compilerOptions": {
+    "baseUrl": "./",
     "plugins": [{ "name": "next" }],
     "allowImportingTsExtensions": true
   },

@@ -28,7 +28,7 @@ const withAuthRequest = (params: WithAuthRequestParams) => {
   const isSignIn = Boolean(accessToken)
 
   if (!isSignIn) {
-    url.pathname = ENFPY_WEB_URL.LOGIN
+    url.pathname = ENFPY_WEB_URL.INTRO
     url.search = `callbackUrl=${pathname}`
 
     return NextResponse.redirect(url)
@@ -70,7 +70,7 @@ const withAuthList: string[] = [ENFPY_WEB_URL.PROFILE, ENFPY_WEB_URL.ROOT]
  * 인증한 사용자가 접근할 수 없는 경로
  * e.g. 회원가입, 로그인
  */
-const withOutAuthList: string[] = [ENFPY_WEB_URL.LOGIN]
+const withOutAuthList: string[] = []
 
 const isWithAuth = (pathname: string) => withAuthList.includes(pathname)
 const isWithOutAuth = (pathname: string) => withOutAuthList.includes(pathname)

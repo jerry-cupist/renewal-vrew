@@ -5,19 +5,35 @@ import { ButtonHTMLAttributes, PropsWithChildren } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'contained'
-  color?: 'primary'
+  color?: 'primary' | 'secondary'
+  full?: boolean
+}
+
+const VARIANT_CLASS = {
+  contained:
+    'relative px-[16px] rounded select-none gap-[4px] h-[28px] flex items-center justify-center',
+}
+
+const COLOR_CLASS = {
+  primary: 'text-white bg-purple disabled:bg-gray-200 shadow-none',
+  secondary: 'text-white disabled:bg-gray-200',
 }
 
 export function Button({
   children,
   className,
+  variant = 'contained',
+  color = 'primary',
+  full = false,
   ...props
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
       {...props}
       className={clsx(
-        'relative px-2 text-white rounded bg-purple disabled:bg-gray-200',
+        VARIANT_CLASS[variant],
+        COLOR_CLASS[color],
+        full && 'w-full',
         className,
       )}
     >

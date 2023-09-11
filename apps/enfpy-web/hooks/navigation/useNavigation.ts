@@ -6,6 +6,7 @@ import { NavigateArg } from '@vrew/modules/commonBridge/appBridge/types/data/nav
 import { useBridgeMessageCreator } from '@vrew/modules/enfpyBridge/appBrdige/hooks/useBridgeMessageCreator'
 import { convertToScreenNameFromWebUrl } from '@vrew/modules/enfpyBridge/shared/constants/screen-enfpy'
 import { EnfpyWebPathnameType } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
+import { isScreen } from './config'
 
 interface NavigateOptions extends _NavigateOptions {
   /** RN에서만 전달된다. */
@@ -19,28 +20,37 @@ interface NavigateOptions extends _NavigateOptions {
 export const useNavigation = () => {
   const bridge = useBridgeMessageCreator()
   const router = useRouter()
+  const appNavigate = bridge.navigation.navigate
 
+  /**
+   * TODO: pathname 타입추론 가능하도록 변경하기
+   */
   const navigate = useCallback(
     (
       href: string,
       options?: NavigateOptions,
       // args: WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
     ) => {
-      if (CONFIG.IS_WEB) {
-        router.push(href, options)
-      } else {
+      const url = new URL(href, location.origin)
+      const pathname = url.pathname
+
+      // 스크린으로 지정한 경우에만
+      if (CONFIG.IS_WEBVIEW && isScreen(pathname)) {
         const { params } = options || {}
         const screenName = convertToScreenNameFromWebUrl(
           href as EnfpyWebPathnameType,
         )
 
-        bridge.navigation.navigate({
+        appNavigate({
           screenName,
           params,
         })
+        return
       }
+
+      router.push(href, options)
     },
-    [bridge.navigation.navigate, router],
+    [appNavigate, router],
   )
 
   const goBack = bridge.navigation.goBack
