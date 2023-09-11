@@ -31,8 +31,6 @@ export const useNavigation = () => {
       options?: NavigateOptions,
       // args: WebBridgeActionDatas[WebBridgeActions.NAVIGATION_NAVIGATE]
     ) => {
-      router.push(href, options)
-
       const url = new URL(href, location.origin)
       const pathname = url.pathname
 

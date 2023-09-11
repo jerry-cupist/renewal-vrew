@@ -9,9 +9,16 @@ import { useNavigation } from '../../hooks/navigation/useNavigation'
 import { Button, Input, Text } from '@vrew/ui'
 import { ENFPY_WEB_URL } from '@vrew/modules/enfpyBridge/shared/constants/page-enpfy'
 
+const isValidPhoneNumber = (value: string) =>
+  /^\(?([0-9]{3})\)?[-]?([0-9]{4})[-]?([0-9]{4})$/.test(value)
+
+const isValidPhoneVerificationCode = (value: string) => {
+  return value.length === 4
+}
+
 export default function LoginForm(): JSX.Element {
   const [phoneNumber, setPhoneNumber] = useState('')
-
+  const [phoneVerificationCode, setPhoneVerificationCode] = useState('')
   const [phoneVerification, setPhoneVerification] =
     useState<PostPhoneVerificationResponse>()
 
@@ -25,11 +32,6 @@ export default function LoginForm(): JSX.Element {
       console.log('인증 번호를 요청하세요')
       return
     }
-
-    const formElement: HTMLFormElement = event.currentTarget
-    const phoneVerificationCode: string = (
-      formElement['phoneVerificationCode'] as HTMLInputElement
-    ).value
 
     await auth.signIn({
       phoneVerificationCode,
@@ -52,35 +54,54 @@ export default function LoginForm(): JSX.Element {
     setPhoneVerification(phoneVerification)
   }
 
+  const isValidForm =
+    isValidPhoneVerificationCode(phoneVerificationCode) &&
+    isValidPhoneNumber(phoneNumber)
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <Text variant="title2"> 핸드폰번호</Text>
+        <Text variant="title2"> 전화 번호를 입력해주세요</Text>
         <Input
           type="number"
           id="phoneNumber"
           value={phoneNumber}
-          placeholder="핸드폰 번호를 입력하세요"
+          placeholder="010-0000-0000"
           onChange={event => setPhoneNumber(event.currentTarget.value)}
         />
         <Button
+          full
           variant="contained"
           type="button"
+          className="mt-[8px]"
+          disabled={!isValidPhoneNumber(phoneNumber)}
           onClick={handleClickPhoneVerificationButton}
         >
           인증번호 받기
         </Button>
       </div>
+
+      <hr className="my-[16px] border-none" />
       <div>
-        <Text variant="title2"> 인증번호</Text>
+        <Text variant="title2"> 인증번호를 입력해주세요</Text>
         <Input
           type="number"
           id="phoneVerificationCode"
+          inputMode="numeric"
           placeholder="인증번호를 입력하세요"
+          onChange={event =>
+            setPhoneVerificationCode(event.currentTarget.value)
+          }
         />
       </div>
 
-      <Button variant="contained" type="submit">
+      <Button
+        variant="contained"
+        type="submit"
+        full
+        className="mt-[8px]"
+        disabled={!isValidForm}
+      >
         로그인
       </Button>
     </form>

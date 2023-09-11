@@ -25,6 +25,7 @@ export const PersonalityItem = ({ item, onClick }: PersonalityItemProps) => {
 
   return (
     <button onClick={handleClick} className="relative w-full h-full basis-1/2">
+      <div className="select-none "></div>
       <div className="relative w-full pb-[100%]">
         <Image
           className="absolute object-cover rounded bg-slate-300"
@@ -34,10 +35,10 @@ export const PersonalityItem = ({ item, onClick }: PersonalityItemProps) => {
         />
       </div>
       <div>
-        <Text variant="title2" color="black" className="text-[15px]">
+        <Text variant="subtitle2" color="black">
           {item.title}
         </Text>
-        <Text variant="subtitle2" color="black" className="text-[10px]">
+        <Text variant="button2" color="black">
           {item.subtitle}
         </Text>
       </div>

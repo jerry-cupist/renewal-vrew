@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { CommonWebView } from '../../components/web-view/CommonWebView'
+import { CommonWebView } from '../../../components/web-view/CommonWebView'
 import { useRoute } from '@react-navigation/native'
 
 export default function LoginScreen() {
